@@ -159,6 +159,10 @@ a { color: var(--accent); }
 .tag.vorschlag { border-style: dashed; }
 .tag.fav { color: var(--signal); border-color: currentColor; }
 .tag.done { color: var(--accent); border-color: currentColor; }
+.tag.zu { color: var(--t4); border-color: currentColor; }
+.fact.heute .v { color: var(--accent); }
+.fact.heute.zu .v { color: var(--t4); }
+.fact.heute.unbekannt .v { color: var(--muted); }
 
 .empty { margin: 0 12px; padding: 14px 16px; border-radius: var(--r); background: var(--surface);
   box-shadow: var(--shadow); font-size: 14px; color: var(--muted); }
@@ -181,6 +185,8 @@ a { color: var(--accent); }
   backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .ov-head h2 { flex: 1; min-width: 0; margin: 0; font: 700 21px/1.1 var(--f-display); }
 .ov-body { padding: 14px 16px 28px; display: grid; gap: 18px; max-width: 720px; margin: 0 auto; }
+.ov-body > * { min-width: 0; }
+.overlay { overflow-x: hidden; }
 .ghost { border: 0; background: transparent; padding: 8px; border-radius: 999px; display: inline-grid; place-items: center; }
 .ghost svg { width: 22px; height: 22px; }
 
@@ -335,6 +341,25 @@ textarea { min-height: 70px; resize: vertical; }
 .people { display: flex; flex-wrap: wrap; gap: 6px; font-size: 13.5px; color: var(--muted); }
 .people span { padding: 2px 8px; border-radius: 999px; background: var(--surface-2); }
 
+/* Kalender */
+.tag.termin { color: var(--k-kultur); border-color: currentColor; }
+.tag-tag { margin: 6px 0 -4px; font: 700 14px/1.2 var(--f-ui); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.termin { min-width: 0; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding: 12px; border-radius: var(--r);
+  border: 1px solid var(--line); background: var(--surface); }
+.termin.hl { outline: 2.5px solid var(--signal); outline-offset: -2.5px; }
+.termin.vorschlag { border-style: dashed; }
+.t-datum { display: grid; place-items: center; align-content: center; height: 56px; border-radius: 10px; background: var(--surface-2); }
+.t-datum b { font: 700 24px/1 var(--f-display); }
+.t-datum span { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.t-txt { min-width: 0; display: grid; gap: 4px; }
+.t-titel { font: 600 18px/1.15 var(--f-display); }
+.t-meta { font-size: 13.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.t-meta button { border: 0; background: none; padding: 0; color: var(--accent); font-weight: 600; text-decoration: underline; }
+.t-desc { font: 400 14.5px/1.5 var(--f-text); margin: 0; }
+.t-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.t-links a, .t-links button { font-size: 13.5px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 600; }
+
 /* ---------- Desktop ---------- */
 @media (min-width: 900px) {
   #app { grid-template-columns: 420px 1fr; }
@@ -356,12 +381,16 @@ textarea { min-height: 70px; resize: vertical; }
   .detail { position: absolute; inset: 0; width: 420px; right: auto; border-right: 1px solid var(--line); box-shadow: var(--shadow); }
   .detail .gal-nav { display: grid; }
   .listov { display: none !important; }
-  .filters, .feedbackov { left: auto; width: 440px; right: 0; border-left: 1px solid var(--line); box-shadow: var(--shadow); }
+  .filters, .feedbackov, .kalenderov, .terminform { left: auto; width: 460px; right: 0; border-left: 1px solid var(--line); box-shadow: var(--shadow); }
   .banner { top: 16px; left: 436px; right: auto; max-width: 520px; }
   .toast { bottom: 28px; left: calc(50% + 210px); }
 }
 @media (max-width: 899.98px) {
   .mapwrap { position: absolute; inset: 0; }
+}
+@media (max-width: 440px) {
+  .actions .count { display: none; }
+  .actions { gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .overlay, .switch input, .switch input::after { transition: none; }
@@ -384,6 +413,7 @@ textarea { min-height: 70px; resize: vertical; }
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2" fill="currentColor"/><path d="M10 21l2-6 3 3v3M9 11l3-3 3 3 3 1M12 8l-1 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
@@ -394,6 +424,7 @@ textarea { min-height: 70px; resize: vertical; }
       <div class="chips" id="chipsSide" role="group" aria-label="Kategorien"></div>
       <div class="side-tools">
         <button class="pill has-badge" data-act="filter" type="button"><svg><use href="#i-filter"/></svg>Filter<span class="badge" data-badge hidden></span></button>
+        <button class="pill" data-act="kalender" type="button"><svg><use href="#i-cal"/></svg>Kalender</button>
         <button class="pill" data-act="dice" type="button"><svg><use href="#i-dice"/></svg>Würfeln</button>
         <button class="pill" data-act="idea" type="button" data-needs-write><svg><use href="#i-plus"/></svg>Ort vorschlagen</button>
         <button class="pill" data-act="fit" type="button"><svg><use href="#i-fit"/></svg>Alle zeigen</button>
@@ -420,6 +451,7 @@ textarea { min-height: 70px; resize: vertical; }
   <div class="bottom">
     <div class="actions">
       <button class="pill" data-act="list" type="button"><svg><use href="#i-list"/></svg>Liste</button>
+      <button class="pill" data-act="kalender" type="button" aria-label="Kalender"><svg><use href="#i-cal"/></svg></button>
       <span class="count" data-count></span>
       <span class="grow"></span>
       <button class="pill" data-act="idea" type="button" aria-label="Ort vorschlagen" data-needs-write><svg><use href="#i-plus"/></svg></button>
@@ -460,6 +492,41 @@ textarea { min-height: 70px; resize: vertical; }
       <h2>Wünsche &amp; Feedback</h2>
     </div>
     <div class="ov-body" id="feedbackBody"></div>
+  </section>
+
+  <section class="overlay kalenderov" id="kalender" hidden aria-label="Kalender">
+    <div class="ov-head">
+      <button class="ghost" data-act="close" type="button" aria-label="Schließen"><svg><use href="#i-close"/></svg></button>
+      <h2>Kalender</h2>
+      <button class="btn" type="button" data-act="termin-neu" data-needs-write><svg><use href="#i-plus"/></svg>Termin</button>
+    </div>
+    <div class="ov-body" id="kalenderBody"></div>
+  </section>
+
+  <section class="overlay terminform" id="terminForm" hidden aria-label="Termin eintragen">
+    <div class="ov-head">
+      <button class="ghost" data-act="termin-zu" type="button" aria-label="Abbrechen"><svg><use href="#i-close"/></svg></button>
+      <h2>Termin eintragen</h2>
+    </div>
+    <form class="ov-body" id="terminFields">
+      <p class="hint" id="tHinweis"></p>
+      <label class="fsec"><h3>Was?</h3><input type="text" id="tTitel" required maxlength="200" placeholder="z.B. Apfelfest am Lohrberg"></label>
+      <div class="row">
+        <label class="fsec" style="flex:1 1 140px"><h3>Datum</h3><input type="date" id="tDatum" required></label>
+        <label class="fsec" style="flex:1 1 90px"><h3>von</h3><input type="time" id="tVon"></label>
+        <label class="fsec" style="flex:1 1 90px"><h3>bis</h3><input type="time" id="tBis"></label>
+      </div>
+      <label class="fsec"><h3>Wo?</h3><select id="tOrt"></select></label>
+      <label class="fsec" id="tOrtNameWrap"><h3>Anderer Ort</h3><input type="text" id="tOrtName" maxlength="200" placeholder="z.B. Spielmobil, Günthersburgpark"></label>
+      <label class="fsec"><h3>Link (optional)</h3><input type="text" id="tLink" maxlength="500" placeholder="https://…"></label>
+      <label class="fsec"><h3>Beschreibung (optional)</h3><textarea id="tBeschreibung" maxlength="2000"></textarea></label>
+      <label class="switch"><span>Für Kinder geeignet</span><input type="checkbox" id="tKinder" checked></label>
+      <div class="row">
+        <label class="fsec" style="flex:1 1 120px"><h3>ab … Jahren</h3><input type="text" inputmode="numeric" id="tAlter" maxlength="2" placeholder="z.B. 3"></label>
+        <label class="fsec" style="flex:2 1 160px"><h3>Preis</h3><input type="text" id="tPreis" maxlength="100" placeholder="z.B. frei, 5 €"></label>
+      </div>
+      <div class="row"><button class="btn primary" type="submit">Speichern</button></div>
+    </form>
   </section>
 
   <section class="overlay ideaform" id="ideaForm" hidden aria-label="Ort vorschlagen">
@@ -613,11 +680,26 @@ function drawDot(kat, variant) {
   return g.getImageData(0, 0, W, W);
 }
 
+// Termin an wechselndem Ort: kleines Kalenderblatt
+function drawTermin() {
+  const R = 2, D = 18, P = 4, W = (D + 2 * P) * R;
+  const cv = document.createElement('canvas'); cv.width = cv.height = W;
+  const g = cv.getContext('2d'); g.scale(R, R);
+  const col = cssVar('--k-kultur') || '#7B4E9A';
+  g.save(); g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 3; g.shadowOffsetY = 1;
+  roundRect(g, P, P, D, D, 4); g.fillStyle = '#FFFFFF'; g.fill(); g.restore();
+  roundRect(g, P + 1, P + 1, D - 2, D - 2, 3); g.lineWidth = 1.5; g.strokeStyle = col; g.stroke();
+  g.fillStyle = col; g.fillRect(P + 1, P + 1, D - 2, 5);
+  g.beginPath(); g.arc(P + D / 2, P + D / 2 + 3, 2.6, 0, 2 * Math.PI); g.fill();
+  return g.getImageData(0, 0, W, W);
+}
+
 // Bildnamen: b|kat|variante oder m|text|bucket|variante
 function drawIcon(id) {
   const p = id.split('|');
   if (p[0] === 'b') return drawDot(p[1], p[2]);
   if (p[0] === 'm') return drawMins(p[1], +p[2], p[3]);
+  if (p[0] === 't') return drawTermin();
   return null;
 }
 
@@ -755,10 +837,11 @@ function initMap(getData, onClick) {
 
 /* ===== Zustand ===== */
 const FKEY = 'ausflug.filter.v1', NKEY = 'ausflug.name.v1';
-const TABELLEN = ['orte', 'merk', 'entscheidungen', 'notizen', 'fotos', 'feedback'];
-const F0 = () => ({ kats: [], zeit: 0, umstieg: -1, kiwa: false, ruhig: false, einkehr: false, spiel: false, wc: false, frei: false, regen: false, saison: false, status: 'alle', zeichen: 'kat' });
+const TABELLEN = ['orte', 'merk', 'entscheidungen', 'notizen', 'fotos', 'feedback', 'termine'];
+const F0 = () => ({ kats: [], zeit: 0, umstieg: -1, offen: false, kiwa: false, ruhig: false, einkehr: false, spiel: false, wc: false, frei: false, regen: false, saison: false, status: 'alle', zeichen: 'kat' });
 const S = {
-  orte: new Map(), merkAlle: [], ent: new Map(), notizen: [], fotos: [], feedback: [],
+  orte: new Map(), merkAlle: [], ent: new Map(), notizen: [], fotos: [], feedback: [], oh: {},
+  termine: [], termineClaude: [], termineStand: '', kf: 'alle', hlTermin: null,
   f: F0(), view: [], sel: null, open: null, mode: 'loading',
   name: '', familie: false, angemeldet: false,
   idea: null, ideaMarker: null, galIdx: 0, noteDraft: '', fbDraft: '',
@@ -856,12 +939,15 @@ function sbBackend() {
     addFeedback: text => sb.from('feedback').insert({ person: S.name, text }).then(chk),
     setFeedback: (id, erledigt) => sb.from('feedback').update({ erledigt }).eq('id', id).then(chk),
     delFeedback: id => sb.from('feedback').delete().eq('id', id).then(chk),
+    addTermin: row => sb.from('termine').insert(row).then(chk),
+    setTerminStatus: (id, status) => sb.from('termine').update({ status }).eq('id', id).then(chk),
+    delTermin: id => sb.from('termine').delete().eq('id', id).then(chk),
   };
 }
 
 /* ===== Lokaler Testspeicher (nur localhost mit ?dev) ===== */
 function devBackend(seed) {
-  const T = { orte: Object.entries(seed.orte).map(([id, d]) => ({ id, status: d.status, daten: d, person: null, konto: 'dev' })), merk: [], entscheidungen: [], notizen: [], fotos: [], feedback: [] };
+  const T = { orte: Object.entries(seed.orte).map(([id, d]) => ({ id, status: d.status, daten: d, person: null, konto: 'dev' })), merk: [], entscheidungen: [], notizen: [], fotos: [], feedback: [], termine: [] };
   let cb = () => {};
   const emit = t => setTimeout(() => cb(t));
   const now = () => new Date().toISOString();
@@ -881,6 +967,9 @@ function devBackend(seed) {
     addFeedback: async text => { T.feedback.push({ id: rid(), person: S.name, text, erledigt: false, konto: 'dev', erstellt_am: now() }); emit('feedback'); },
     setFeedback: async (id, erledigt) => { const f = T.feedback.find(x => x.id === id); if (f) f.erledigt = erledigt; emit('feedback'); },
     delFeedback: async id => { T.feedback = T.feedback.filter(x => x.id !== id); emit('feedback'); },
+    addTermin: async row => { T.termine.push({ id: rid(), konto: 'dev', ...row }); emit('termine'); },
+    setTerminStatus: async (id, status) => { const t = T.termine.find(x => x.id === id); if (t) t.status = status; emit('termine'); },
+    delTermin: async id => { T.termine = T.termine.filter(x => x.id !== id); emit('termine'); },
   };
 }
 
@@ -892,18 +981,19 @@ async function laden(t) {
     if (t === 'merk') S.merkAlle = rows.map(r => ({ ort: r.ort_id, person: r.person, fav: !!r.fav, besucht: r.besucht || [], bewertung: r.bewertung || 0 }));
     if (t === 'entscheidungen') S.ent = new Map(rows.map(r => [r.ort_id, r.entscheidung]));
     if (t === 'notizen') S.notizen = rows.map(r => ({ id: r.id, ort: r.ort_id, person: r.person, text: r.text, at: r.erstellt_am, mine: B.mine(r) }));
+    if (t === 'termine') S.termine = rows.map(r => ({ ...r, art: 'familie', mine: B.mine(r) }));
     if (t === 'feedback') S.feedback = rows.map(r => ({ id: r.id, person: r.person, text: r.text, erledigt: !!r.erledigt, at: r.erstellt_am, mine: B.mine(r) }));
     if (t === 'fotos') {
       S.fotos = rows.map(r => ({ id: r.id, ort: r.ort_id, person: r.person, pfad: r.pfad, at: r.erstellt_am, mine: B.mine(r) }));
       await B.signFotos(S.fotos.flatMap(f => [f.pfad, thumbPfad(f.pfad)]));
     }
-  } catch (e) { if (t === 'feedback') console.warn(e); else toast(errText(e)); }
+  } catch (e) { if (t === 'feedback' || t === 'termine') console.warn(e); else toast(errText(e)); }
 }
 const wartend = {};
 function aenderung(t) {
   clearTimeout(wartend[t]);
   wartend[t] = setTimeout(async () => {
-    await laden(t); renderAll(); if (S.open) renderDetail(); if (!$('#feedback').hidden) renderFeedback();
+    await laden(t); renderAll(); if (S.open) renderDetail(); if (!$('#feedback').hidden) renderFeedback(); if (!$('#kalender').hidden) renderKalender();
   }, 250);
 }
 
@@ -919,6 +1009,7 @@ function sichtbar(o) {
   if (f.kats.length && ![o.kategorie, ...(o.tags || [])].some(k => f.kats.includes(k))) return false;
   if (f.zeit && !(r && r.min <= f.zeit)) return false;
   if (f.umstieg >= 0 && !(r && r.umstiege <= f.umstieg)) return false;
+  if (f.offen && !ohInfo(o).heute) return false;
   if (f.kiwa && o.kinderwagen !== 'gut') return false;
   if (f.ruhig && o.trubel === 'voll') return false;
   if (f.einkehr && !hatEinkehr(o)) return false;
@@ -932,16 +1023,17 @@ function sichtbar(o) {
 function aktiveFilter() {
   const f = S.f; let n = 0;
   if (f.zeit) n++; if (f.umstieg >= 0) n++;
-  for (const k of ['kiwa', 'ruhig', 'einkehr', 'spiel', 'wc', 'frei', 'regen', 'saison']) if (f[k]) n++;
+  for (const k of ['offen', 'kiwa', 'ruhig', 'einkehr', 'spiel', 'wc', 'frei', 'regen', 'saison']) if (f[k]) n++;
   if (f.status !== 'alle') n++;
   return n;
 }
 
 /* ===== Kartendaten ===== */
 function geo() {
+  const pins = S.f.status === 'alle' ? terminPins() : [];
   return {
     type: 'FeatureCollection',
-    features: S.view.map(o => {
+    features: [...pins, ...S.view.map(o => {
       const variant = o.status === 'aktiv' ? 'aktiv' : o.status === 'vorschlag' ? 'vorschlag' : 'idee';
       const min = o.reise?.min;
       const icon = S.f.zeichen === 'min' && o.status !== 'idee'
@@ -949,7 +1041,7 @@ function geo() {
       const sel = o.id === S.sel ? 1 : 0;
       return { type: 'Feature', geometry: { type: 'Point', coordinates: [o.lon, o.lat] },
         properties: { id: o.id, name: o.name, icon, sel, sort: sel ? 1e6 : (variant === 'aktiv' ? 1000 : 0) - (min ?? 999) } };
-    }),
+    })],
   };
 }
 function updateMap() { const src = map?.getSource('orte'); if (src) src.setData(geo()); }
@@ -965,6 +1057,8 @@ function statusTags(o, m) {
   if (o.status === 'idee') s += `<span class="tag vorschlag">Idee${o.by ? ' von ' + esc(o.by) : ''}</span>`;
   if (m.fav) s += '<span class="tag fav">♥ gemerkt</span>';
   if ((m.besucht || []).length) s += '<span class="tag done">✓ besucht</span>';
+  if (S.ohBereit && ohInfo(o).s === 'zu') s += '<span class="tag zu">heute zu</span>';
+  const nt = termineAm(o.id, 14)[0]; if (nt) s += `<span class="tag termin">Termin ${esc(fmtKurz(nt.beginn))}</span>`;
   return s;
 }
 function thumbOf(o) {
@@ -1027,7 +1121,7 @@ function renderFilters() {
     <div class="fsec"><h3>Unterwegs mit Kindern</h3>
       ${sw('kiwa', 'Gut mit Kinderwagen')}${sw('ruhig', 'Eher ruhig, am Wochenende nicht überlaufen')}
       ${sw('spiel', 'Spielplatz vor Ort')}${sw('einkehr', 'Einkehr vor Ort')}${sw('wc', 'Toilette vor Ort')}</div>
-    <div class="fsec"><h3>Sonstiges</h3>${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
+    <div class="fsec"><h3>Sonstiges</h3>${sw('offen', 'Heute (noch) geöffnet oder frei zugänglich')}${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
     <div class="fsec"><h3>Anzeigen</h3>${seg('status', [['alle', 'Alle'], ['merk', 'Von mir gemerkt'], ['offen', 'Noch nicht besucht'], ['besucht', 'Schon besucht'], ['vorschlag', 'Vorschläge'], ['idee', 'Ideen']])}</div>
     <div class="fsec"><h3>Zeichen auf der Karte</h3>${seg('zeichen', [['kat', 'Art des Ortes'], ['min', 'Reisezeit in Minuten']])}</div>
     ${S.angemeldet ? `<div class="fsec"><h3>Du</h3><div class="who"><span>Angemeldet als <b>${esc(S.name || '–')}</b></span>${S.familie ? '<span class="pill-fam">Familie</span>' : ''}</div>
@@ -1052,6 +1146,186 @@ async function addFeedback() {
   const text = ($('#fbText')?.value || '').trim(); if (!text) return;
   try { await B.addFeedback(text); S.fbDraft = ''; toast('Danke! Eintrag gespeichert.'); aenderung('feedback'); }
   catch (e) { toast(errText(e)); }
+}
+
+/* ===== Öffnungszeiten (web/oeffnungszeiten.json, ausgewertet mit opening_hours.js) ===== */
+const FREI_KATS = ['wald', 'wasser', 'park', 'altstadt', 'spiel'];
+const ohCache = new Map();
+function ladeSkript(src) {
+  return new Promise((ok, fehler) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = fehler; document.head.appendChild(s); });
+}
+async function ladeOeffnungszeiten() {
+  try {
+    S.oh = await fetch('oeffnungszeiten.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {}));
+    await ladeSkript('https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js');
+    await ladeSkript('https://cdn.jsdelivr.net/npm/opening_hours@3.15.0/build/opening_hours.js');
+    S.ohBereit = !!window.opening_hours; ohCache.clear(); renderAll(); if (S.open) renderDetail();
+  } catch (e) { console.warn('Öffnungszeiten nicht geladen', e); }
+}
+function ohObj(o) {
+  if (ohCache.has(o.id)) return ohCache.get(o.id);
+  let obj = null; const d = S.oh[o.id];
+  if (d && window.opening_hours) {
+    const state = /Mainz|Oppenheim|Nierstein|Budenheim/.test(o.ort || '') ? 'Rheinland-Pfalz' : /Aschaffenburg/.test(o.ort || '') ? 'Bayern' : 'Hessen';
+    try { obj = new opening_hours(d.oh, { lat: o.lat, lon: o.lon, address: { country_code: 'de', state } }, { locale: 'de' }); }
+    catch (e) { console.warn('Öffnungszeiten', o.id, e); }
+  }
+  ohCache.set(o.id, obj); return obj;
+}
+// s: offen | spaeter | zu | frei | unbekannt; heute: an diesem Tag noch zugänglich
+function ohInfo(o, now = new Date()) {
+  const d = S.oh[o.id];
+  if (!d) return FREI_KATS.includes(o.kategorie) ? { s: 'frei', text: 'Frei zugänglich, ohne feste Zeiten', heute: true } : { s: 'unbekannt', text: '', heute: false };
+  const oh = ohObj(o); if (!oh) return { s: 'unbekannt', text: '', heute: false };
+  const hm = t => t.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  const start = new Date(now); start.setHours(0, 0, 0, 0); const ende = new Date(start); ende.setDate(ende.getDate() + 1);
+  try {
+    if (oh.getState(now)) { const n = oh.getNextChange(now); return { s: 'offen', text: n && n < ende ? `Jetzt geöffnet bis ${hm(n)} Uhr` : 'Jetzt geöffnet', heute: true }; }
+    const iv = oh.getOpenIntervals(start, ende), spaeter = iv.find(i => i[0] > now);
+    if (spaeter) return { s: 'spaeter', text: `Heute geöffnet ab ${hm(spaeter[0])} Uhr`, heute: true };
+    return { s: 'zu', text: iv.length ? 'Heute schon geschlossen' : 'Heute geschlossen', heute: false };
+  } catch { return { s: 'unbekannt', text: '', heute: false }; }
+}
+function ohHTML(o) {
+  const d = S.oh[o.id], info = ohInfo(o);
+  if (!d && info.s !== 'frei') return '';
+  const zeiten = d ? (ohObj(o)?.prettifyValue?.({ conf: { locale: 'de' } }) || d.oh) : '';
+  return `<div class="block"><h3>Öffnungszeiten</h3><div class="facts">
+    ${info.text ? `<div class="fact wide heute ${info.s}"><span class="k">Heute</span><span class="v">${esc(info.text)}</span></div>` : ''}
+    ${zeiten ? `<div class="fact wide"><span class="k">Regulär</span><span class="v">${esc(zeiten).replace(/; /g, '<br>')}</span></div>` : ''}</div>
+    ${d ? `<p class="hint" style="margin-top:6px">Quelle: <a href="${esc(d.quelle)}" target="_blank" rel="noopener">${/openstreetmap/.test(d.quelle) ? 'OpenStreetMap' : 'offizielle Seite'}</a>${d.stand ? `, Stand ${esc(fmtDate(d.stand))}` : ''}. Feiertage und Sonderzeiten vorher prüfen.</p>` : ''}</div>`;
+}
+
+/* ===== Kalender ===== */
+// Claude-Termine: web/termine.json (öffentlich, vom Monats-Check gepflegt). Familie/Freunde: Tabelle `termine`.
+const pad2 = n => String(n).padStart(2, '0');
+const tagKey = d => { const x = new Date(d); return `${x.getFullYear()}-${pad2(x.getMonth() + 1)}-${pad2(x.getDate())}`; };
+const fmtKurz = d => new Date(d).toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'numeric' });
+const fmtTagLang = d => new Date(d).toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+const fmtUhr = d => new Date(d).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+async function ladeTermine() {
+  try {
+    const d = await fetch('termine.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {}));
+    S.termineClaude = (d.termine || []).map(t => ({ ...t, status: 'aktiv', person: 'Claude', art: 'claude' }));
+    S.termineStand = d.stand || ''; renderAll(); if (S.open) renderDetail(); if (!$('#kalender').hidden) renderKalender();
+  } catch (e) { console.warn('Termine nicht geladen', e); }
+}
+function alleTermine() {
+  const ab = new Date(); ab.setHours(0, 0, 0, 0);
+  return [...S.termineClaude, ...S.termine]
+    .filter(t => t.beginn && new Date(t.ende || t.beginn) >= ab && (t.status === 'aktiv' || S.familie || t.mine))
+    .sort((a, b) => new Date(a.beginn) - new Date(b.beginn));
+}
+function termineAm(ortId, tage) {
+  const bis = Date.now() + tage * 864e5;
+  return alleTermine().filter(t => t.ort_id === ortId && t.status === 'aktiv' && new Date(t.beginn) <= bis);
+}
+function terminPins() {
+  const bis = Date.now() + 21 * 864e5;
+  return alleTermine().filter(t => !t.ort_id && t.lat != null && t.lon != null && t.status === 'aktiv' && new Date(t.beginn) <= bis)
+    .map(t => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lon, t.lat] },
+      properties: { id: 't:' + t.id, name: t.titel, icon: 't|1', sel: 0, sort: 500 } }));
+}
+const ortName = t => (t.ort_id && S.orte.get(t.ort_id)?.name) || t.ort_name || '';
+function wochenende() {
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  const sa = new Date(d);
+  if (d.getDay() === 0) sa.setDate(d.getDate() - 1); else sa.setDate(d.getDate() + (6 - d.getDay()));
+  const mo = new Date(sa); mo.setDate(sa.getDate() + 2);
+  return [sa, mo];
+}
+function zeitText(t) {
+  if (t.ganztags) return t.ende && tagKey(t.ende) !== tagKey(t.beginn) ? `ganztägig, bis ${fmtKurz(t.ende)}` : 'ganztägig';
+  return t.ende ? `${fmtUhr(t.beginn)}–${fmtUhr(t.ende)} Uhr` : `ab ${fmtUhr(t.beginn)} Uhr`;
+}
+function icsLink(t) {
+  const utc = d => new Date(d).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const lokal = d => { const x = new Date(d); return `${x.getFullYear()}${pad2(x.getMonth() + 1)}${pad2(x.getDate())}`; };
+  const e = v => String(v || '').replace(/[\\,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Ausfluege ab Roedelheim//DE', 'BEGIN:VEVENT', `UID:${t.id}@ausfluege-ffm`, `DTSTAMP:${utc(new Date())}`];
+  if (t.ganztags) {
+    const end = new Date(t.ende || t.beginn); end.setDate(end.getDate() + 1);
+    L.push(`DTSTART;VALUE=DATE:${lokal(t.beginn)}`, `DTEND;VALUE=DATE:${lokal(end)}`);
+  } else L.push(`DTSTART:${utc(t.beginn)}`, `DTEND:${utc(t.ende || new Date(new Date(t.beginn).getTime() + 2 * 3600e3))}`);
+  L.push(`SUMMARY:${e(t.titel)}`, `LOCATION:${e(ortName(t))}`, `DESCRIPTION:${e([t.beschreibung, t.link].filter(Boolean).join('\n'))}`);
+  if (t.link) L.push(`URL:${t.link}`);
+  L.push('END:VEVENT', 'END:VCALENDAR');
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(L.join('\r\n'));
+}
+function terminHTML(t, mitOrt = true) {
+  const d = new Date(t.beginn), ort = ortName(t);
+  const meta = [zeitText(t),
+    mitOrt && ort ? (t.ort_id ? `<button type="button" data-open="${esc(t.ort_id)}">${esc(ort)}</button>` : esc(ort)) : '',
+    t.kinder ? (t.alter_ab != null ? `ab ${t.alter_ab} J.` : 'für Kinder') : '', t.preis ? esc(t.preis) : ''].filter(Boolean);
+  const darf = S.familie || (t.mine && t.status === 'vorschlag');
+  return `<div class="termin${t.status === 'vorschlag' ? ' vorschlag' : ''}${S.hlTermin === t.id ? ' hl' : ''}" id="termin-${esc(t.id)}">
+    <div class="t-datum"><b>${d.getDate()}</b><span>${d.toLocaleDateString('de-DE', { month: 'short' }).replace('.', '')}</span></div>
+    <div class="t-txt"><span class="t-titel">${esc(t.titel)}</span><span class="t-meta">${meta.join('<span aria-hidden="true">·</span>')}</span>
+      ${t.beschreibung ? `<p class="t-desc">${esc(t.beschreibung)}</p>` : ''}
+      ${t.status === 'vorschlag' ? `<span class="hint">Vorschlag von ${esc(t.person)}${S.familie ? ', noch nicht freigegeben' : ', die Familie prüft ihn'}</span>` : ''}
+      <div class="t-links">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">Mehr Infos</a>` : ''}
+        <a href="${icsLink(t)}" download="termin.ics">In meinen Kalender</a>
+        ${t.art !== 'claude' && S.familie && t.status === 'vorschlag' ? `<button type="button" data-tok="${esc(t.id)}">Freigeben</button>` : ''}
+        ${t.art !== 'claude' && darf ? `<button type="button" data-tdel="${esc(t.id)}">Löschen</button>` : ''}</div>
+    </div></div>`;
+}
+function renderKalender() {
+  const [sa, mo] = wochenende();
+  const liste = alleTermine().filter(t => {
+    if (S.kf === 'kinder') return t.kinder;
+    if (S.kf === 'orte') return !!t.ort_id;
+    if (S.kf === 'we') return new Date(t.beginn) < mo && new Date(t.ende || t.beginn) >= sa;
+    return true;
+  });
+  const heute = tagKey(new Date()), morgen = tagKey(Date.now() + 864e5);
+  let html = `<div class="seg">${[['alle', 'Alle'], ['kinder', 'Für Kinder'], ['orte', 'An unseren Orten'], ['we', 'Dieses Wochenende']]
+    .map(([k, l]) => `<button class="chip plain" type="button" data-kf="${k}" aria-pressed="${S.kf === k}">${l}</button>`).join('')}</div>`;
+  let tag = '';
+  for (const t of liste) {
+    const k = tagKey(new Date(t.beginn) < new Date() ? new Date() : t.beginn);
+    if (k !== tag) { tag = k; html += `<h3 class="tag-tag">${k === heute ? 'Heute' : k === morgen ? 'Morgen' : esc(fmtTagLang(k + 'T12:00'))}</h3>`; }
+    html += terminHTML(t);
+  }
+  if (!liste.length) html += '<div class="empty">Keine Termine für diese Auswahl.</div>';
+  html += `<p class="hint">${S.termineStand ? `Termine zuletzt von Claude geprüft am ${esc(fmtDate(S.termineStand))}. ` : ''}Angaben ohne Gewähr, vorher auf der verlinkten Seite prüfen.</p>`;
+  $('#kalenderBody').innerHTML = html;
+  if (S.hlTermin) { const el = document.getElementById('termin-' + S.hlTermin); if (el) el.scrollIntoView({ block: 'center' }); }
+}
+function oeffneKalender(hl = null) {
+  closeOverlays('kalender'); S.hlTermin = hl; renderKalender(); $('#kalender').hidden = false;
+}
+function demnaechstHTML(o) {
+  const liste = termineAm(o.id, 60).slice(0, 4);
+  const knopf = canWrite() ? `<button class="btn" type="button" data-termin-hier="${esc(o.id)}"><svg><use href="#i-plus"/></svg>Termin hier eintragen</button>` : '';
+  if (!liste.length && !knopf) return '';
+  return `<div class="block"><h3>Demnächst hier</h3><div class="notes">${liste.map(t => terminHTML(t, false)).join('') || '<p class="hint">Keine Termine bekannt.</p>'}</div>
+    <div class="row" style="margin-top:8px">${knopf}</div></div>`;
+}
+function zeigeTerminForm(ortId = '') {
+  const orte = [...S.orte.values()].filter(o => o.status !== 'idee').sort((a, b) => a.name.localeCompare(b.name, 'de'));
+  $('#tOrt').innerHTML = '<option value="_">Anderer Ort …</option>' + orte.map(o => `<option value="${esc(o.id)}">${esc(o.name)}</option>`).join('');
+  $('#tOrt').value = ortId || '_'; $('#tOrtNameWrap').hidden = !!ortId;
+  $('#tDatum').value = tagKey(new Date());
+  $('#tHinweis').textContent = S.familie ? 'Der Termin erscheint sofort im Kalender.' : 'Dein Termin wird als Vorschlag gespeichert und erscheint, sobald die Familie ihn freigibt.';
+  closeOverlays('terminForm'); $('#terminForm').hidden = false; setTimeout(() => $('#tTitel').focus(), 50);
+}
+async function saveTermin(ev) {
+  ev.preventDefault();
+  const titel = $('#tTitel').value.trim(), datum = $('#tDatum').value; if (!titel || !datum) return;
+  const von = $('#tVon').value, bis = $('#tBis').value, ganz = !von;
+  const beginn = new Date(`${datum}T${von || '00:00'}`), ende = von && bis ? new Date(`${datum}T${bis}`) : null;
+  const ortId = $('#tOrt').value !== '_' ? $('#tOrt').value : null;
+  const alter = parseInt($('#tAlter').value, 10), link = $('#tLink').value.trim();
+  const row = { titel, beginn: beginn.toISOString(), ende: ende ? ende.toISOString() : null, ganztags: ganz,
+    ort_id: ortId, ort_name: ortId ? null : ($('#tOrtName').value.trim() || null),
+    link: /^https?:\/\//.test(link) ? link : null, beschreibung: $('#tBeschreibung').value.trim() || null,
+    kinder: $('#tKinder').checked, alter_ab: Number.isFinite(alter) ? Math.max(0, Math.min(18, alter)) : null,
+    preis: $('#tPreis').value.trim() || null, status: S.familie ? 'aktiv' : 'vorschlag', person: S.name };
+  try {
+    await B.addTermin(row);
+    $('#terminFields').reset(); toast(S.familie ? 'Termin eingetragen.' : 'Danke! Die Familie prüft den Vorschlag.');
+    await laden('termine'); oeffneKalender();
+  } catch (e) { toast(errText(e)); }
 }
 
 /* ===== Detail ===== */
@@ -1142,6 +1416,8 @@ function renderDetail() {
       ${o.status === 'idee' && o.notiz ? `<div class="tip"><p>${esc(o.notiz)}</p></div>` : ''}
       ${o.status === 'idee' ? `<p class="hint">Eingetragen von ${esc(o.by || 'jemandem')}${o.at ? ` am ${esc(fmtDate(o.at))}` : ''}.</p>` : ''}
       ${o.status !== 'idee' ? reiseHTML(o) : ''}
+      ${o.status !== 'idee' ? ohHTML(o) : ''}
+      ${o.status !== 'idee' ? demnaechstHTML(o) : ''}
       ${o.status !== 'idee' ? `<div class="facts">${fact('Kinderwagen', KIWA[o.kinderwagen])}${fact('Trubel', TRUBEL[o.trubel])}${fact('Spielplatz', JN[o.spielplatz])}${fact('Toilette', JN[o.toilette])}${fact('Einkehr', o.einkehr)}${fact('Eintritt', o.eintritt)}${fact('Dauer', DAUER[o.dauer])}${fact('Bei Regen', o.regen_ok == null ? null : o.regen_ok ? 'Geht' : 'Eher nicht')}${fact('Saison', o.saison, true)}</div>` : ''}
       ${o.tipp ? `<div class="tip"><p><b>Tipp:</b> ${esc(o.tipp)}</p></div>` : ''}
       ${o.haken ? `<div class="tip warn"><p><b>Gut zu wissen:</b> ${esc(o.haken)}</p></div>` : ''}
@@ -1186,7 +1462,7 @@ function closeDetail() {
   try { history.replaceState(null, '', location.pathname + location.search); } catch { /* egal */ }
 }
 function closeOverlays(except) {
-  for (const id of ['listov', 'filters', 'feedback', 'detail']) if (id !== except) { $('#' + id).hidden = true; if (id === 'detail') S.open = null; }
+  for (const id of ['listov', 'filters', 'feedback', 'kalender', 'terminForm', 'detail']) if (id !== except) { $('#' + id).hidden = true; if (id === 'detail') S.open = null; }
 }
 function openFromHash() {
   if (openFromHash.done) return; openFromHash.done = true;
@@ -1341,6 +1617,7 @@ function onMapClick(e) {
   const f = map.queryRenderedFeatures(e.point, { layers: ['orte-hit', 'orte'] })[0];
   if (!f) return;
   const id = f.properties.id;
+  if (id.startsWith('t:')) { oeffneKalender(id.slice(2)); return; }
   if (isDesktop()) openDetail(id); else select(id, { fly: false });
 }
 function dice() {
@@ -1364,6 +1641,10 @@ function wire() {
     if (t.dataset.lb) { openLightbox(+t.dataset.lb); return; }
     if (t.dataset.delnote) { try { await B.delNote(t.dataset.delnote); aenderung('notizen'); } catch (err) { toast(errText(err)); } return; }
     if (t.dataset.fbdone) { const f = S.feedback.find(x => x.id === t.dataset.fbdone); try { await B.setFeedback(f.id, !f.erledigt); aenderung('feedback'); } catch (err) { toast(errText(err)); } return; }
+    if (t.dataset.kf) { S.kf = t.dataset.kf; renderKalender(); return; }
+    if (t.dataset.tok) { try { await B.setTerminStatus(t.dataset.tok, 'aktiv'); aenderung('termine'); toast('Termin freigegeben.'); } catch (err) { toast(errText(err)); } return; }
+    if (t.dataset.tdel) { if (!t.dataset.sure) { t.dataset.sure = '1'; t.textContent = 'Wirklich löschen?'; return; } try { await B.delTermin(t.dataset.tdel); aenderung('termine'); } catch (err) { toast(errText(err)); } return; }
+    if (t.dataset.terminHier) { zeigeTerminForm(t.dataset.terminHier); return; }
     if (t.dataset.fbdel) { try { await B.delFeedback(t.dataset.fbdel); aenderung('feedback'); } catch (err) { toast(errText(err)); } return; }
     if (t.dataset.delfoto) {
       if (t.dataset.sure) delFoto(t.dataset.delfoto); else { t.dataset.sure = '1'; t.textContent = 'Wirklich löschen?'; }
@@ -1373,6 +1654,9 @@ function wire() {
       case 'filter': closeOverlays('filters'); renderFilters(); $('#filters').hidden = false; break;
       case 'feedback': closeOverlays('feedback'); renderFeedback(); $('#feedback').hidden = false; break;
       case 'fb-add': addFeedback(); break;
+      case 'kalender': oeffneKalender(); break;
+      case 'termin-neu': zeigeTerminForm(); break;
+      case 'termin-zu': $('#terminForm').hidden = true; $('#kalender').hidden = false; break;
       case 'list': closeOverlays('listov'); $('#listov').hidden = false; break;
       case 'close': if (!$('#detail').hidden && t.closest('#detail')) closeDetail(); else closeOverlays(); break;
       case 'showmap': closeDetail(); break;
@@ -1408,6 +1692,8 @@ function wire() {
   $('#ideaFields').addEventListener('submit', saveIdea);
   $('#gateForm').addEventListener('submit', anmelden);
   $('#whoForm').addEventListener('submit', setzeName);
+  $('#terminFields').addEventListener('submit', saveTermin);
+  $('#tOrt').addEventListener('change', () => { $('#tOrtNameWrap').hidden = $('#tOrt').value !== '_'; });
   $('#ideaKat').innerHTML = '<option value="">Weiß nicht</option>' + KATS.map(([k, l]) => `<option value="${k}">${l}</option>`).join('');
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
@@ -1442,6 +1728,7 @@ async function start() {
   S.mode = 'db'; renderAll(); openFromHash();
   if (!S.open) { if (map.loaded()) fitAll(); else map.once('load', fitAll); }
   B.subscribe(aenderung);
+  ladeOeffnungszeiten(); ladeTermine();
   if (!S.name) zeigeWer();
 }
 async function boot() {
