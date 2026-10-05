@@ -1,0 +1,18 @@
+name: Supabase wach halten
+
+# Kostenlose Supabase-Projekte pausieren nach einer Woche ohne Zugriff.
+# Dieser Job fragt einmal täglich die Datenbank an (ohne Anmeldung, liefert nur eine leere Liste).
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Datenbank anfragen
+        run: |
+          curl -fsS -o /dev/null -w "HTTP %{http_code}\n" \
+            "https://ifruhkxomrnzszymaolp.supabase.co/rest/v1/orte?select=id&limit=1" \
+            -H "apikey: sb_publishable_npe5s14GRhT-lzMq9eqKMQ_44OXdbpo"
