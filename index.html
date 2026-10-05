@@ -803,13 +803,22 @@ function sbBackend() {
   let uid = null;
   return {
     async session() { const { data } = await sb.auth.getSession(); uid = data.session?.user?.id || null; return !!uid; },
+    // Probiert die üblichen Schreibweisen: "ausflug-" + Antwort klein, genau wie getippt, mit Präfix wie getippt.
+    // Wer das ganze Passwort ("ausflug-…") eintippt, kommt ebenfalls rein.
     async login(answer) {
-      const pw = 'ausflug-' + answer.trim().toLowerCase().replace(/\s+/g, ' ');
+      const roh = answer.trim().replace(/\s+/g, ' ');
+      const ohne = roh.replace(/^ausflug-/i, '');
+      const varianten = [...new Set(['ausflug-' + ohne.toLowerCase(), roh, 'ausflug-' + ohne])];
+      let unbestaetigt = false;
       for (const email of [CONFIG.freunde, CONFIG.familie]) {
-        const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-        if (!error) { uid = data.user.id; return true; }
-        if (error.status === 429) throw error;
+        for (const password of varianten) {
+          const { data, error } = await sb.auth.signInWithPassword({ email, password });
+          if (!error) { uid = data.user.id; return true; }
+          if (error.status === 429) throw error;
+          if (error.code === 'email_not_confirmed' || /not confirmed/i.test(error.message || '')) unbestaetigt = true;
+        }
       }
+      if (unbestaetigt) throw Object.assign(new Error('unbestaetigt'), { unbestaetigt: true });
       return false;
     },
     logout: () => sb.auth.signOut(),
@@ -1306,7 +1315,8 @@ async function anmelden(ev) {
     if (await B.login(v)) { msg.textContent = ''; $('#gateAnswer').value = ''; await start(); }
     else msg.textContent = 'Das stimmt leider nicht. Bitte nur den Vornamen eingeben, so wie man ihn schreibt.';
   } catch (e) {
-    msg.textContent = e?.status === 429 ? 'Zu viele Versuche. Bitte in ein paar Minuten noch einmal.' : errText(e);
+    msg.textContent = e?.status === 429 ? 'Zu viele Versuche. Bitte in ein paar Minuten noch einmal.'
+      : e?.unbestaetigt ? 'Das Konto ist in Supabase noch nicht bestätigt (beim Anlegen „Auto Confirm User“ anhaken).' : errText(e);
   }
   btn.disabled = false;
 }
