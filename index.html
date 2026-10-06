@@ -1037,7 +1037,7 @@ const fotosFor = id => S.fotos.filter(f => f.ort === id).sort((a, b) => (a.at ||
 const meinMerk = id => S.merkAlle.find(m => m.ort === id && m.person === S.name) || {};
 const merkVon = id => S.merkAlle.filter(m => m.ort === id);
 const mm = id => ({ ...meinMerk(id), entscheidung: S.ent.get(id) || null });
-const hatEinkehr = o => !!o.einkehr && !/^(keine|nein|unbekannt)/i.test(o.einkehr);
+const hatEinkehr = o => { const e = o.einkehr_de ?? o.einkehr; return !!e && !/^(keine|nein|unbekannt)/i.test(e); };
 const umstiegText = n => (n === 0 ? 'direkt' : n === 1 ? '1× umsteigen' : `${n}× umsteigen`);
 const canWrite = () => S.angemeldet && !!S.name;
 const darfLoeschen = x => S.familie || (x.mine && x.person === S.name);
@@ -1155,7 +1155,7 @@ function devBackend(seed) {
 async function laden(t) {
   try {
     const rows = await B.fetch(t);
-    if (t === 'orte') S.orte = new Map(rows.map(r => [r.id, { ...r.daten, ...(LANG === 'en' && r.daten.en ? r.daten.en : {}), id: r.id, status: r.status, by: r.person, mine: B.mine(r) }]));
+    if (t === 'orte') S.orte = new Map(rows.map(r => [r.id, { ...r.daten, ...(LANG === 'en' && r.daten.en ? r.daten.en : {}), einkehr_de: r.daten.einkehr, id: r.id, status: r.status, by: r.person, mine: B.mine(r) }]));
     if (t === 'merk') S.merkAlle = rows.map(r => ({ ort: r.ort_id, person: r.person, fav: !!r.fav, besucht: r.besucht || [], bewertung: r.bewertung || 0 }));
     if (t === 'entscheidungen') S.ent = new Map(rows.map(r => [r.ort_id, r.entscheidung]));
     if (t === 'notizen') S.notizen = rows.map(r => ({ id: r.id, ort: r.ort_id, person: r.person, text: r.text, at: r.erstellt_am, mine: B.mine(r) }));
@@ -1353,6 +1353,26 @@ function ohObj(o) {
   }
   ohCache.set(o.id, obj); return obj;
 }
+const ohHinweis = d => (LANG === 'en' && d.hinweis_en) || d.hinweis || '';
+// opening_hours.js lässt Wörter wie dusk/off/PH/24/7 unübersetzt → für die Anzeige lesbar machen
+function ohSchoen(s) {
+  const de = LANG !== 'en';
+  s = s.replace(/"([^"]*)"/g, (_, t) => (de ? t : t === 'Nach Absprache' ? 'by arrangement' : t))
+    .replace(/(\d\d:\d\d)\+ (?:closed|off|geschlossen)/g, de ? 'ab $1 geschlossen' : 'closed from $1')
+    .replace(/\b24\/7\b/g, de ? 'rund um die Uhr' : 'open 24/7')
+    .replace(/\bsunrise-sunset\b/g, de ? 'Sonnenaufgang bis Sonnenuntergang' : 'sunrise to sunset')
+    .replace(/\bdusk\b/g, de ? 'Dämmerung' : 'dusk').replace(/\bdawn\b/g, de ? 'Morgendämmerung' : 'dawn')
+    .replace(/\bsunrise\b/g, de ? 'Sonnenaufgang' : 'sunrise').replace(/\bsunset\b/g, de ? 'Sonnenuntergang' : 'sunset')
+    .replace(/\b(?:off|closed)\b/g, de ? 'geschlossen' : 'closed')
+    .replace(/\bFeiertags\b/g, 'Feiertage').replace(/\bPH\b/g, 'public holidays')
+    .replace(/(\d+)\. (\p{L}+)-(\d+)(?=[,;]|$)/gu, '$1.–$3. $2')
+    .replace(/,(?=\S)/g, ', ');
+  return de
+    ? s.replace(/\b(?:Mo-So, Feiertage|Feiertage, Mo-So)\b/g, 'täglich inkl. Feiertage').replace(/\bMo-So\b/g, 'täglich')
+      .replace(/täglich ([^;:]+): geschlossen/g, '$1: geschlossen')
+    : s.replace(/\b(?:Mo-Su, public holidays|public holidays, Mo-Su)\b/g, 'daily incl. public holidays').replace(/\bMo-Su\b/g, 'daily')
+      .replace(/daily closed/g, 'closed');
+}
 // s: offen | spaeter | zu | frei | unbekannt; heute: an diesem Tag noch zugänglich
 function ohInfo(o, now = new Date()) {
   const d = S.oh[o.id];
@@ -1361,8 +1381,8 @@ function ohInfo(o, now = new Date()) {
   const hm = t => t.toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' });
   const start = new Date(now); start.setHours(0, 0, 0, 0); const ende = new Date(start); ende.setDate(ende.getDate() + 1);
   // Hinweis "Burg; Altstadt frei zugänglich": Zeiten gelten für den ersten Teil, der Rest ist frei zugänglich
-  const [was = '', rest = ''] = (d.hinweis || '').split(';').map(x => x.trim());
-  const frei = /frei/i.test(rest), vor = was ? was + ': ' : '';
+  const [was = '', rest = ''] = ohHinweis(d).split(';').map(x => x.trim());
+  const frei = /frei|free/i.test(rest), vor = was ? was + ': ' : '';
   try {
     if (oh.getState(now)) { const n = oh.getNextChange(now); return { s: 'offen', text: vor + (n && n < ende ? `Jetzt geöffnet bis ${hm(n)} Uhr` : 'Jetzt geöffnet'), heute: true }; }
     const iv = oh.getOpenIntervals(start, ende), spaeter = iv.find(i => i[0] > now);
@@ -1374,11 +1394,11 @@ function ohInfo(o, now = new Date()) {
 function ohHTML(o) {
   const d = S.oh[o.id], info = ohInfo(o);
   if (!d && info.s !== 'frei') return '';
-  const zeiten = d ? (ohObj(o)?.prettifyValue?.({ conf: { locale: LANG } }) || d.oh) : '';
+  const zeiten = d ? ohSchoen(ohObj(o)?.prettifyValue?.({ conf: { locale: LANG } }) || d.oh) : '';
   return `<div class="block"><h3>Öffnungszeiten</h3><div class="facts">
     ${info.text ? `<div class="fact wide heute ${info.s}"><span class="k">Heute</span><span class="v">${esc(info.text)}</span></div>` : ''}
     ${zeiten ? `<div class="fact wide"><span class="k">Regulär</span><span class="v">${esc(zeiten).replace(/; /g, '<br>')}</span></div>` : ''}</div>
-    ${d ? `<p class="hint" style="margin-top:6px">Quelle: <a href="${esc(d.quelle)}" target="_blank" rel="noopener">${/openstreetmap/.test(d.quelle) ? 'OpenStreetMap' : 'offizielle Seite'}</a>${d.stand ? `, Stand ${esc(fmtDate(d.stand))}` : ''}. Feiertage und Sonderzeiten vorher prüfen.${d.hinweis ? ` Gilt für: ${esc(d.hinweis)}.` : ''}</p>` : ''}</div>`;
+    ${d ? `<p class="hint" style="margin-top:6px">Quelle: <a href="${esc(d.quelle)}" target="_blank" rel="noopener">${/openstreetmap/.test(d.quelle) ? 'OpenStreetMap' : 'offizielle Seite'}</a>${d.stand ? `, Stand ${esc(fmtDate(d.stand))}` : ''}. Feiertage und Sonderzeiten vorher prüfen.${ohHinweis(d) ? ` Gilt für: ${esc(ohHinweis(d))}.` : ''}</p>` : ''}</div>`;
 }
 
 /* ===== Kalender ===== */

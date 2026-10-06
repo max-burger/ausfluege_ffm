@@ -13,19 +13,22 @@
   "oh": "Apr-Oct: Tu-Su 11:00-18:00; Nov-Mar: Tu,We,Fr-Su 11:00-16:00; Nov-Mar: Th 11:00-17:00",
   "quelle": "https://www.mainaeppelhauslohrberg.de/index.php/lohrberg-erleben/hofladen.html",
   "stand": "2026-10-06",
-  "hinweis": "MainÄppelHaus-Hofladen; Lohrberg-Park frei zugänglich"
+  "hinweis": "MainÄppelHaus-Hofladen; Lohrberg-Park frei zugänglich",
+  "hinweis_en": "MainÄppelHaus farm shop; Lohrberg park freely accessible"
  },
  "burg-und-altstadt-kronberg": {
   "oh": "We-Fr 13:00-17:00; Sa 13:00-18:00; Su,PH 11:00-18:00",
   "quelle": "https://www.burgkronberg.de/",
   "stand": "2026-10-06",
-  "hinweis": "Burg; Altstadt frei zugänglich"
+  "hinweis": "Burg; Altstadt frei zugänglich",
+  "hinweis_en": "Castle; old town freely accessible"
  },
  "dottenfelderhof": {
   "oh": "Mo-Fr 08:00-19:00; Sa 08:00-18:00; Su,PH off",
   "quelle": "https://www.dottenfelderhof.de/dottenfelderhof/navigationfooter/kontakt/",
   "stand": "2026-10-06",
-  "hinweis": "Hofladen; Hofcafé Mo–Sa 9–18 Uhr"
+  "hinweis": "Hofladen; Hofcafé Mo–Sa 9–18 Uhr",
+  "hinweis_en": "Farm shop; farm café Mon–Sat 9 am–6 pm"
  },
  "burgruine-falkenstein": {
   "oh": "Apr-Oct: Mo-Su 10:00-19:00; Nov-Mar: Mo-Su Off",
@@ -36,13 +39,15 @@
   "oh": "Tu-Fr 10:00-17:00; Sa,Su 11:00-18:00",
   "quelle": "https://museen-hanau.de",
   "stand": "2026-10-06",
-  "hinweis": "Museum; Schlosspark frei zugänglich"
+  "hinweis": "Museum; Schlosspark frei zugänglich",
+  "hinweis_en": "Museum; palace park freely accessible"
  },
  "mathildenhoehe": {
   "oh": "Tu-Su 11:00-18:00",
   "quelle": "https://neu.mathildenhoehe.de/en/visit/general-informationen",
   "stand": "2026-10-06",
-  "hinweis": "Museum Künstlerkolonie; Gelände frei zugänglich"
+  "hinweis": "Museum Künstlerkolonie; Gelände frei zugänglich",
+  "hinweis_en": "Artists' colony museum; grounds freely accessible"
  },
  "prinz-georg-garten": {
   "oh": "Mar-Oct: 07:00-19:00; Nov-Feb: 08:00-16:00",
@@ -53,19 +58,22 @@
   "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
   "quelle": "https://www.darmstadt-tourismus.de/en/visit/detailsen/poidetail/bioversum-jagdschloss-kranichstein.html",
   "stand": "2026-10-06",
-  "hinweis": "Naturmuseum bioversum"
+  "hinweis": "Naturmuseum bioversum",
+  "hinweis_en": "bioversum nature museum"
  },
  "hofgut-oberfeld": {
   "oh": "Mo-Fr 09:00-19:00; Sa 09:00-16:00",
   "quelle": "https://www.darmstadt-tourismus.de/en/visit/detailsen/poidetail/hofgut-oberfeld.html",
   "stand": "2026-10-06",
-  "hinweis": "Hofladen; Hofcafé täglich ab 9 Uhr"
+  "hinweis": "Hofladen; Hofcafé täglich ab 9 Uhr",
+  "hinweis_en": "Farm shop; farm café daily from 9 am"
  },
  "kloster-lorsch": {
   "oh": "Tu-Su 10:00-17:00; Dec 24-26,Dec 31,Jan 01 off",
   "quelle": "https://kloster-lorsch.de/wp-content/uploads/2026/04/wekl_indiflyer_2026_WEB.pdf",
   "stand": "2026-10-06",
-  "hinweis": "Museumszentrum; Klostergelände draußen frei zugänglich"
+  "hinweis": "Museumszentrum; Klostergelände draußen frei zugänglich",
+  "hinweis_en": "Museum centre; abbey grounds outside freely accessible"
  },
  "bethmannpark-mit-chinesischem-garten": {
   "oh": "Mo-Fr 07:00-dusk; Sa,Su,PH 10:00-dusk",
@@ -81,7 +89,8 @@
   "oh": "Mar-Oct: Tu-Su 10:00-17:00; Nov 01-Dec 14: Tu-Su 10:00-16:00; Feb: Tu-Su 10:00-16:00; Dec 15-Jan 31 off",
   "quelle": "https://www.kreis-offenbach.de/Freizeit/Naherholung-Tourismus/G%C3%A4rten-Parks/Klostergarten-Seligenstadt/",
   "stand": "2026-10-06",
-  "hinweis": "Klostermuseum; Altstadt und Klostergarten (bis Dämmerung) frei zugänglich"
+  "hinweis": "Klostermuseum; Altstadt und Klostergarten (bis Dämmerung) frei zugänglich",
+  "hinweis_en": "Abbey museum; old town and abbey garden (until dusk) freely accessible"
  },
  "kaiserpfalz-und-altstadt-gelnhausen": {
   "oh": "Mar-Oct Tu-Su 10:00-17:00; Nov 01-Dec 23 Tu-Su 10:00-16:00; Jan-Feb \"Nach Absprache\"",
@@ -92,19 +101,22 @@
   "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00",
   "quelle": "https://www.schloesser-hessen.de/de/schloss-steinau/besucherinformation",
   "stand": "2026-10-06",
-  "hinweis": "Schloss; Außengelände ganzjährig frei"
+  "hinweis": "Schloss; Außengelände ganzjährig frei",
+  "hinweis_en": "Palace; grounds free all year"
  },
  "schloss-johannisburg-pompejanum-und-park-schoental": {
   "oh": "Apr 01-Oct 03 Tu-Su 09:00-18:00; Oct 04-Mar 31 Tu-Su 10:00-16:00; Jan 01,Dec 24,Dec 25,Dec 31 off",
   "quelle": "https://www.schloesser.bayern.de/deutsch/schloss/objekte/as_joh.htm",
   "stand": "2026-10-06",
-  "hinweis": "Schloss; Park Schöntal frei zugänglich"
+  "hinweis": "Schloss; Park Schöntal frei zugänglich",
+  "hinweis_en": "Palace; Schöntal park freely accessible"
  },
  "burg-eppstein-und-kaisertempel": {
   "oh": "Apr-Oct Tu-Th,Sa,Su 10:00-17:00; Apr-Oct Fr 10:00-18:00; Nov-Mar Sa,Su 12:00-15:00",
   "quelle": "https://www.eppstein.de/de/leben-in-eppstein/ueber-eppstein/burg/",
   "stand": "2026-10-06",
-  "hinweis": "Burg; Kaisertempel frei zugänglich"
+  "hinweis": "Burg; Kaisertempel frei zugänglich",
+  "hinweis_en": "Castle; Kaisertempel freely accessible"
  },
  "meisterturm-hofheim": {
   "oh": "24/7",
@@ -115,13 +127,15 @@
   "oh": "Apr 01-Oct 15: 09:30-19:00; Oct 16-Mar 31: 10:00-17:00",
   "quelle": "https://www.rheingau.com/en/infosystem/rosengarten-der-kurfuerstlichen-burg/poi.html",
   "stand": "2026-10-06",
-  "hinweis": "Burghof und Rosengarten (Eintritt frei); Rheinufer frei zugänglich, Burgturm-Museum mit eigenen Zeiten"
+  "hinweis": "Burghof und Rosengarten (Eintritt frei); Rheinufer frei zugänglich, Burgturm-Museum mit eigenen Zeiten",
+  "hinweis_en": "Castle courtyard and rose garden (free entry); Rhine bank freely accessible, castle tower museum has its own hours"
  },
  "festung-und-mainufer-ruesselsheim": {
   "oh": "Tu-Fr 09:00-13:00,14:00-17:00; Sa,Su 10:00-17:00",
   "quelle": "https://www.museum-ruesselsheim.de/",
   "stand": "2026-10-06",
-  "hinweis": "Museum in der Festung; Park frei zugänglich"
+  "hinweis": "Museum in der Festung; Park frei zugänglich",
+  "hinweis_en": "Museum in the fortress; park freely accessible"
  },
  "burgruine-koenigstein": {
   "oh": "Apr-Oct: PH,Mo-Su 10:00-19:00; Nov-Mar: Sa,Su 10:00-17:00",
