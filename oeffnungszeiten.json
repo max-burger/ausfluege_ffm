@@ -9,11 +9,23 @@
   "quelle": "https://www.openstreetmap.org/way/4793541",
   "stand": "2026-10-06"
  },
+ "lohrberg": {
+  "oh": "Apr-Oct: Tu-Su 11:00-18:00; Nov-Mar: Tu,We,Fr-Su 11:00-16:00; Nov-Mar: Th 11:00-17:00",
+  "quelle": "https://www.mainaeppelhauslohrberg.de/index.php/lohrberg-erleben/hofladen.html",
+  "stand": "2026-10-06",
+  "hinweis": "MainÄppelHaus-Hofladen; Lohrberg-Park frei zugänglich"
+ },
  "burg-und-altstadt-kronberg": {
   "oh": "We-Fr 13:00-17:00; Sa 13:00-18:00; Su,PH 11:00-18:00",
   "quelle": "https://www.burgkronberg.de/",
   "stand": "2026-10-06",
   "hinweis": "Burg; Altstadt frei zugänglich"
+ },
+ "dottenfelderhof": {
+  "oh": "Mo-Fr 08:00-19:00; Sa 08:00-18:00; Su,PH off",
+  "quelle": "https://www.dottenfelderhof.de/dottenfelderhof/navigationfooter/kontakt/",
+  "stand": "2026-10-06",
+  "hinweis": "Hofladen; Hofcafé Mo–Sa 9–18 Uhr"
  },
  "burgruine-falkenstein": {
   "oh": "Apr-Oct: Mo-Su 10:00-19:00; Nov-Mar: Mo-Su Off",
@@ -65,6 +77,12 @@
   "quelle": "https://www.hessen-forst.de/freizeit/wildpark-alte-fasanerie-hanau",
   "stand": "2026-10-06"
  },
+ "seligenstadt-altstadt-klostergarten-und-mainfaehre": {
+  "oh": "Mar-Oct: Tu-Su 10:00-17:00; Nov 01-Dec 14: Tu-Su 10:00-16:00; Feb: Tu-Su 10:00-16:00; Dec 15-Jan 31 off",
+  "quelle": "https://www.kreis-offenbach.de/Freizeit/Naherholung-Tourismus/G%C3%A4rten-Parks/Klostergarten-Seligenstadt/",
+  "stand": "2026-10-06",
+  "hinweis": "Klostermuseum; Altstadt und Klostergarten (bis Dämmerung) frei zugänglich"
+ },
  "kaiserpfalz-und-altstadt-gelnhausen": {
   "oh": "Mar-Oct Tu-Su 10:00-17:00; Nov 01-Dec 23 Tu-Su 10:00-16:00; Jan-Feb \"Nach Absprache\"",
   "quelle": "https://www.openstreetmap.org/node/3353860594",
@@ -92,6 +110,12 @@
   "oh": "24/7",
   "quelle": "https://www.openstreetmap.org/way/133317964",
   "stand": "2026-10-06"
+ },
+ "eltville-kurfuerstliche-burg-und-rheinufer": {
+  "oh": "Apr 01-Oct 15: 09:30-19:00; Oct 16-Mar 31: 10:00-17:00",
+  "quelle": "https://www.rheingau.com/en/infosystem/rosengarten-der-kurfuerstlichen-burg/poi.html",
+  "stand": "2026-10-06",
+  "hinweis": "Burghof und Rosengarten (Eintritt frei); Rheinufer frei zugänglich, Burgturm-Museum mit eigenen Zeiten"
  },
  "festung-und-mainufer-ruesselsheim": {
   "oh": "Tu-Fr 09:00-13:00,14:00-17:00; Sa,Su 10:00-17:00",
@@ -122,6 +146,16 @@
  "keltenwelt-am-glauberg": {
   "oh": "Mar-Oct Tu-Su 10:00-18:00; Nov-Feb Tu-Su 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/126033154",
+  "stand": "2026-10-06"
+ },
+ "burg-frankenstein": {
+  "oh": "sunrise-sunset",
+  "quelle": "https://www.openstreetmap.org/way/24606901",
+  "stand": "2026-10-06"
+ },
+ "auerbacher-schloss": {
+  "oh": "Mo-Su,PH 11:00-17:00",
+  "quelle": "https://www.openstreetmap.org/way/137089592",
   "stand": "2026-10-06"
  }
 }

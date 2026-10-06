@@ -154,12 +154,17 @@ a { color: var(--accent); }
 .mins small { font-weight: 500; font-size: 11px; opacity: .9; }
 .mins.t1 { background: var(--t1); } .mins.t2 { background: var(--t2); }
 .mins.t3 { background: var(--t3); } .mins.t4 { background: var(--t4); }
-.tag { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border-radius: 6px;
+.tag { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border-radius: 6px; white-space: nowrap;
   border: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); }
 .tag.vorschlag { border-style: dashed; }
 .tag.fav { color: var(--signal); border-color: currentColor; }
 .tag.done { color: var(--accent); border-color: currentColor; }
 .tag.zu { color: var(--t4); border-color: currentColor; }
+.tag.ganztag { color: var(--k-burg); border-color: currentColor; }
+.d-pos { font: 600 14px/1 var(--f-ui) !important; color: var(--muted); }
+.detail .ov-head .ghost svg { width: 22px; height: 22px; }
+.detail .ov-body.wechsel { animation: wechsel .22s ease-out; }
+@keyframes wechsel { from { opacity: .35; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .fact.heute .v { color: var(--accent); }
 .fact.heute.zu .v { color: var(--t4); }
 .fact.heute.unbekannt .v { color: var(--muted); }
@@ -838,7 +843,7 @@ function initMap(getData, onClick) {
 /* ===== Zustand ===== */
 const FKEY = 'ausflug.filter.v1', NKEY = 'ausflug.name.v1';
 const TABELLEN = ['orte', 'merk', 'entscheidungen', 'notizen', 'fotos', 'feedback', 'termine'];
-const F0 = () => ({ kats: [], zeit: 0, umstieg: -1, offen: false, kiwa: false, ruhig: false, einkehr: false, spiel: false, wc: false, frei: false, regen: false, saison: false, status: 'alle', zeichen: 'kat' });
+const F0 = () => ({ kats: [], zeit: 0, umstieg: -1, offen: false, ganztag: false, kiwa: false, ruhig: false, einkehr: false, spiel: false, wc: false, frei: false, regen: false, saison: false, status: 'alle', zeichen: 'kat' });
 const S = {
   orte: new Map(), merkAlle: [], ent: new Map(), notizen: [], fotos: [], feedback: [], oh: {},
   termine: [], termineClaude: [], termineStand: '', kf: 'alle', hlTermin: null,
@@ -1010,6 +1015,7 @@ function sichtbar(o) {
   if (f.zeit && !(r && r.min <= f.zeit)) return false;
   if (f.umstieg >= 0 && !(r && r.umstiege <= f.umstieg)) return false;
   if (f.offen && !ohInfo(o).heute) return false;
+  if (f.ganztag && !o.ganztag) return false;
   if (f.kiwa && o.kinderwagen !== 'gut') return false;
   if (f.ruhig && o.trubel === 'voll') return false;
   if (f.einkehr && !hatEinkehr(o)) return false;
@@ -1023,7 +1029,7 @@ function sichtbar(o) {
 function aktiveFilter() {
   const f = S.f; let n = 0;
   if (f.zeit) n++; if (f.umstieg >= 0) n++;
-  for (const k of ['offen', 'kiwa', 'ruhig', 'einkehr', 'spiel', 'wc', 'frei', 'regen', 'saison']) if (f[k]) n++;
+  for (const k of ['offen', 'ganztag', 'kiwa', 'ruhig', 'einkehr', 'spiel', 'wc', 'frei', 'regen', 'saison']) if (f[k]) n++;
   if (f.status !== 'alle') n++;
   return n;
 }
@@ -1057,7 +1063,8 @@ function statusTags(o, m) {
   if (o.status === 'idee') s += `<span class="tag vorschlag">Idee${o.by ? ' von ' + esc(o.by) : ''}</span>`;
   if (m.fav) s += '<span class="tag fav">♥ gemerkt</span>';
   if ((m.besucht || []).length) s += '<span class="tag done">✓ besucht</span>';
-  if (S.ohBereit && ohInfo(o).s === 'zu') s += '<span class="tag zu">heute zu</span>';
+  if (S.ohBereit && ohInfo(o).s === 'zu') s += `<span class="tag zu">${esc(ohInfo(o).tag)}</span>`;
+  if (o.ganztag) s += '<span class="tag ganztag">Ganztagesausflug</span>';
   const nt = termineAm(o.id, 14)[0]; if (nt) s += `<span class="tag termin">Termin ${esc(fmtKurz(nt.beginn))}</span>`;
   return s;
 }
@@ -1121,7 +1128,7 @@ function renderFilters() {
     <div class="fsec"><h3>Unterwegs mit Kindern</h3>
       ${sw('kiwa', 'Gut mit Kinderwagen')}${sw('ruhig', 'Eher ruhig, am Wochenende nicht überlaufen')}
       ${sw('spiel', 'Spielplatz vor Ort')}${sw('einkehr', 'Einkehr vor Ort')}${sw('wc', 'Toilette vor Ort')}</div>
-    <div class="fsec"><h3>Sonstiges</h3>${sw('offen', 'Heute (noch) geöffnet oder frei zugänglich')}${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
+    <div class="fsec"><h3>Sonstiges</h3>${sw('offen', 'Heute (noch) geöffnet oder frei zugänglich')}${sw('ganztag', 'Nur Ganztagesausflüge (über 100 min)')}${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
     <div class="fsec"><h3>Anzeigen</h3>${seg('status', [['alle', 'Alle'], ['merk', 'Von mir gemerkt'], ['offen', 'Noch nicht besucht'], ['besucht', 'Schon besucht'], ['vorschlag', 'Vorschläge'], ['idee', 'Ideen']])}</div>
     <div class="fsec"><h3>Zeichen auf der Karte</h3>${seg('zeichen', [['kat', 'Art des Ortes'], ['min', 'Reisezeit in Minuten']])}</div>
     ${S.angemeldet ? `<div class="fsec"><h3>Du</h3><div class="who"><span>Angemeldet als <b>${esc(S.name || '–')}</b></span>${S.familie ? '<span class="pill-fam">Familie</span>' : ''}</div>
@@ -1179,11 +1186,15 @@ function ohInfo(o, now = new Date()) {
   const oh = ohObj(o); if (!oh) return { s: 'unbekannt', text: '', heute: false };
   const hm = t => t.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   const start = new Date(now); start.setHours(0, 0, 0, 0); const ende = new Date(start); ende.setDate(ende.getDate() + 1);
+  // Hinweis "Burg; Altstadt frei zugänglich": Zeiten gelten für den ersten Teil, der Rest ist frei zugänglich
+  const [was = '', rest = ''] = (d.hinweis || '').split(';').map(x => x.trim());
+  const frei = /frei/i.test(rest), vor = was ? was + ': ' : '';
   try {
-    if (oh.getState(now)) { const n = oh.getNextChange(now); return { s: 'offen', text: n && n < ende ? `Jetzt geöffnet bis ${hm(n)} Uhr` : 'Jetzt geöffnet', heute: true }; }
+    if (oh.getState(now)) { const n = oh.getNextChange(now); return { s: 'offen', text: vor + (n && n < ende ? `Jetzt geöffnet bis ${hm(n)} Uhr` : 'Jetzt geöffnet'), heute: true }; }
     const iv = oh.getOpenIntervals(start, ende), spaeter = iv.find(i => i[0] > now);
-    if (spaeter) return { s: 'spaeter', text: `Heute geöffnet ab ${hm(spaeter[0])} Uhr`, heute: true };
-    return { s: 'zu', text: iv.length ? 'Heute schon geschlossen' : 'Heute geschlossen', heute: false };
+    if (spaeter) return { s: 'spaeter', text: vor + `Heute geöffnet ab ${hm(spaeter[0])} Uhr`, heute: true };
+    return { s: 'zu', text: vor + (iv.length ? 'Heute schon geschlossen' : 'Heute geschlossen') + (frei ? ` – ${rest}` : ''),
+      heute: frei, tag: was ? `${was} heute zu` : 'heute zu' };
   } catch { return { s: 'unbekannt', text: '', heute: false }; }
 }
 function ohHTML(o) {
@@ -1193,7 +1204,7 @@ function ohHTML(o) {
   return `<div class="block"><h3>Öffnungszeiten</h3><div class="facts">
     ${info.text ? `<div class="fact wide heute ${info.s}"><span class="k">Heute</span><span class="v">${esc(info.text)}</span></div>` : ''}
     ${zeiten ? `<div class="fact wide"><span class="k">Regulär</span><span class="v">${esc(zeiten).replace(/; /g, '<br>')}</span></div>` : ''}</div>
-    ${d ? `<p class="hint" style="margin-top:6px">Quelle: <a href="${esc(d.quelle)}" target="_blank" rel="noopener">${/openstreetmap/.test(d.quelle) ? 'OpenStreetMap' : 'offizielle Seite'}</a>${d.stand ? `, Stand ${esc(fmtDate(d.stand))}` : ''}. Feiertage und Sonderzeiten vorher prüfen.</p>` : ''}</div>`;
+    ${d ? `<p class="hint" style="margin-top:6px">Quelle: <a href="${esc(d.quelle)}" target="_blank" rel="noopener">${/openstreetmap/.test(d.quelle) ? 'OpenStreetMap' : 'offizielle Seite'}</a>${d.stand ? `, Stand ${esc(fmtDate(d.stand))}` : ''}. Feiertage und Sonderzeiten vorher prüfen.${d.hinweis ? ` Gilt für: ${esc(d.hinweis)}.` : ''}</p>` : ''}</div>`;
 }
 
 /* ===== Kalender ===== */
@@ -1406,7 +1417,12 @@ function renderDetail() {
     `<a href="https://www.google.com/maps/search/?api=1&query=${o.lat},${o.lon}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>In Karten-App öffnen</a>`,
   ].filter(Boolean).join('');
   const prevIdx = S.galIdx;
-  d.innerHTML = `<div class="ov-head"><button class="ghost" data-act="close" type="button" aria-label="Zurück zur Karte"><svg><use href="#i-back"/></svg></button><h2></h2>
+  const pos = S.view.findIndex(x => x.id === o.id);
+  d.innerHTML = `<div class="ov-head"><button class="ghost" data-act="close" type="button" aria-label="Zurück zur Karte"><svg><use href="#i-close"/></svg></button>
+      <h2 class="d-pos">${pos >= 0 ? `${pos + 1} von ${S.view.length}` : ''}</h2>
+      <button class="ghost" data-act="vorher" type="button" aria-label="Voriger Ort"><svg><use href="#i-back"/></svg></button>
+      <button class="ghost" data-act="weiter" type="button" aria-label="Nächster Ort"><svg><use href="#i-next"/></svg></button>
+      <button class="ghost" data-act="dice" type="button" aria-label="Nochmal würfeln" title="Nochmal würfeln"><svg><use href="#i-dice"/></svg></button>
       ${isDesktop() ? '' : '<button class="btn" type="button" data-act="showmap"><svg><use href="#i-map"/></svg>Karte</button>'}</div>
     <div class="gal-wrap">${gal}</div><div class="gal-cap" id="galCap"></div>
     <div class="ov-body">
@@ -1620,8 +1636,16 @@ function onMapClick(e) {
   if (id.startsWith('t:')) { oeffneKalender(id.slice(2)); return; }
   if (isDesktop()) openDetail(id); else select(id, { fly: false });
 }
+// Nächster/voriger Ort in der aktuellen Liste (Filter und Sortierung wie in der Liste)
+function nachbar(d) {
+  const liste = S.view; if (!liste.length) return;
+  const i = liste.findIndex(o => o.id === S.open);
+  openDetail(liste[i < 0 ? 0 : (i + d + liste.length) % liste.length].id);
+  const b = $('#detail .ov-body'); if (b && !reduceMotion()) { b.classList.remove('wechsel'); void b.offsetWidth; b.classList.add('wechsel'); }
+}
+
 function dice() {
-  const pool = S.view.filter(o => o.status !== 'idee');
+  const pool = S.view.filter(o => o.status !== 'idee' && o.id !== S.open);
   if (!pool.length) { toast('Keine Orte mit diesen Filtern.'); return; }
   const o = pool[Math.floor(Math.random() * pool.length)];
   openDetail(o.id); toast(`Wie wär's mit: ${o.name}?`);
@@ -1662,6 +1686,8 @@ function wire() {
       case 'showmap': closeDetail(); break;
       case 'reset': S.f = F0(); saveF(); renderAll(); renderFilters(); break;
       case 'dice': dice(); break;
+      case 'vorher': nachbar(-1); break;
+      case 'weiter': nachbar(1); break;
       case 'fit': fitAll(); break;
       case 'idea': startIdea(); break;
       case 'idea-cancel': stopIdea(); break;
@@ -1689,6 +1715,18 @@ function wire() {
     const k = e.target.dataset?.sw; if (k) { S.f[k] = e.target.checked; saveF(); renderAll(); }
   });
   $('#photoInput').addEventListener('change', e => { const files = [...e.target.files]; e.target.value = ''; addPhotos(files); });
+  // In der Ortsansicht nach links/rechts wischen → nächster/voriger Ort (nicht in Galerie und Eingabefeldern)
+  const det = $('#detail'); let wisch = null;
+  det.addEventListener('touchstart', e => {
+    wisch = e.touches.length === 1 && !e.target.closest('.gal, input, textarea, select')
+      ? { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() } : null;
+  }, { passive: true });
+  det.addEventListener('touchend', e => {
+    if (!wisch) return;
+    const dx = e.changedTouches[0].clientX - wisch.x, dy = e.changedTouches[0].clientY - wisch.y;
+    if (Math.abs(dx) > 70 && Math.abs(dy) < 50 && Date.now() - wisch.t < 700) nachbar(dx < 0 ? 1 : -1);
+    wisch = null;
+  }, { passive: true });
   $('#ideaFields').addEventListener('submit', saveIdea);
   $('#gateForm').addEventListener('submit', anmelden);
   $('#whoForm').addEventListener('submit', setzeName);
