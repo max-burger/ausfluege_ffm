@@ -232,6 +232,10 @@ a { color: var(--accent); }
 .line.Tram { background: #B4322E; } .line.Bus { background: #8A3D7F; }
 .line.RB, .line.RE { background: #5B6670; } .line.Fähre { background: #2B6FA3; }
 .leg-arrow { opacity: .6; }
+.rad { display: grid; grid-template-columns: 18px 1fr; align-items: start; gap: 2px 8px; margin-top: 10px; font-size: 14px; color: var(--muted); }
+.rad svg { margin-top: 1px; }
+.rad b { color: var(--ink); font-weight: 600; }
+.rad a { grid-column: 2; justify-self: start; color: var(--accent); font-weight: 600; }
 .reach-notes { display: grid; gap: 4px; font-size: 13.5px; color: var(--muted); }
 
 .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -419,6 +423,7 @@ textarea { min-height: 70px; resize: vertical; }
   <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-rad" viewBox="0 0 24 24"><circle cx="5.5" cy="16.5" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18.5" cy="16.5" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5.5 16.5l4-8h6l3 8M9.5 8.5l3 8h-7M14 5h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2" fill="currentColor"/><path d="M10 21l2-6 3 3v3M9 11l3-3 3 3 3 1M12 8l-1 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
@@ -558,6 +563,7 @@ textarea { min-height: 70px; resize: vertical; }
   <section class="gate" id="gate" hidden aria-label="Anmeldung">
     <form class="gate-card" id="gateForm" autocomplete="off">
       <h1>Ausflüge ab Rödelheim</h1>
+      <div class="seg"><button class="chip plain" type="button" data-lang="de">Deutsch</button><button class="chip plain" type="button" data-lang="en">English</button></div>
       <p>Unsere Karte mit Ausflugszielen rund um Frankfurt, für Familie und Freunde.</p>
       <label class="fsec" for="gateAnswer"><h3 id="gateQ">Wie heißt das älteste Kind der Familie?</h3></label>
       <input id="gateAnswer" type="text" autocapitalize="off" autocomplete="off" spellcheck="false" required>
@@ -584,6 +590,173 @@ textarea { min-height: 70px; resize: vertical; }
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <script>const CONFIG = {"url": "https://ifruhkxomrnzszymaolp.supabase.co", "key": "sb_publishable_npe5s14GRhT-lzMq9eqKMQ_44OXdbpo", "freunde": "freunde@example.org", "familie": "familie@example.org", "frage": "Wie heißen unsere beiden Kinder?", "platzhalter": "Beide Vornamen", "hinweis": "Bitte die Vornamen beider Kinder eingeben."};</script>
 <script>
+'use strict';
+/* ===== Sprache (DE/EN) =====
+   Die Seite rendert deutsch. Bei Englisch übersetzt ein MutationObserver alle Texte, Platzhalter und
+   aria-Labels beim Erscheinen: exakte Treffer aus EN, zusammengesetzte Texte über MUSTER.
+   Ortstexte kommen aus dem Feld `en` der Ortsdokumente (siehe laden('orte')). Ortsnamen und Termine bleiben deutsch. */
+const LANG = (() => {
+  try { const l = localStorage.getItem('ausflug.lang'); if (l) return l; } catch { /* egal */ }
+  return /^de\b/i.test(navigator.language || 'de') ? 'de' : 'en';
+})();
+const LOC = LANG === 'en' ? 'en-GB' : 'de-DE';
+function setzeSprache(l) { try { localStorage.setItem('ausflug.lang', l); } catch { /* egal */ } location.reload(); }
+
+const EN = {
+  // Kopf, Leisten, Knöpfe
+  'Ausflüge ab Rödelheim': 'Day trips from Rödelheim', 'Ausflüge': 'Day trips', 'ab Rödelheim mit Bus & Bahn': 'from Rödelheim by bus & train',
+  'Mit Bus & Bahn, Samstag 9–11 Uhr, Deutschlandticket': 'By bus & train, Saturday 9–11 am, Deutschlandticket',
+  'Filter': 'Filters', 'Würfeln': 'Surprise me', 'Ort vorschlagen': 'Suggest a place', 'Alle zeigen': 'Show all', 'Feedback': 'Feedback',
+  'Liste': 'List', 'Kalender': 'Calendar', 'Karte': 'Map', 'Alle Orte': 'All places', 'Alle': 'All', 'Termin': 'Event',
+  'Schließen': 'Close', 'Zurücksetzen': 'Reset', 'Zur Karte': 'Back to map', 'Zurück zur Karte': 'Back to map', 'Abbrechen': 'Cancel',
+  'Orte zeigen': 'Show places', 'Orte, nach Reisezeit sortiert': 'Places, sorted by travel time', 'Karte der Ausflugsziele': 'Map of day trips',
+  'Kategorien': 'Categories', 'Orte': 'Places', 'Voriger Ort': 'Previous place', 'Nächster Ort': 'Next place', 'Nochmal würfeln': 'Roll again',
+  'Voriges Bild': 'Previous photo', 'Nächstes Bild': 'Next photo', 'Foto öffnen': 'Open photo',
+  'Tippe auf die Karte, wo der Ort liegt.': 'Tap the map where the place is.',
+  // Kategorien
+  'Wald & Natur': 'Forest & nature', 'Wasser': 'Water', 'Aussicht': 'Viewpoint', 'Park & Garten': 'Park & garden', 'Burg & Schloss': 'Castle & palace',
+  'Altstadt': 'Old town', 'Geschichte': 'History', 'Wildpark': 'Wildlife park', 'Hof & Obst': 'Farm & orchard', 'Spielort': 'Play area', 'Idee': 'Idea',
+  // Filter-Blatt
+  'Reisezeit ab Rödelheim': 'Travel time from Rödelheim', 'Egal': 'Any', 'bis 30 min': 'up to 30 min', 'bis 60 min': 'up to 60 min', 'bis 90 min': 'up to 90 min',
+  'Umsteigen': 'Changes', 'höchstens 1×': 'max. 1', 'ohne Umstieg': 'direct only', 'Unterwegs mit Kindern': 'With children',
+  'Gut mit Kinderwagen': 'Good with a pushchair', 'Eher ruhig, am Wochenende nicht überlaufen': 'Rather quiet, not crowded at weekends',
+  'Spielplatz vor Ort': 'Playground on site', 'Einkehr vor Ort': 'Café / food on site', 'Toilette vor Ort': 'Toilets on site', 'Sonstiges': 'Other',
+  'Heute (noch) geöffnet oder frei zugänglich': 'Open today or freely accessible', 'Nur Ganztagesausflüge (über 100 min)': 'Full-day trips only (over 100 min)',
+  'Eintritt frei': 'Free entry', 'Geht auch bei Regen': 'Works in the rain', 'Anzeigen': 'Show', 'Von mir gemerkt': 'My favourites',
+  'Noch nicht besucht': 'Not visited yet', 'Schon besucht': 'Already visited', 'Vorschläge': 'Suggestions', 'Ideen': 'Ideas',
+  'Zeichen auf der Karte': 'Map markers', 'Art des Ortes': 'Type of place', 'Reisezeit in Minuten': 'Travel time in minutes', 'Du': 'You',
+  'Angemeldet als': 'Signed in as', 'Familie': 'Family', 'Name ändern': 'Change name', 'Abmelden': 'Sign out', 'Sprache': 'Language',
+  'Filter zurücksetzen': 'Reset filters', 'Keine Orte – trotzdem schließen': 'No places – close anyway',
+  // Leerzustände, Meldungen
+  'Nach der Anmeldung erscheinen hier die Orte.': 'Places appear here after signing in.', 'Orte werden geladen …': 'Loading places …',
+  'Die Ortsliste ist gerade nicht erreichbar.': 'The list of places is not available right now.', 'Bitte später noch einmal versuchen.': 'Please try again later.',
+  'Noch keine Orte gespeichert.': 'No places saved yet.', 'Keine Orte passen zu diesen Filtern.': 'No places match these filters.',
+  'Keine Orte mit diesen Filtern.': 'No places with these filters.', 'Dafür fehlt die Berechtigung.': 'You do not have permission for this.',
+  'Das Foto ist zu groß.': 'The photo is too large.', 'Dieses Bildformat geht nicht, bitte JPEG oder PNG.': 'This image format does not work, please use JPEG or PNG.',
+  'Keine Verbindung. Bitte später noch einmal versuchen.': 'No connection. Please try again later.',
+  'Das hat nicht geklappt, bitte noch einmal versuchen.': 'That did not work, please try again.',
+  'Notiz gespeichert.': 'Note saved.', 'Foto gelöscht.': 'Photo deleted.', 'Idee gespeichert.': 'Idea saved.', 'Idee gelöscht.': 'Idea deleted.',
+  'Danke! Eintrag gespeichert.': 'Thanks! Entry saved.', 'Termin eingetragen.': 'Event added.', 'Termin freigegeben.': 'Event approved.',
+  'Danke! Die Familie prüft den Vorschlag.': 'Thanks! The family will review your suggestion.', 'Einen Moment …': 'One moment …',
+  'Zu viele Versuche. Bitte in ein paar Minuten noch einmal.': 'Too many attempts. Please try again in a few minutes.',
+  'Wirklich löschen?': 'Really delete?',
+  // Anmeldung, Name
+  'Unsere Karte mit Ausflugszielen rund um Frankfurt, für Familie und Freunde.': 'Our map of day trips around Frankfurt, for family and friends.',
+  'Wie heißen unsere beiden Kinder?': 'What are our two children called?', 'Beide Vornamen': 'Both first names',
+  'Bitte die Vornamen beider Kinder eingeben.': 'Please enter the first names of both children.', 'Weiter': 'Continue', 'Wer bist du?': 'Who are you?',
+  'Damit bei Notizen, Fotos und „Ich war hier“ dein Name steht. Der Vorname reicht.': 'So that your name appears with notes, photos and “I was here”. Your first name is enough.',
+  'Vorname': 'First name', "Los geht's": "Let's go",
+  // Ortsansicht
+  'Anfahrt': 'Getting there', 'Route in Google Maps': 'Route in Google Maps', 'Die Verbindung ist noch nicht berechnet.': 'The connection has not been calculated yet.',
+  'Gerechnet ab Rödelheim, nur Nahverkehr.': 'Calculated from Rödelheim, local transport only.', 'Gute Verbindungen mehrmals pro Stunde.': 'Good connections several times an hour.',
+  'Mit dem Rad:': 'By bike:', 'Radroute': 'Bike route', 'Öffnungszeiten': 'Opening hours', 'Heute': 'Today', 'Morgen': 'Tomorrow', 'Regulär': 'Regular hours',
+  'Quelle:': 'Source:', 'offizielle Seite': 'official website', 'Frei zugänglich, ohne feste Zeiten': 'Freely accessible, no fixed hours',
+  'Jetzt geöffnet': 'Open now', 'Heute geschlossen': 'Closed today', 'Heute schon geschlossen': 'Already closed today', 'heute zu': 'closed today',
+  'Kinderwagen': 'Pushchair', 'Trubel': 'Crowds', 'Spielplatz': 'Playground', 'Toilette': 'Toilets', 'Einkehr': 'Food & drink', 'Eintritt': 'Entry',
+  'Dauer': 'Duration', 'Bei Regen': 'In the rain', 'Saison': 'Season', 'Gut befahrbar': 'Easy', 'Mit Einschränkung': 'With some difficulty',
+  'Besser mit Trage': 'Better with a baby carrier', 'Eher ruhig': 'Rather quiet', 'Mal ruhig, mal voll': 'Sometimes busy', 'Am Wochenende voll': 'Busy at weekends',
+  '1–2 Stunden': '1–2 hours', 'Halber Tag': 'Half a day', 'Ganzer Tag': 'Full day', 'Ja': 'Yes', 'Nein': 'No', 'Unbekannt': 'Unknown',
+  'Geht': 'Works', 'Eher nicht': 'Not really', 'frei': 'free', 'Tipp:': 'Tip:', 'Gut zu wissen:': 'Good to know:', 'Kombinieren mit:': 'Combine with:',
+  'Website': 'Website', 'Wikipedia': 'Wikipedia', 'Videos suchen': 'Search videos', 'In Karten-App öffnen': 'Open in maps app',
+  'Noch keine Bilder': 'No photos yet', 'Noch nicht ausgearbeitet': 'Not worked out yet', 'Vorschlag': 'Suggestion', 'Ganztagesausflug': 'Full-day trip',
+  'Vorschlag · rein': 'Suggestion · in', 'Vorschlag · raus': 'Suggestion · out', '♥ gemerkt': '♥ saved', '✓ besucht': '✓ visited',
+  'Für euch': 'For you', 'Soll Claude diesen Ort ausarbeiten (Bilder, Infos)?': 'Should Claude work out this place (photos, details)?',
+  'Ja, rein': 'Yes, in', 'Nein, raus': 'No, out', 'Merken': 'Save', 'Gemerkt': 'Saved', 'Ich war hier': 'I was here', 'Heute hier': 'Here today',
+  'Hier waren schon:': 'Already been here:', 'Wie hat es dir gefallen?': 'How did you like it?', 'Notizen': 'Notes', 'Noch keine Notizen.': 'No notes yet.',
+  'z.B. Spielplatz am Nordeingang, Toiletten im Café': 'e.g. playground at the north entrance, toilets in the café', 'Notiz speichern': 'Save note',
+  'Fotos': 'Photos', 'Noch keine eigenen Fotos.': 'No own photos yet.', 'Foto hinzufügen': 'Add photo', 'Foto löschen': 'Delete photo',
+  'Idee löschen': 'Delete idea', 'löschen': 'delete', 'Demnächst hier': 'Coming up here', 'Keine Termine bekannt.': 'No events known.',
+  'Termin hier eintragen': 'Add an event here', 'Bilder': 'Photos', 'Wikimedia Commons': 'Wikimedia Commons',
+  // Kalender, Termine
+  'Für Kinder': 'For children', 'An unseren Orten': 'At our places', 'Dieses Wochenende': 'This weekend', 'Keine Termine für diese Auswahl.': 'No events for this selection.',
+  'Mehr Infos': 'More info', 'In meinen Kalender': 'Add to my calendar', 'Freigeben': 'Approve', 'Löschen': 'Delete', 'ganztägig': 'all day', 'für Kinder': 'for children',
+  'Termin eintragen': 'Add event', 'Was?': 'What?', 'Datum': 'Date', 'von': 'from', 'bis': 'to', 'Wo?': 'Where?', 'Anderer Ort …': 'Other place …',
+  'Anderer Ort': 'Other place', 'Link (optional)': 'Link (optional)', 'Beschreibung (optional)': 'Description (optional)', 'Für Kinder geeignet': 'Suitable for children',
+  'ab … Jahren': 'from age …', 'Preis': 'Price', 'Speichern': 'Save', 'z.B. Apfelfest am Lohrberg': 'e.g. apple festival at Lohrberg',
+  'z.B. Spielmobil, Günthersburgpark': 'e.g. play bus, Günthersburgpark', 'z.B. 3': 'e.g. 3', 'z.B. frei, 5 €': 'e.g. free, €5',
+  'Der Termin erscheint sofort im Kalender.': 'The event appears in the calendar straight away.',
+  'Dein Termin wird als Vorschlag gespeichert und erscheint, sobald die Familie ihn freigibt.': 'Your event is saved as a suggestion and appears once the family approves it.',
+  // Ideen, Feedback
+  'Der Ort landet als Idee auf eurer Karte. Claude kann ihn später ausarbeiten (Bilder, Anfahrt, Infos).': 'The place is added to the map as an idea. Claude can work it out later (photos, directions, details).',
+  'Name': 'Name', 'Was ist dort schön?': 'What is nice there?', 'Hat uns jemand empfohlen, gesehen beim Wandern …': 'Someone recommended it, seen while hiking …',
+  'Art': 'Type', 'Weiß nicht': "Don't know", 'Idee speichern': 'Save idea', 'Position ändern': 'Move pin', 'z.B. Burgruine Falkenstein': 'e.g. Falkenstein castle ruins',
+  'Wünsche & Feedback': 'Wishes & feedback', 'Wünsche und Feedback': 'Wishes and feedback', 'Abschicken': 'Send', 'Noch keine Einträge.': 'No entries yet.',
+  'erledigt': 'done', 'wieder offen': 'reopen',
+  'Was fehlt, was stört, was wäre schön? Alle Angemeldeten sehen die Einträge; wir besprechen sie gemeinsam.': 'What is missing, what bothers you, what would be nice? Everyone signed in can see the entries; we discuss them together.',
+  'z.B. Ein Filter für Orte mit Bademöglichkeit wäre toll': 'e.g. a filter for places where you can swim would be great',
+};
+const MONAT_EN = { Januar: 'January', Februar: 'February', März: 'March', April: 'April', Mai: 'May', Juni: 'June', Juli: 'July', August: 'August',
+  September: 'September', Oktober: 'October', November: 'November', Dezember: 'December' };
+const umst = s => (s === 'direkt' ? 'direct' : s.replace(/^(\d+)× umsteigen$/, (m, n) => `${n} change${n === '1' ? '' : 's'}`));
+const freiEn = s => (s || '').replace(/frei zugänglich/g, 'freely accessible').replace(/Eintritt frei/g, 'free entry');
+const MUSTER = [
+  [/^(\d+) Orte$/, m => `${m[1]} places`], [/^(\d+) von (\d+) Orten$/, m => `${m[1]} of ${m[2]} places`],
+  [/^(\d+) Orte zeigen$/, m => `Show ${m[1]} places`], [/^(\d+) von (\d+)$/, m => `${m[1]} of ${m[2]}`],
+  [/^(.*?: )?Jetzt geöffnet bis (.+) Uhr$/, m => `${m[1] || ''}Open now until ${m[2]}`],
+  [/^(.*?: )?Jetzt geöffnet$/, m => `${m[1] || ''}Open now`],
+  [/^(.*?: )?Heute geöffnet ab (.+) Uhr$/, m => `${m[1] || ''}Opens today at ${m[2]}`],
+  [/^(.*?: )?Heute (schon )?geschlossen(?: – (.*))?$/, m => `${m[1] || ''}${m[2] ? 'Already closed today' : 'Closed today'}${m[3] ? ' – ' + freiEn(m[3]) : ''}`],
+  [/^(.+) heute zu$/, m => `${m[1]} closed today`],
+  [/^direkt$|^\d+× umsteigen$/, m => umst(m[0])],
+  [/^ab Rödelheim · (.+) · Sa 9–11 Uhr$/, m => `from Rödelheim · ${umst(m[1])} · Sat 9–11 am`],
+  [/^Aussteigen: (.+?)(?:, dann (\d+) min zu Fuß)?\.$/, m => `Get off at ${m[1]}${m[2] ? `, then ${m[2]} min walk` : ''}.`],
+  [/^Gute Verbindungen nur etwa alle (\d+) min – Abfahrt vorher prüfen\.$/, m => `Good connections only about every ${m[1]} min – check departures first.`],
+  [/^\s*([\d,]+) km · gemütlich ca\. (\d+) min · zügig ca\. (\d+) min$/, m => ` ${m[1].replace(',', '.')} km · relaxed approx. ${m[2]} min · brisk approx. ${m[3]} min`],
+  [/^Termin (.+)$/, m => `Event ${m[1]}`], [/^Foto: (.*)$/, m => `Photo: ${m[1]}`], [/^Foto von (.+)$/, m => `Photo by ${m[1]}`],
+  [/^Du warst hier: (.+)$/, m => `You were here: ${m[1]}`], [/^Ø (.+) aus (\d+) Bewertung(?:en)?$/, m => `Ø ${m[1].replace(',', '.')} from ${m[2]} rating${m[2] === '1' ? '' : 's'}`],
+  [/^Eingetragen von (.+?)(?: am (.+))?\.$/, m => `Added by ${m[1]}${m[2] ? ' on ' + m[2] : ''}.`],
+  [/^Idee von (.+)$/, m => `Idea by ${m[1]}`], [/^Vorschlag von (.+), noch nicht freigegeben$/, m => `Suggested by ${m[1]}, not yet approved`],
+  [/^Vorschlag von (.+), die Familie prüft ihn$/, m => `Suggested by ${m[1]}, the family will review it`],
+  [/^ab (\d+) J\.$/, m => `from age ${m[1]}`], [/^ab (\d{1,2}:\d{2}) Uhr$/, m => `from ${m[1]}`], [/^(\d{1,2}:\d{2})–(\d{1,2}:\d{2}) Uhr$/, m => `${m[1]}–${m[2]}`],
+  [/^ganztägig, bis (.+)$/, m => `all day, until ${m[1]}`], [/^Jetzt schön \((.+)\)$/, m => `In season now (${MONAT_EN[m[1]] || m[1]})`],
+  [/^Infos Stand (.+)\. Öffnungszeiten und Preise vor dem Ausflug prüfen\.$/, m => `Information as of ${m[1]}. Check opening hours and prices before you go.`],
+  [/^, Stand (.+?)\. Feiertage und Sonderzeiten vorher prüfen\.(?: Gilt für: (.+)\.)?$/, m => `, as of ${m[1]}. Check public holidays and special hours first.${m[2] ? ' Applies to: ' + freiEn(m[2]) + '.' : ''}`],
+  [/^Termine zuletzt von Claude geprüft am (.+)\. Angaben ohne Gewähr, vorher auf der verlinkten Seite prüfen\.$/, m => `Events last checked by Claude on ${m[1]}. No guarantee – please check the linked page first.`],
+  [/^Angaben ohne Gewähr, vorher auf der verlinkten Seite prüfen\.$/, () => 'No guarantee – please check the linked page first.'],
+  [/^Wie wär's mit: (.+)\?$/, m => `How about: ${m[1]}?`], [/^Das stimmt leider nicht\. ?(.*)$/, m => `Sorry, that's not right. ${EN[m[1]] || m[1]}`],
+  [/^Foto (\d+) von (\d+) wird hochgeladen …$/, m => `Uploading photo ${m[1]} of ${m[2]} …`], [/^(\d+) Fotos? gespeichert\.$/, m => `${m[1]} photo(s) saved.`],
+  [/^Bild (\d+) groß anzeigen$/, m => `Show photo ${m[1]} large`], [/^(\d) von 5$/, m => `${m[1]} of 5`],
+  [/^Wünsche & Feedback \((\d+)\)$/, m => `Wishes & feedback (${m[1]})`],
+];
+
+function tr(s) {
+  if (LANG !== 'en' || !s) return s;
+  const k = s.trim(); if (!k) return s;
+  if (Object.prototype.hasOwnProperty.call(EN, k)) return s.replace(k, EN[k]);
+  for (const [re, f] of MUSTER) { const m = k.match(re); if (m) return s.replace(k, f(m)); }
+  if (k.includes(' · ')) {
+    const teile = k.split(' · '), neu = teile.map(x => EN[x] ?? x);
+    if (neu.some((x, i) => x !== teile[i])) return s.replace(k, neu.join(' · '));
+  }
+  return s;
+}
+function uebersetze(root) {
+  if (LANG !== 'en' || !root) return;
+  if (root.nodeType === 3) { const v = tr(root.nodeValue); if (v !== root.nodeValue) root.nodeValue = v; return; }
+  if (root.nodeType !== 1 || root.closest?.('.note > span:first-child, .t-titel, .t-desc, .d-title h1, .card .nm')) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) {
+    if (n.parentElement?.closest('.note > span:first-child, .t-titel, .t-desc, .d-title h1, .card .nm')) continue;
+    const v = tr(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v;
+  }
+  for (const el of [root, ...root.querySelectorAll('[placeholder],[aria-label],[title]')]) {
+    for (const a of ['placeholder', 'aria-label', 'title']) {
+      const v = el.getAttribute?.(a); if (v) { const t = tr(v); if (t !== v) el.setAttribute(a, t); }
+    }
+  }
+}
+document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
+if (LANG === 'en') {
+  document.documentElement.lang = 'en';
+  uebersetze(document.body);
+  new MutationObserver(liste => {
+    for (const m of liste) {
+      if (m.type === 'characterData') uebersetze(m.target);
+      else m.addedNodes.forEach(uebersetze);
+    }
+  }).observe(document.body, { childList: true, subtree: true, characterData: true });
+}
+
 'use strict';
 /* ===== Grundlagen ===== */
 const BBOX = [7.75, 49.45, 9.65, 50.65];
@@ -856,7 +1029,7 @@ try { Object.assign(S.f, JSON.parse(localStorage.getItem(FKEY) || '{}')); S.name
 const saveF = () => { try { localStorage.setItem(FKEY, JSON.stringify(S.f)); } catch { /* egal */ } };
 
 const MONATE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-const fmtDate = iso => { try { return new Intl.DateTimeFormat('de-DE', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso)); } catch { return iso; } };
+const fmtDate = iso => { try { return new Intl.DateTimeFormat(LOC, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso)); } catch { return iso; } };
 const today = () => new Date().toISOString().slice(0, 10);
 const rid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)).replace(/-/g, '').slice(0, 10);
 const thumbPfad = p => p.replace(/\.jpg$/, '_t.jpg');
@@ -982,7 +1155,7 @@ function devBackend(seed) {
 async function laden(t) {
   try {
     const rows = await B.fetch(t);
-    if (t === 'orte') S.orte = new Map(rows.map(r => [r.id, { ...r.daten, id: r.id, status: r.status, by: r.person, mine: B.mine(r) }]));
+    if (t === 'orte') S.orte = new Map(rows.map(r => [r.id, { ...r.daten, ...(LANG === 'en' && r.daten.en ? r.daten.en : {}), id: r.id, status: r.status, by: r.person, mine: B.mine(r) }]));
     if (t === 'merk') S.merkAlle = rows.map(r => ({ ort: r.ort_id, person: r.person, fav: !!r.fav, besucht: r.besucht || [], bewertung: r.bewertung || 0 }));
     if (t === 'entscheidungen') S.ent = new Map(rows.map(r => [r.ort_id, r.entscheidung]));
     if (t === 'notizen') S.notizen = rows.map(r => ({ id: r.id, ort: r.ort_id, person: r.person, text: r.text, at: r.erstellt_am, mine: B.mine(r) }));
@@ -1131,6 +1304,7 @@ function renderFilters() {
     <div class="fsec"><h3>Sonstiges</h3>${sw('offen', 'Heute (noch) geöffnet oder frei zugänglich')}${sw('ganztag', 'Nur Ganztagesausflüge (über 100 min)')}${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
     <div class="fsec"><h3>Anzeigen</h3>${seg('status', [['alle', 'Alle'], ['merk', 'Von mir gemerkt'], ['offen', 'Noch nicht besucht'], ['besucht', 'Schon besucht'], ['vorschlag', 'Vorschläge'], ['idee', 'Ideen']])}</div>
     <div class="fsec"><h3>Zeichen auf der Karte</h3>${seg('zeichen', [['kat', 'Art des Ortes'], ['min', 'Reisezeit in Minuten']])}</div>
+    <div class="fsec"><h3>Language / Sprache</h3><div class="seg"><button class="chip plain" type="button" data-lang="de" aria-pressed="${LANG === 'de'}">Deutsch</button><button class="chip plain" type="button" data-lang="en" aria-pressed="${LANG === 'en'}">English</button></div></div>
     ${S.angemeldet ? `<div class="fsec"><h3>Du</h3><div class="who"><span>Angemeldet als <b>${esc(S.name || '–')}</b></span>${S.familie ? '<span class="pill-fam">Familie</span>' : ''}</div>
       <div class="row"><button class="btn" type="button" data-act="feedback">Wünsche &amp; Feedback${offen ? ` (${offen})` : ''}</button>
       <button class="btn" type="button" data-act="who">Name ändern</button><button class="btn" type="button" data-act="logout">Abmelden</button></div></div>` : ''}`;
@@ -1174,7 +1348,7 @@ function ohObj(o) {
   let obj = null; const d = S.oh[o.id];
   if (d && window.opening_hours) {
     const state = /Mainz|Oppenheim|Nierstein|Budenheim/.test(o.ort || '') ? 'Rheinland-Pfalz' : /Aschaffenburg/.test(o.ort || '') ? 'Bayern' : 'Hessen';
-    try { obj = new opening_hours(d.oh, { lat: o.lat, lon: o.lon, address: { country_code: 'de', state } }, { locale: 'de' }); }
+    try { obj = new opening_hours(d.oh, { lat: o.lat, lon: o.lon, address: { country_code: 'de', state } }, { locale: LANG }); }
     catch (e) { console.warn('Öffnungszeiten', o.id, e); }
   }
   ohCache.set(o.id, obj); return obj;
@@ -1184,7 +1358,7 @@ function ohInfo(o, now = new Date()) {
   const d = S.oh[o.id];
   if (!d) return FREI_KATS.includes(o.kategorie) ? { s: 'frei', text: 'Frei zugänglich, ohne feste Zeiten', heute: true } : { s: 'unbekannt', text: '', heute: false };
   const oh = ohObj(o); if (!oh) return { s: 'unbekannt', text: '', heute: false };
-  const hm = t => t.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  const hm = t => t.toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' });
   const start = new Date(now); start.setHours(0, 0, 0, 0); const ende = new Date(start); ende.setDate(ende.getDate() + 1);
   // Hinweis "Burg; Altstadt frei zugänglich": Zeiten gelten für den ersten Teil, der Rest ist frei zugänglich
   const [was = '', rest = ''] = (d.hinweis || '').split(';').map(x => x.trim());
@@ -1200,7 +1374,7 @@ function ohInfo(o, now = new Date()) {
 function ohHTML(o) {
   const d = S.oh[o.id], info = ohInfo(o);
   if (!d && info.s !== 'frei') return '';
-  const zeiten = d ? (ohObj(o)?.prettifyValue?.({ conf: { locale: 'de' } }) || d.oh) : '';
+  const zeiten = d ? (ohObj(o)?.prettifyValue?.({ conf: { locale: LANG } }) || d.oh) : '';
   return `<div class="block"><h3>Öffnungszeiten</h3><div class="facts">
     ${info.text ? `<div class="fact wide heute ${info.s}"><span class="k">Heute</span><span class="v">${esc(info.text)}</span></div>` : ''}
     ${zeiten ? `<div class="fact wide"><span class="k">Regulär</span><span class="v">${esc(zeiten).replace(/; /g, '<br>')}</span></div>` : ''}</div>
@@ -1211,9 +1385,9 @@ function ohHTML(o) {
 // Claude-Termine: web/termine.json (öffentlich, vom Monats-Check gepflegt). Familie/Freunde: Tabelle `termine`.
 const pad2 = n => String(n).padStart(2, '0');
 const tagKey = d => { const x = new Date(d); return `${x.getFullYear()}-${pad2(x.getMonth() + 1)}-${pad2(x.getDate())}`; };
-const fmtKurz = d => new Date(d).toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'numeric' });
-const fmtTagLang = d => new Date(d).toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
-const fmtUhr = d => new Date(d).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+const fmtKurz = d => new Date(d).toLocaleDateString(LOC, { weekday: 'short', day: 'numeric', month: 'numeric' });
+const fmtTagLang = d => new Date(d).toLocaleDateString(LOC, { weekday: 'long', day: 'numeric', month: 'long' });
+const fmtUhr = d => new Date(d).toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' });
 async function ladeTermine() {
   try {
     const d = await fetch('termine.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {}));
@@ -1270,7 +1444,7 @@ function terminHTML(t, mitOrt = true) {
     t.kinder ? (t.alter_ab != null ? `ab ${t.alter_ab} J.` : 'für Kinder') : '', t.preis ? esc(t.preis) : ''].filter(Boolean);
   const darf = S.familie || (t.mine && t.status === 'vorschlag');
   return `<div class="termin${t.status === 'vorschlag' ? ' vorschlag' : ''}${S.hlTermin === t.id ? ' hl' : ''}" id="termin-${esc(t.id)}">
-    <div class="t-datum"><b>${d.getDate()}</b><span>${d.toLocaleDateString('de-DE', { month: 'short' }).replace('.', '')}</span></div>
+    <div class="t-datum"><b>${d.getDate()}</b><span>${d.toLocaleDateString(LOC, { month: 'short' }).replace('.', '')}</span></div>
     <div class="t-txt"><span class="t-titel">${esc(t.titel)}</span><span class="t-meta">${meta.join('<span aria-hidden="true">·</span>')}</span>
       ${t.beschreibung ? `<p class="t-desc">${esc(t.beschreibung)}</p>` : ''}
       ${t.status === 'vorschlag' ? `<span class="hint">Vorschlag von ${esc(t.person)}${S.familie ? ', noch nicht freigegeben' : ', die Familie prüft ihn'}</span>` : ''}
@@ -1339,6 +1513,18 @@ async function saveTermin(ev) {
   } catch (e) { toast(errText(e)); }
 }
 
+/* ===== Fahrrad (web/fahrrad.json: km, zuegig = Routendienst, gemuetlich = 12 km/h) ===== */
+async function ladeRad() {
+  try { S.rad = await fetch('fahrrad.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {})); if (S.open) renderDetail(); }
+  catch { S.rad = {}; }
+}
+function radHTML(o) {
+  const r = (S.rad || {})[o.id]; if (!r) return '';
+  const gm = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Frankfurt (Main) Rödelheim Bahnhof')}&destination=${o.lat},${o.lon}&travelmode=bicycling`;
+  return `<div class="rad"><svg width="18" height="18"><use href="#i-rad"/></svg><span><b>Mit dem Rad:</b> ${String(r.km).replace('.', ',')} km · gemütlich ca. ${r.gemuetlich} min · zügig ca. ${r.zuegig} min</span>
+    <a href="${gm}" target="_blank" rel="noopener">Radroute</a></div>`;
+}
+
 /* ===== Detail ===== */
 const KIWA = { gut: 'Gut befahrbar', eingeschraenkt: 'Mit Einschränkung', trage: 'Besser mit Trage' };
 const TRUBEL = { ruhig: 'Eher ruhig', mittel: 'Mal ruhig, mal voll', voll: 'Am Wochenende voll' };
@@ -1357,7 +1543,7 @@ function bilderOf(o) {
 function reiseHTML(o) {
   const r = o.reise;
   const gm = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Frankfurt (Main) Rödelheim Bahnhof')}&destination=${o.lat},${o.lon}&travelmode=transit`;
-  if (!r) return `<div class="block"><h3>Anfahrt</h3><p class="hint">Die Verbindung ist noch nicht berechnet.</p><div class="links"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
+  if (!r) return `<div class="block"><h3>Anfahrt</h3><p class="hint">Die Verbindung ist noch nicht berechnet.</p>${radHTML(o)}<div class="links"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
   const legs = (r.legs || []).map(l => {
     const t = (l.mode === 'Bus' || l.mode === 'Tram') && l.linie ? `${l.mode} ${l.linie}` : (l.linie || l.mode);
     return `<span class="line ${esc(l.mode)}" title="${esc(`${l.von} → ${l.nach}${l.richtung ? ` (Richtung ${l.richtung})` : ''}`)}">${esc(t)}</span>`;
@@ -1369,6 +1555,7 @@ function reiseHTML(o) {
     <div class="legs" style="margin-top:10px">${legs}${r.fussweg_ziel ? `<span class="leg-arrow">›</span><svg width="16" height="16"><use href="#i-walk"/></svg>${r.fussweg_ziel} min` : ''}</div>
     <div class="reach-notes" style="margin-top:6px">${r.ziel_haltestelle ? `<span>Aussteigen: ${esc(r.ziel_haltestelle)}${r.fussweg_ziel ? `, dann ${r.fussweg_ziel} min zu Fuß` : ''}.</span>` : ''}${takt ? `<span>${takt}</span>` : ''}
       <span>Gerechnet ab Rödelheim, nur Nahverkehr.</span></div>
+    ${radHTML(o)}
     <div class="links" style="margin-top:10px"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
 }
 function familyHTML(o) {
@@ -1655,6 +1842,7 @@ function wire() {
     const t = e.target.closest('button, [data-open]'); if (!t) return;
     const a = t.dataset.act;
     if (t.dataset.open) { openDetail(t.dataset.open); return; }
+    if (t.dataset.lang) { if (t.dataset.lang !== LANG) setzeSprache(t.dataset.lang); return; }
     if (t.dataset.who) { $('#whoName').value = t.dataset.who; return; }
     if (t.dataset.kat !== undefined) {
       const k = t.dataset.kat; S.f.kats = !k ? [] : S.f.kats.includes(k) ? S.f.kats.filter(x => x !== k) : [...S.f.kats, k];
@@ -1766,7 +1954,7 @@ async function start() {
   S.mode = 'db'; renderAll(); openFromHash();
   if (!S.open) { if (map.loaded()) fitAll(); else map.once('load', fitAll); }
   B.subscribe(aenderung);
-  ladeOeffnungszeiten(); ladeTermine();
+  ladeOeffnungszeiten(); ladeTermine(); ladeRad();
   if (!S.name) zeigeWer();
 }
 async function boot() {

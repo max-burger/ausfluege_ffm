@@ -1,0 +1,462 @@
+{
+ "mathildenhoehe": {
+  "km": 34.8,
+  "gemuetlich": 183,
+  "zuegig": 122
+ },
+ "rosenhoehe": {
+  "km": 36.1,
+  "gemuetlich": 192,
+  "zuegig": 128
+ },
+ "prinz-georg-garten": {
+  "km": 33.6,
+  "gemuetlich": 175,
+  "zuegig": 117
+ },
+ "oberwaldhaus-und-steinbruecker-teich": {
+  "km": 34.9,
+  "gemuetlich": 185,
+  "zuegig": 123
+ },
+ "jagdschloss-kranichstein": {
+  "km": 33.5,
+  "gemuetlich": 176,
+  "zuegig": 117
+ },
+ "ludwigshoehe-mit-ludwigsturm": {
+  "km": 39.4,
+  "gemuetlich": 210,
+  "zuegig": 140
+ },
+ "hofgut-oberfeld": {
+  "km": 35.8,
+  "gemuetlich": 188,
+  "zuegig": 125
+ },
+ "staatspark-fuerstenlager": {
+  "km": 58.6,
+  "gemuetlich": 310,
+  "zuegig": 207
+ },
+ "altstadt-heppenheim": {
+  "km": 64.9,
+  "gemuetlich": 340,
+  "zuegig": 227
+ },
+ "kloster-lorsch": {
+  "km": 64.4,
+  "gemuetlich": 336,
+  "zuegig": 224
+ },
+ "burg-hayn-und-altstadt-dreieichenhain": {
+  "km": 20.2,
+  "gemuetlich": 107,
+  "zuegig": 71
+ },
+ "niddapark": {
+  "km": 3.8,
+  "gemuetlich": 21,
+  "zuegig": 14
+ },
+ "brentanopark": {
+  "km": 1.0,
+  "gemuetlich": 6,
+  "zuegig": 4
+ },
+ "hoechster-altstadt-und-mainufer": {
+  "km": 7.0,
+  "gemuetlich": 37,
+  "zuegig": 25
+ },
+ "grueneburgpark": {
+  "km": 5.2,
+  "gemuetlich": 29,
+  "zuegig": 19
+ },
+ "jacobiweiher": {
+  "km": 10.8,
+  "gemuetlich": 60,
+  "zuegig": 40
+ },
+ "maunzenweiher": {
+  "km": 12.8,
+  "gemuetlich": 69,
+  "zuegig": 46
+ },
+ "huthpark": {
+  "km": 10.1,
+  "gemuetlich": 55,
+  "zuegig": 37
+ },
+ "guenthersburgpark": {
+  "km": 8.9,
+  "gemuetlich": 48,
+  "zuegig": 32
+ },
+ "ostpark": {
+  "km": 10.1,
+  "gemuetlich": 54,
+  "zuegig": 36
+ },
+ "enkheimer-ried": {
+  "km": 15.5,
+  "gemuetlich": 83,
+  "zuegig": 55
+ },
+ "fechenheimer-mainbogen": {
+  "km": 15.3,
+  "gemuetlich": 83,
+  "zuegig": 55
+ },
+ "berger-warte-und-berger-hang": {
+  "km": 13.6,
+  "gemuetlich": 74,
+  "zuegig": 49
+ },
+ "bethmannpark-mit-chinesischem-garten": {
+  "km": 7.3,
+  "gemuetlich": 39,
+  "zuegig": 26
+ },
+ "holzhausenpark": {
+  "km": 6.8,
+  "gemuetlich": 37,
+  "zuegig": 25
+ },
+ "waldspielpark-louisa": {
+  "km": 8.0,
+  "gemuetlich": 43,
+  "zuegig": 29
+ },
+ "waldspielpark-scheerwald": {
+  "km": 11.4,
+  "gemuetlich": 61,
+  "zuegig": 41
+ },
+ "heinrich-kraft-park": {
+  "km": 14.4,
+  "gemuetlich": 77,
+  "zuegig": 51
+ },
+ "staatspark-hanau-wilhelmsbad": {
+  "km": 24.7,
+  "gemuetlich": 133,
+  "zuegig": 89
+ },
+ "schloss-philippsruhe-und-schlosspark": {
+  "km": 23.7,
+  "gemuetlich": 127,
+  "zuegig": 85
+ },
+ "altstadt-und-schloss-steinheim": {
+  "km": 28.1,
+  "gemuetlich": 148,
+  "zuegig": 99
+ },
+ "wildpark-alte-fasanerie": {
+  "km": 26.3,
+  "gemuetlich": 141,
+  "zuegig": 94
+ },
+ "dietesheimer-steinbrueche": {
+  "km": 23.6,
+  "gemuetlich": 125,
+  "zuegig": 83
+ },
+ "seligenstadt-altstadt-klostergarten-und-mainfaehre": {
+  "km": 33.0,
+  "gemuetlich": 178,
+  "zuegig": 119
+ },
+ "kaiserpfalz-und-altstadt-gelnhausen": {
+  "km": 51.2,
+  "gemuetlich": 270,
+  "zuegig": 180
+ },
+ "schloss-steinau-und-brueder-grimm-stadt": {
+  "km": 77.3,
+  "gemuetlich": 409,
+  "zuegig": 273
+ },
+ "kurpark-bad-orb-mit-gradierwerk-und-barfusspfad": {
+  "km": 66.7,
+  "gemuetlich": 353,
+  "zuegig": 235
+ },
+ "schloss-johannisburg-pompejanum-und-park-schoental": {
+  "km": 53.9,
+  "gemuetlich": 285,
+  "zuegig": 190
+ },
+ "schlosspark-rumpenheim-und-mainufer": {
+  "km": 18.4,
+  "gemuetlich": 97,
+  "zuegig": 65
+ },
+ "leonhard-eissnert-park": {
+  "km": 16.6,
+  "gemuetlich": 89,
+  "zuegig": 59
+ },
+ "burg-eppstein-und-kaisertempel": {
+  "km": 20.4,
+  "gemuetlich": 110,
+  "zuegig": 73
+ },
+ "meisterturm-hofheim": {
+  "km": 16.9,
+  "gemuetlich": 96,
+  "zuegig": 64
+ },
+ "altstadt-idstein": {
+  "km": 36.8,
+  "gemuetlich": 200,
+  "zuegig": 133
+ },
+ "alter-kurpark-bad-soden": {
+  "km": 10.5,
+  "gemuetlich": 56,
+  "zuegig": 37
+ },
+ "rettershof": {
+  "km": 19.6,
+  "gemuetlich": 109,
+  "zuegig": 73
+ },
+ "eltville-kurfuerstliche-burg-und-rheinufer": {
+  "km": 46.5,
+  "gemuetlich": 245,
+  "zuegig": 163
+ },
+ "biebricher-schlosspark": {
+  "km": 36.0,
+  "gemuetlich": 189,
+  "zuegig": 126
+ },
+ "neroberg": {
+  "km": 38.0,
+  "gemuetlich": 204,
+  "zuegig": 136
+ },
+ "mainzer-sand": {
+  "km": 39.0,
+  "gemuetlich": 210,
+  "zuegig": 140
+ },
+ "lennebergwald": {
+  "km": 41.1,
+  "gemuetlich": 222,
+  "zuegig": 148
+ },
+ "oppenheim-altstadt-und-burgruine-landskron": {
+  "km": 45.4,
+  "gemuetlich": 251,
+  "zuegig": 167
+ },
+ "kuehkopf-knoblochsaue": {
+  "km": 48.6,
+  "gemuetlich": 256,
+  "zuegig": 171
+ },
+ "jagdschloss-moenchbruch": {
+  "km": 24.6,
+  "gemuetlich": 136,
+  "zuegig": 91
+ },
+ "festung-und-mainufer-ruesselsheim": {
+  "km": 24.3,
+  "gemuetlich": 128,
+  "zuegig": 85
+ },
+ "ginsheimer-altrhein": {
+  "km": 32.8,
+  "gemuetlich": 175,
+  "zuegig": 117
+ },
+ "burg-und-altstadt-kronberg": {
+  "km": 13.0,
+  "gemuetlich": 73,
+  "zuegig": 49
+ },
+ "burgruine-koenigstein": {
+  "km": 17.2,
+  "gemuetlich": 102,
+  "zuegig": 68
+ },
+ "burgruine-falkenstein": {
+  "km": 17.1,
+  "gemuetlich": 106,
+  "zuegig": 71
+ },
+ "altstadt-oberursel": {
+  "km": 12.1,
+  "gemuetlich": 66,
+  "zuegig": 44
+ },
+ "hohemark": {
+  "km": 15.7,
+  "gemuetlich": 86,
+  "zuegig": 57
+ },
+ "grosser-feldberg": {
+  "km": 24.1,
+  "gemuetlich": 163,
+  "zuegig": 109
+ },
+ "fuchstanz": {
+  "km": 18.3,
+  "gemuetlich": 122,
+  "zuegig": 81
+ },
+ "roemerkastell-saalburg": {
+  "km": 21.0,
+  "gemuetlich": 124,
+  "zuegig": 83
+ },
+ "freilichtmuseum-hessenpark": {
+  "km": 24.7,
+  "gemuetlich": 143,
+  "zuegig": 95
+ },
+ "kurpark-und-schloss-bad-homburg": {
+  "km": 16.6,
+  "gemuetlich": 88,
+  "zuegig": 59
+ },
+ "hirschgarten-bad-homburg": {
+  "km": 16.8,
+  "gemuetlich": 92,
+  "zuegig": 61
+ },
+ "altkoenig": {
+  "km": 20.7,
+  "gemuetlich": 148,
+  "zuegig": 99
+ },
+ "burgruine-reifenberg": {
+  "km": 24.3,
+  "gemuetlich": 155,
+  "zuegig": 103
+ },
+ "wasserburg-und-kurpark-bad-vilbel": {
+  "km": 16.6,
+  "gemuetlich": 88,
+  "zuegig": 59
+ },
+ "dottenfelderhof": {
+  "km": 18.0,
+  "gemuetlich": 95,
+  "zuegig": 63
+ },
+ "burg-und-altstadt-friedberg": {
+  "km": 32.7,
+  "gemuetlich": 172,
+  "zuegig": 115
+ },
+ "kurpark-und-gradierwerke-bad-nauheim": {
+  "km": 36.9,
+  "gemuetlich": 194,
+  "zuegig": 129
+ },
+ "burg-muenzenberg": {
+  "km": 48.3,
+  "gemuetlich": 256,
+  "zuegig": 171
+ },
+ "keltenwelt-am-glauberg": {
+  "km": 46.1,
+  "gemuetlich": 241,
+  "zuegig": 161
+ },
+ "altstadt-butzbach": {
+  "km": 48.0,
+  "gemuetlich": 251,
+  "zuegig": 167
+ },
+ "bingenheimer-ried": {
+  "km": 42.4,
+  "gemuetlich": 220,
+  "zuegig": 147
+ },
+ "alte-seilerei-oberrad": {
+  "km": 9.7,
+  "gemuetlich": 50,
+  "zuegig": 33
+ },
+ "felsenmeer": {
+  "km": 56.0,
+  "gemuetlich": 314,
+  "zuegig": 209
+ },
+ "burg-frankenstein": {
+  "km": 46.9,
+  "gemuetlich": 259,
+  "zuegig": 173
+ },
+ "auerbacher-schloss": {
+  "km": 57.6,
+  "gemuetlich": 312,
+  "zuegig": 208
+ },
+ "park-schoenbusch": {
+  "km": 49.5,
+  "gemuetlich": 265,
+  "zuegig": 177
+ },
+ "veste-otzberg": {
+  "km": 52.3,
+  "gemuetlich": 285,
+  "zuegig": 190
+ },
+ "kloster-eberbach": {
+  "km": 52.4,
+  "gemuetlich": 279,
+  "zuegig": 186
+ },
+ "schloss-und-altstadt-weilburg": {
+  "km": 65.8,
+  "gemuetlich": 356,
+  "zuegig": 237
+ },
+ "waldspielpark-schwanheim": {
+  "km": 8.3,
+  "gemuetlich": 44,
+  "zuegig": 29
+ },
+ "waldspielpark-carl-von-weinberg": {
+  "km": 10.1,
+  "gemuetlich": 54,
+  "zuegig": 36
+ },
+ "waldspielpark-tannenwald": {
+  "km": 13.1,
+  "gemuetlich": 73,
+  "zuegig": 49
+ },
+ "bonames": {
+  "km": 8.8,
+  "gemuetlich": 46,
+  "zuegig": 31
+ },
+ "schwanheimer-duene": {
+  "km": 8.2,
+  "gemuetlich": 43,
+  "zuegig": 29
+ },
+ "goetheturm": {
+  "km": 10.7,
+  "gemuetlich": 58,
+  "zuegig": 39
+ },
+ "palmengarten": {
+  "km": 4.8,
+  "gemuetlich": 26,
+  "zuegig": 17
+ },
+ "lohrberg": {
+  "km": 13.1,
+  "gemuetlich": 71,
+  "zuegig": 47
+ }
+}
