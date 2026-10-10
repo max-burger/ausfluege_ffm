@@ -728,7 +728,7 @@ const MUSTER = [
   [/^, Stand (.+?)\. Feiertage und Sonderzeiten vorher prüfen\.(?: Gilt für: (.+)\.)?$/, m => `, as of ${m[1]}. Check public holidays and special hours first.${m[2] ? ' Applies to: ' + freiEn(m[2]) + '.' : ''}`],
   [/^Termine zuletzt von Claude geprüft am (.+)\. Angaben ohne Gewähr, vorher auf der verlinkten Seite prüfen\.$/, m => `Events last checked by Claude on ${m[1]}. No guarantee – please check the linked page first.`],
   [/^Angaben ohne Gewähr, vorher auf der verlinkten Seite prüfen\.$/, () => 'No guarantee – please check the linked page first.'],
-  [/^Wie wär's mit: (.+)\?$/, m => `How about: ${m[1]}?`], [/^Das stimmt leider nicht\. ?(.*)$/, m => `Sorry, that's not right. ${EN[m[1]] || m[1]}`],
+  [/^Wie wär's mit: (.+)\?(?: · aus (\d+) gefilterten Orten)?$/, m => `How about: ${m[1]}?${m[2] ? ` · from ${m[2]} filtered places` : ''}`], [/^Das stimmt leider nicht\. ?(.*)$/, m => `Sorry, that's not right. ${EN[m[1]] || m[1]}`],
   [/^Foto (\d+) von (\d+) wird hochgeladen …$/, m => `Uploading photo ${m[1]} of ${m[2]} …`], [/^(\d+) Fotos? gespeichert\.$/, m => `${m[1]} photo(s) saved.`],
   [/^Bild (\d+) groß anzeigen$/, m => `Show photo ${m[1]} large`], [/^(\d) von 5$/, m => `${m[1]} of 5`],
   [/^Wünsche & Feedback \((\d+)\)$/, m => `Wishes & feedback (${m[1]})`],
@@ -1040,6 +1040,7 @@ const S = {
   idea: null, ideaMarker: null, galIdx: 0, noteDraft: '', fbDraft: '',
 };
 let B = null; // Datendienst: Supabase oder lokaler Testspeicher
+const START_HASH = location.hash || ''; // geteilter Link #ort-<id>; vor dem Verlaufsabgleich gemerkt
 try { Object.assign(S.f, JSON.parse(localStorage.getItem(FKEY) || '{}')); S.name = localStorage.getItem(NKEY) || ''; } catch { /* ohne Speicher weiter */ }
 const saveF = () => { try { localStorage.setItem(FKEY, JSON.stringify(S.f)); } catch { /* egal */ } };
 // Darstellung: Vorgabe hell (Max 2026-10-10), wählbar dunkel oder wie das Gerät; die Karte folgt über data-theme
@@ -1715,18 +1716,16 @@ function openDetail(id) {
   if (S.open !== id) { S.galIdx = 0; S.noteDraft = ''; }
   S.open = id; closeOverlays('detail'); renderDetail(); $('#detail').hidden = false; $('#detail').scrollTop = 0;
   select(id, { fly: true, scrollCard: !isDesktop() });
-  try { history.replaceState(null, '', '#ort-' + id); } catch { /* egal */ }
 }
 function closeDetail() {
   S.open = null; $('#detail').hidden = true;
-  try { history.replaceState(null, '', location.pathname + location.search); } catch { /* egal */ }
 }
 function closeOverlays(except) {
   for (const id of ['listov', 'filters', 'feedback', 'kalender', 'terminForm', 'detail']) if (id !== except) { $('#' + id).hidden = true; if (id === 'detail') S.open = null; }
 }
 function openFromHash() {
   if (openFromHash.done) return; openFromHash.done = true;
-  const m = /^#ort-([\w.~-]+)$/.exec(location.hash || ''); if (m && S.orte.has(m[1])) openDetail(m[1]);
+  const m = /^#ort-([\w.~-]+)$/.exec(START_HASH); if (m && S.orte.has(m[1])) openDetail(m[1]);
 }
 function fitAll() {
   if (!map || !S.view.length) return;
@@ -1872,6 +1871,56 @@ function setzeName(ev) {
   $('#whoami').hidden = true; renderAll(); if (S.open) renderDetail();
 }
 
+/* ===== Zurück-Taste ===== */
+// Jede geöffnete Ebene (Ort, Liste, Filter, Kalender, Formulare, Bildansicht, Anmeldung als Gast) liegt auf einem
+// Stapel mit eigenem Verlaufseintrag {ebenen: n}. Zurück schließt die oberste Ebene, statt die Seite zu verlassen.
+// Wird aus Liste oder Kalender ein Ort geöffnet, bleibt die Liste/der Kalender verdeckt darunter und kommt mit
+// Zurück wieder. Schließen per Knopf (X, „Karte“) nimmt die Einträge selbst weg. Abgleich über das hidden-Attribut.
+const EBENEN = ['detail', 'listov', 'filters', 'kalender', 'feedback', 'terminForm', 'ideaForm', 'ideaBanner', 'lightbox', 'gate'];
+const DARUNTER = ['listov', 'kalender']; // bleiben unter einem daraus geöffneten Ort liegen
+const stapel = []; // [{id, unter}]
+let selbstZurueck = false;
+const sichtbarEbene = id => !$('#' + id).hidden && (id !== 'gate' || S.gast);
+function verlaufUrl() {
+  const url = S.open ? '#ort-' + S.open : location.pathname + location.search;
+  try { if (location.href !== new URL(url, location.href).href) history.replaceState({ ebenen: stapel.length }, '', url); } catch { /* egal */ }
+}
+function verlaufAbgleichen() {
+  if (selbstZurueck) return;
+  const neu = EBENEN.filter(id => sichtbarEbene(id) && !stapel.some(e => e.id === id));
+  const zu = stapel.filter(e => !e.unter && !sichtbarEbene(e.id));
+  let weg = 0;
+  for (const e of zu) {
+    if (neu.length && neu.includes('detail') && DARUNTER.includes(e.id)) { e.unter = true; continue; } // Ort aus Liste/Kalender
+    if (neu.length) { e.id = neu.shift(); continue; } // eine Ebene ersetzt eine andere: gleicher Verlaufseintrag
+    let i = stapel.indexOf(e), k = i; // geschlossen: samt verdeckter Ebenen direkt darunter entfernen
+    while (k > 0 && stapel[k - 1].unter) k--;
+    weg += stapel.splice(k, i - k + 1).length;
+  }
+  try {
+    if (weg) { selbstZurueck = true; history.go(-weg); }
+    for (const id of neu) { stapel.push({ id, unter: false }); history.pushState({ ebenen: stapel.length }, '', S.open ? '#ort-' + S.open : location.href); }
+  } catch { /* egal */ }
+  if (!weg) verlaufUrl();
+}
+function schliesseEbene(id) {
+  if (id === 'detail') closeDetail();
+  else if (id === 'ideaForm' || id === 'ideaBanner') stopIdea();
+  else $('#' + id).hidden = true;
+}
+function verlaufStarten() {
+  try { if (history.state?.ebenen) history.replaceState({ ebenen: 0 }, '', location.href); } catch { /* egal */ }
+  addEventListener('popstate', () => {
+    if (selbstZurueck) { selbstZurueck = false; verlaufUrl(); return; }
+    const t = history.state?.ebenen || 0;
+    while (stapel.length > t) { const e = stapel.pop(); if (sichtbarEbene(e.id)) schliesseEbene(e.id); }
+    const top = stapel[stapel.length - 1];
+    if (top?.unter) { top.unter = false; if (top.id === 'kalender') oeffneKalender(); else { renderAll(); $('#' + top.id).hidden = false; } }
+    verlaufUrl();
+  });
+  new MutationObserver(verlaufAbgleichen).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['hidden'] });
+}
+
 /* ===== Teilen ===== */
 // Link auf den Ort (#ort-<id>); öffnet sich im Gastmodus auch ohne Anmeldung
 async function teilen(o) {
@@ -1906,7 +1955,8 @@ function dice() {
   const pool = S.view.filter(o => o.status !== 'idee' && o.id !== S.open);
   if (!pool.length) { toast('Keine Orte mit diesen Filtern.'); return; }
   const o = pool[Math.floor(Math.random() * pool.length)];
-  openDetail(o.id); toast(`Wie wär's mit: ${o.name}?`);
+  const n = S.view.filter(x => x.status !== 'idee').length;
+  openDetail(o.id); toast(`Wie wär's mit: ${o.name}?` + (aktiveFilter() ? ` · aus ${n} gefilterten Orten` : ''));
 }
 function wire() {
   document.addEventListener('click', async e => {
@@ -2036,7 +2086,7 @@ async function start(gast = false) {
   if (!gast && !S.name) zeigeWer();
 }
 async function boot() {
-  wire(); renderAll();
+  wire(); verlaufStarten(); renderAll();
   initMap(geo, onMapClick);
   const lokal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   if (lokal && (/[?&]dev\b/.test(location.search) || !CONFIG.url)) {
