@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Ausflüge ab Rödelheim</title>
+<script>try{var t=localStorage.getItem('ausflug.thema')||'hell';if(t!=='auto')document.documentElement.dataset.theme=t==='dunkel'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=Literata:ital,wght@0,400;0,500;1,400&display=swap">
@@ -161,7 +162,7 @@ a { color: var(--accent); }
 .tag.done { color: var(--accent); border-color: currentColor; }
 .tag.zu { color: var(--t4); border-color: currentColor; }
 .tag.ganztag { color: var(--k-burg); border-color: currentColor; }
-.d-pos { font: 600 14px/1 var(--f-ui) !important; color: var(--muted); }
+.d-pos { font: 600 14px/1 var(--f-ui) !important; color: var(--muted); white-space: nowrap; }
 .detail .ov-head .ghost svg { width: 22px; height: 22px; }
 .detail .ov-body.wechsel { animation: wechsel .22s ease-out; }
 @keyframes wechsel { from { opacity: .35; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -351,7 +352,7 @@ textarea { min-height: 70px; resize: vertical; }
 .people span { padding: 2px 8px; border-radius: 999px; background: var(--surface-2); }
 
 /* Kalender */
-.tag.termin { color: var(--k-kultur); border-color: currentColor; }
+.tag.hat-termin { color: var(--k-kultur); border-color: currentColor; }
 .tag-tag { margin: 6px 0 -4px; font: 700 14px/1.2 var(--f-ui); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .termin { min-width: 0; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding: 12px; border-radius: var(--r);
   border: 1px solid var(--line); background: var(--surface); }
@@ -399,6 +400,8 @@ textarea { min-height: 70px; resize: vertical; }
 }
 @media (max-width: 440px) {
   .actions .count { display: none; }
+  .detail .ov-head { gap: 4px; }
+  .karte-btn span { display: none; }
   .actions { gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -419,6 +422,7 @@ textarea { min-height: 70px; resize: vertical; }
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-9.2-9.3C1.6 7.4 3.8 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.4 0 5.6 3.4 4.4 6.7C19.5 15.4 12 20 12 20z" fill="currentColor"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></g></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
@@ -438,6 +442,7 @@ textarea { min-height: 70px; resize: vertical; }
         <button class="pill" data-act="dice" type="button"><svg><use href="#i-dice"/></svg>Würfeln</button>
         <button class="pill" data-act="idea" type="button" data-needs-write><svg><use href="#i-plus"/></svg>Ort vorschlagen</button>
         <button class="pill" data-act="fit" type="button"><svg><use href="#i-fit"/></svg>Alle zeigen</button>
+        <button class="pill" data-act="anmelden" type="button" data-nur-gast hidden>Anmelden</button>
         <button class="pill" data-act="feedback" type="button" data-needs-write>Feedback</button>
       </div>
       <div class="meta" data-count></div>
@@ -565,10 +570,12 @@ textarea { min-height: 70px; resize: vertical; }
       <h1>Ausflüge ab Rödelheim</h1>
       <div class="seg"><button class="chip plain" type="button" data-lang="de">Deutsch</button><button class="chip plain" type="button" data-lang="en">English</button></div>
       <p>Unsere Karte mit Ausflugszielen rund um Frankfurt, für Familie und Freunde.</p>
+      <p class="hint" id="gateWarum" hidden>Zum Merken, für Notizen, Fotos, Ideen und Termine bitte kurz die Frage beantworten.</p>
       <label class="fsec" for="gateAnswer"><h3 id="gateQ">Wie heißt das älteste Kind der Familie?</h3></label>
       <input id="gateAnswer" type="text" autocapitalize="off" autocomplete="off" spellcheck="false" required>
       <button class="btn primary" type="submit" id="gateBtn">Weiter</button>
       <p class="hint" id="gateMsg" role="status"></p>
+      <button class="btn" type="button" id="gateGast" data-act="gate-zu" hidden>Ohne Anmeldung weiter ansehen</button>
     </form>
   </section>
 
@@ -625,6 +632,13 @@ const EN = {
   'Eintritt frei': 'Free entry', 'Geht auch bei Regen': 'Works in the rain', 'Anzeigen': 'Show', 'Von mir gemerkt': 'My favourites',
   'Noch nicht besucht': 'Not visited yet', 'Schon besucht': 'Already visited', 'Vorschläge': 'Suggestions', 'Ideen': 'Ideas',
   'Zeichen auf der Karte': 'Map markers', 'Art des Ortes': 'Type of place', 'Reisezeit in Minuten': 'Travel time in minutes', 'Du': 'You',
+  'Ort teilen': 'Share place', 'Link kopiert – zum Einfügen z.B. in WhatsApp': 'Link copied – paste it e.g. into WhatsApp',
+  'Mitmachen': 'Join in', 'Zum Mitmachen anmelden': 'Sign in to join in', 'Anmelden': 'Sign in',
+  'Ansehen geht ohne Anmeldung. Merken, „Ich war hier“, Sterne, Notizen, Fotos, Ideen und Termine gibt es nach der Anmeldung.':
+    'Browsing works without signing in. Favourites, “I was here”, stars, notes, photos, ideas and events are available after signing in.',
+  'Ohne Anmeldung weiter ansehen': 'Continue without signing in',
+  'Zum Merken, für Notizen, Fotos, Ideen und Termine bitte kurz die Frage beantworten.': 'To save favourites or add notes, photos, ideas and events, please answer the question.',
+  'Darstellung': 'Appearance', 'Hell': 'Light', 'Dunkel': 'Dark', 'Wie das Gerät': 'Same as device',
   'Angemeldet als': 'Signed in as', 'Familie': 'Family', 'Name ändern': 'Change name', 'Abmelden': 'Sign out', 'Sprache': 'Language',
   'Filter zurücksetzen': 'Reset filters', 'Keine Orte – trotzdem schließen': 'No places – close anyway',
   // Leerzustände, Meldungen
@@ -649,7 +663,7 @@ const EN = {
   // Ortsansicht
   'Anfahrt': 'Getting there', 'Route in Google Maps': 'Route in Google Maps', 'Die Verbindung ist noch nicht berechnet.': 'The connection has not been calculated yet.',
   'Gerechnet ab Rödelheim, nur Nahverkehr.': 'Calculated from Rödelheim, local transport only.', 'Gute Verbindungen mehrmals pro Stunde.': 'Good connections several times an hour.',
-  'Mit dem Rad:': 'By bike:', 'Radroute': 'Bike route', 'Öffnungszeiten': 'Opening hours', 'Heute': 'Today', 'Morgen': 'Tomorrow', 'Regulär': 'Regular hours',
+  'Mit dem Rad:': 'By bike:', 'Radroute': 'Bike route', 'Öffnungszeiten': 'Opening hours', 'Heute': 'Today', 'Läuft gerade': 'On now', 'Morgen': 'Tomorrow', 'Regulär': 'Regular hours',
   'Quelle:': 'Source:', 'offizielle Seite': 'official website', 'Frei zugänglich, ohne feste Zeiten': 'Freely accessible, no fixed hours',
   'Jetzt geöffnet': 'Open now', 'Heute geschlossen': 'Closed today', 'Heute schon geschlossen': 'Already closed today', 'heute zu': 'closed today',
   'Kinderwagen': 'Pushchair', 'Trubel': 'Crowds', 'Spielplatz': 'Playground', 'Toilette': 'Toilets', 'Einkehr': 'Food & drink', 'Eintritt': 'Entry',
@@ -708,6 +722,7 @@ const MUSTER = [
   [/^Idee von (.+)$/, m => `Idea by ${m[1]}`], [/^Vorschlag von (.+), noch nicht freigegeben$/, m => `Suggested by ${m[1]}, not yet approved`],
   [/^Vorschlag von (.+), die Familie prüft ihn$/, m => `Suggested by ${m[1]}, the family will review it`],
   [/^ab (\d+) J\.$/, m => `from age ${m[1]}`], [/^ab (\d{1,2}:\d{2}) Uhr$/, m => `from ${m[1]}`], [/^(\d{1,2}:\d{2})–(\d{1,2}:\d{2}) Uhr$/, m => `${m[1]}–${m[2]}`],
+  [/^bis (.+), (\d{1,2}:\d{2})–(\d{1,2}:\d{2}) Uhr$/, m => `until ${m[1]}, ${m[2]}–${m[3]}`],
   [/^ganztägig, bis (.+)$/, m => `all day, until ${m[1]}`], [/^Jetzt schön \((.+)\)$/, m => `In season now (${MONAT_EN[m[1]] || m[1]})`],
   [/^Infos Stand (.+)\. Öffnungszeiten und Preise vor dem Ausflug prüfen\.$/, m => `Information as of ${m[1]}. Check opening hours and prices before you go.`],
   [/^, Stand (.+?)\. Feiertage und Sonderzeiten vorher prüfen\.(?: Gilt für: (.+)\.)?$/, m => `, as of ${m[1]}. Check public holidays and special hours first.${m[2] ? ' Applies to: ' + freiEn(m[2]) + '.' : ''}`],
@@ -1021,12 +1036,25 @@ const S = {
   orte: new Map(), merkAlle: [], ent: new Map(), notizen: [], fotos: [], feedback: [], oh: {},
   termine: [], termineClaude: [], termineStand: '', kf: 'alle', hlTermin: null,
   f: F0(), view: [], sel: null, open: null, mode: 'loading',
-  name: '', familie: false, angemeldet: false,
+  name: '', familie: false, angemeldet: false, gast: false, gestartet: false,
   idea: null, ideaMarker: null, galIdx: 0, noteDraft: '', fbDraft: '',
 };
 let B = null; // Datendienst: Supabase oder lokaler Testspeicher
 try { Object.assign(S.f, JSON.parse(localStorage.getItem(FKEY) || '{}')); S.name = localStorage.getItem(NKEY) || ''; } catch { /* ohne Speicher weiter */ }
 const saveF = () => { try { localStorage.setItem(FKEY, JSON.stringify(S.f)); } catch { /* egal */ } };
+// Darstellung: Vorgabe hell (Max 2026-10-10), wählbar dunkel oder wie das Gerät; die Karte folgt über data-theme
+const TKEY = 'ausflug.thema';
+let THEMA = 'hell';
+try { THEMA = localStorage.getItem(TKEY) || 'hell'; } catch { /* Vorgabe */ }
+function wendeThemaAn() {
+  const h = document.documentElement;
+  if (THEMA === 'auto') delete h.dataset.theme; else h.dataset.theme = THEMA === 'dunkel' ? 'dark' : 'light';
+}
+wendeThemaAn();
+function setzeThema(t) {
+  THEMA = t; try { localStorage.setItem(TKEY, t); } catch { /* egal */ }
+  wendeThemaAn(); renderFilters();
+}
 
 const MONATE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 const fmtDate = iso => { try { return new Intl.DateTimeFormat(LOC, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso)); } catch { return iso; } };
@@ -1130,7 +1158,7 @@ function devBackend(seed) {
   const emit = t => setTimeout(() => cb(t));
   const now = () => new Date().toISOString();
   return {
-    session: async () => true, login: async () => true, logout: async () => {}, istFamilie: async () => true, mine: () => true,
+    session: async () => !/[?&]gast\b/.test(location.search), login: async () => true, logout: async () => {}, istFamilie: async () => true, mine: () => true,
     fetch: async t => T[t].map(x => ({ ...x })),
     subscribe(fn) { cb = fn; },
     setMerk: async (ort, row) => { T.merk = T.merk.filter(m => !(m.ort_id === ort && m.person === S.name)); T.merk.push({ ort_id: ort, person: S.name, ...row }); emit('merk'); },
@@ -1238,7 +1266,7 @@ function statusTags(o, m) {
   if ((m.besucht || []).length) s += '<span class="tag done">✓ besucht</span>';
   if (S.ohBereit && ohInfo(o).s === 'zu') s += `<span class="tag zu">${esc(ohInfo(o).tag)}</span>`;
   if (o.ganztag) s += '<span class="tag ganztag">Ganztagesausflug</span>';
-  const nt = termineAm(o.id, 14)[0]; if (nt) s += `<span class="tag termin">Termin ${esc(fmtKurz(nt.beginn))}</span>`;
+  const nt = termineAm(o.id, 14)[0]; if (nt) s += `<span class="tag hat-termin">Termin ${esc(fmtKurz(nt.beginn))}</span>`;
   return s;
 }
 function thumbOf(o) {
@@ -1282,6 +1310,7 @@ function renderAll() {
   const cards = n ? S.view.map(cardHTML).join('') : emptyHTML();
   $('#listSide').innerHTML = cards; $('#listMobile').innerHTML = cards; $('#carousel').innerHTML = cards;
   $$('[data-needs-write]').forEach(e => { e.hidden = !canWrite(); });
+  $$('[data-nur-gast]').forEach(e => { e.hidden = !S.gast; });
   if (!$('#filters').hidden) renderFilters();
 }
 
@@ -1302,9 +1331,11 @@ function renderFilters() {
       ${sw('kiwa', 'Gut mit Kinderwagen')}${sw('ruhig', 'Eher ruhig, am Wochenende nicht überlaufen')}
       ${sw('spiel', 'Spielplatz vor Ort')}${sw('einkehr', 'Einkehr vor Ort')}${sw('wc', 'Toilette vor Ort')}</div>
     <div class="fsec"><h3>Sonstiges</h3>${sw('offen', 'Heute (noch) geöffnet oder frei zugänglich')}${sw('ganztag', 'Nur Ganztagesausflüge (über 100 min)')}${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
-    <div class="fsec"><h3>Anzeigen</h3>${seg('status', [['alle', 'Alle'], ['merk', 'Von mir gemerkt'], ['offen', 'Noch nicht besucht'], ['besucht', 'Schon besucht'], ['vorschlag', 'Vorschläge'], ['idee', 'Ideen']])}</div>
+    <div class="fsec"><h3>Anzeigen</h3>${seg('status', S.gast ? [['alle', 'Alle'], ['vorschlag', 'Vorschläge']] : [['alle', 'Alle'], ['merk', 'Von mir gemerkt'], ['offen', 'Noch nicht besucht'], ['besucht', 'Schon besucht'], ['vorschlag', 'Vorschläge'], ['idee', 'Ideen']])}</div>
     <div class="fsec"><h3>Zeichen auf der Karte</h3>${seg('zeichen', [['kat', 'Art des Ortes'], ['min', 'Reisezeit in Minuten']])}</div>
     <div class="fsec"><h3>Language / Sprache</h3><div class="seg"><button class="chip plain" type="button" data-lang="de" aria-pressed="${LANG === 'de'}">Deutsch</button><button class="chip plain" type="button" data-lang="en" aria-pressed="${LANG === 'en'}">English</button></div></div>
+    <div class="fsec"><h3>Darstellung</h3><div class="seg">${[['hell', 'Hell'], ['dunkel', 'Dunkel'], ['auto', 'Wie das Gerät']].map(([v, l]) => `<button class="chip plain" type="button" data-thema="${v}" aria-pressed="${THEMA === v}">${l}</button>`).join('')}</div></div>
+    ${S.gast ? `<div class="fsec"><h3>Mitmachen</h3><p class="hint">${GAST_TEXT}</p><div class="row"><button class="btn primary" type="button" data-act="anmelden">Zum Mitmachen anmelden</button></div></div>` : ''}
     ${S.angemeldet ? `<div class="fsec"><h3>Du</h3><div class="who"><span>Angemeldet als <b>${esc(S.name || '–')}</b></span>${S.familie ? '<span class="pill-fam">Familie</span>' : ''}</div>
       <div class="row"><button class="btn" type="button" data-act="feedback">Wünsche &amp; Feedback${offen ? ` (${offen})` : ''}</button>
       <button class="btn" type="button" data-act="who">Name ändern</button><button class="btn" type="button" data-act="logout">Abmelden</button></div></div>` : ''}`;
@@ -1440,7 +1471,9 @@ function wochenende() {
   return [sa, mo];
 }
 function zeitText(t) {
-  if (t.ganztags) return t.ende && tagKey(t.ende) !== tagKey(t.beginn) ? `ganztägig, bis ${fmtKurz(t.ende)}` : 'ganztägig';
+  const mehrtaegig = t.ende && tagKey(t.ende) !== tagKey(t.beginn);
+  if (t.ganztags) return mehrtaegig ? `ganztägig, bis ${fmtKurz(t.ende)}` : 'ganztägig';
+  if (mehrtaegig) return `bis ${fmtKurz(t.ende)}, ${fmtUhr(t.beginn)}–${fmtUhr(t.ende)} Uhr`;
   return t.ende ? `${fmtUhr(t.beginn)}–${fmtUhr(t.ende)} Uhr` : `ab ${fmtUhr(t.beginn)} Uhr`;
 }
 function icsLink(t) {
@@ -1487,8 +1520,8 @@ function renderKalender() {
     .map(([k, l]) => `<button class="chip plain" type="button" data-kf="${k}" aria-pressed="${S.kf === k}">${l}</button>`).join('')}</div>`;
   let tag = '';
   for (const t of liste) {
-    const k = tagKey(new Date(t.beginn) < new Date() ? new Date() : t.beginn);
-    if (k !== tag) { tag = k; html += `<h3 class="tag-tag">${k === heute ? 'Heute' : k === morgen ? 'Morgen' : esc(fmtTagLang(k + 'T12:00'))}</h3>`; }
+    const k = tagKey(t.beginn) < heute ? 'laeuft' : tagKey(t.beginn); // begann vor heute, läuft noch (Ende ab heute)
+    if (k !== tag) { tag = k; html += `<h3 class="tag-tag">${k === 'laeuft' ? 'Läuft gerade' : k === heute ? 'Heute' : k === morgen ? 'Morgen' : esc(fmtTagLang(k + 'T12:00'))}</h3>`; }
     html += terminHTML(t);
   }
   if (!liste.length) html += '<div class="empty">Keine Termine für diese Auswahl.</div>';
@@ -1578,7 +1611,10 @@ function reiseHTML(o) {
     ${radHTML(o)}
     <div class="links" style="margin-top:10px"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
 }
+const GAST_TEXT = 'Ansehen geht ohne Anmeldung. Merken, „Ich war hier“, Sterne, Notizen, Fotos, Ideen und Termine gibt es nach der Anmeldung.';
 function familyHTML(o) {
+  if (S.gast) return `<div class="family"><div class="block"><h3>Für euch</h3></div><p class="hint">${GAST_TEXT}</p>
+    <div class="row"><button class="btn" type="button" data-act="anmelden">Zum Mitmachen anmelden</button></div></div>`;
   if (!S.angemeldet) return '';
   const m = mm(o.id), alle = merkVon(o.id), w = canWrite();
   const visits = (m.besucht || []).slice().sort().reverse();
@@ -1630,7 +1666,8 @@ function renderDetail() {
       <button class="ghost" data-act="vorher" type="button" aria-label="Voriger Ort"><svg><use href="#i-back"/></svg></button>
       <button class="ghost" data-act="weiter" type="button" aria-label="Nächster Ort"><svg><use href="#i-next"/></svg></button>
       <button class="ghost" data-act="dice" type="button" aria-label="Nochmal würfeln" title="Nochmal würfeln"><svg><use href="#i-dice"/></svg></button>
-      ${isDesktop() ? '' : '<button class="btn" type="button" data-act="showmap"><svg><use href="#i-map"/></svg>Karte</button>'}</div>
+      <button class="ghost" data-act="teilen" type="button" aria-label="Ort teilen" title="Ort teilen"><svg><use href="#i-share"/></svg></button>
+      ${isDesktop() ? '' : '<button class="btn karte-btn" type="button" data-act="showmap" aria-label="Karte"><svg><use href="#i-map"/></svg><span>Karte</span></button>'}</div>
     <div class="gal-wrap">${gal}</div><div class="gal-cap" id="galCap"></div>
     <div class="ov-body">
       <div class="d-title"><div class="where">${blazeSVG(o.status === 'idee' ? 'idee' : o.kategorie, o.status !== 'aktiv' ? 'dashed' : '')}<span>${esc([o.status === 'idee' ? 'Idee' : KAT[o.kategorie], o.ort, o.region].filter(Boolean).join(' · '))}</span>${statusTags(o, m)}</div><h1>${esc(o.name)}</h1></div>
@@ -1805,6 +1842,7 @@ async function saveIdea(ev) {
 /* ===== Anmeldung und Name ===== */
 function zeigeGate() {
   $('#gateQ').textContent = CONFIG.frage; $('#gateAnswer').placeholder = CONFIG.platzhalter || ''; $('#gate').hidden = false;
+  const gastOk = S.gast && S.orte.size > 0; $('#gateGast').hidden = !gastOk; $('#gateWarum').hidden = !gastOk;
   setTimeout(() => $('#gateAnswer').focus(), 50);
 }
 async function anmelden(ev) {
@@ -1832,6 +1870,19 @@ function setzeName(ev) {
   const n = $('#whoName').value.trim().replace(/\s+/g, ' ').slice(0, 40); if (!n) return;
   S.name = n; try { localStorage.setItem(NKEY, n); } catch { /* egal */ }
   $('#whoami').hidden = true; renderAll(); if (S.open) renderDetail();
+}
+
+/* ===== Teilen ===== */
+// Link auf den Ort (#ort-<id>); öffnet sich im Gastmodus auch ohne Anmeldung
+async function teilen(o) {
+  const url = `${location.origin}${location.pathname}#ort-${o.id}`;
+  const text = o.kurz ? `${o.name}: ${o.kurz}` : o.name;
+  if (navigator.share) {
+    try { await navigator.share({ title: o.name, text, url }); } catch (e) { if (e?.name !== 'AbortError') toast(errText(e)); }
+    return;
+  }
+  try { await navigator.clipboard.writeText(`${text}\n${url}`); toast('Link kopiert – zum Einfügen z.B. in WhatsApp'); }
+  catch { window.prompt(LANG === 'en' ? 'Link to copy:' : 'Link zum Kopieren:', url); }
 }
 
 /* ===== Ereignisse ===== */
@@ -1863,6 +1914,7 @@ function wire() {
     const a = t.dataset.act;
     if (t.dataset.open) { openDetail(t.dataset.open); return; }
     if (t.dataset.lang) { if (t.dataset.lang !== LANG) setzeSprache(t.dataset.lang); return; }
+    if (t.dataset.thema) { setzeThema(t.dataset.thema); return; }
     if (t.dataset.who) { $('#whoName').value = t.dataset.who; return; }
     if (t.dataset.kat !== undefined) {
       const k = t.dataset.kat; S.f.kats = !k ? [] : S.f.kats.includes(k) ? S.f.kats.filter(x => x !== k) : [...S.f.kats, k];
@@ -1894,6 +1946,9 @@ function wire() {
       case 'showmap': closeDetail(); break;
       case 'reset': S.f = F0(); saveF(); renderAll(); renderFilters(); break;
       case 'dice': dice(); break;
+      case 'anmelden': zeigeGate(); break;
+      case 'gate-zu': $('#gate').hidden = true; break;
+      case 'teilen': { const o = S.orte.get(S.open); if (o) teilen(o); break; }
       case 'vorher': nachbar(-1); break;
       case 'weiter': nachbar(1); break;
       case 'fit': fitAll(); break;
@@ -1966,16 +2021,19 @@ function wire() {
 }
 
 /* ===== Start ===== */
-async function start() {
-  S.angemeldet = true; $('#gate').hidden = true;
-  S.familie = await B.istFamilie().catch(() => false);
+async function start(gast = false) {
+  const erstes = !S.gestartet; S.gestartet = true;
+  S.gast = gast; S.angemeldet = !gast; $('#gate').hidden = true;
+  if (gast && !['alle', 'vorschlag'].includes(S.f.status)) S.f.status = 'alle'; // persönliche Filter gibt es für Gäste nicht
+  S.familie = gast ? false : await B.istFamilie().catch(() => false);
   S.mode = 'loading'; renderAll();
-  await Promise.all(TABELLEN.map(laden));
-  S.mode = 'db'; renderAll(); openFromHash();
-  if (!S.open) { if (map.loaded()) fitAll(); else map.once('load', fitAll); }
-  B.subscribe(aenderung);
-  ladeOeffnungszeiten(); ladeTermine(); ladeRad();
-  if (!S.name) zeigeWer();
+  await Promise.all((gast ? ['orte'] : TABELLEN).map(laden));
+  if (gast && !S.orte.size) { S.gestartet = false; S.mode = 'loading'; renderAll(); zeigeGate(); return; }
+  S.mode = 'db'; renderAll(); openFromHash(); if (S.open) renderDetail();
+  if (erstes && !S.open) { if (map.loaded()) fitAll(); else map.once('load', fitAll); }
+  if (!gast) B.subscribe(aenderung);
+  if (erstes) { ladeOeffnungszeiten(); ladeTermine(); ladeRad(); }
+  if (!gast && !S.name) zeigeWer();
 }
 async function boot() {
   wire(); renderAll();
@@ -1989,7 +2047,7 @@ async function boot() {
     if (!window.supabase || !CONFIG.url) { S.mode = 'none'; renderAll(); return; }
     B = sbBackend();
   }
-  if (await B.session()) start(); else zeigeGate();
+  if (await B.session()) start(); else start(true);
 }
 boot();
 
