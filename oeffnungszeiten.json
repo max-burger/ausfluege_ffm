@@ -2,12 +2,12 @@
  "goetheturm": {
   "oh": "Apr-Oct: Mo-Su,PH 08:00-dusk; Apr-Oct: 20:00+ closed",
   "quelle": "https://www.openstreetmap.org/way/43837374",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "palmengarten": {
   "oh": "Nov-Feb 09:00-16:00; Mar-Oct 09:00-19:00",
   "quelle": "https://www.openstreetmap.org/way/4793541",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "lohrberg": {
   "oh": "Apr-Oct: Tu-Su 11:00-18:00; Nov-Mar: Tu,We,Fr-Su 11:00-16:00; Nov-Mar: Th 11:00-17:00",
@@ -33,7 +33,7 @@
  "burgruine-falkenstein": {
   "oh": "Apr-Oct: Mo-Su 10:00-19:00; Nov-Mar: Mo-Su Off",
   "quelle": "https://www.openstreetmap.org/way/61454688",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "schloss-philippsruhe-und-schlosspark": {
   "oh": "Tu-Fr 10:00-17:00; Sa,Su 11:00-18:00",
@@ -52,7 +52,7 @@
  "prinz-georg-garten": {
   "oh": "Mar-Oct: 07:00-19:00; Nov-Feb: 08:00-16:00",
   "quelle": "https://www.openstreetmap.org/way/150032819",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "jagdschloss-kranichstein": {
   "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
@@ -78,7 +78,7 @@
  "bethmannpark-mit-chinesischem-garten": {
   "oh": "Mo-Fr 07:00-dusk; Sa,Su,PH 10:00-dusk",
   "quelle": "https://www.openstreetmap.org/way/4723745",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "wildpark-alte-fasanerie": {
   "oh": "Mar-Aug 09:00-18:00; Sep-Oct Mo,Tu,Th-Su 09:00-18:00; Sep-Oct We 10:00-18:00; Nov-Feb Mo,Tu,Th-Su 09:00-16:00; Nov-Feb We 10:00-16:00; Dec 24,Dec 31 09:00-13:00",
@@ -95,7 +95,7 @@
  "kaiserpfalz-und-altstadt-gelnhausen": {
   "oh": "Mar-Oct Tu-Su 10:00-17:00; Nov 01-Dec 23 Tu-Su 10:00-16:00; Jan-Feb \"Nach Absprache\"",
   "quelle": "https://www.openstreetmap.org/node/3353860594",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "schloss-steinau-und-brueder-grimm-stadt": {
   "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00",
@@ -121,7 +121,7 @@
  "meisterturm-hofheim": {
   "oh": "24/7",
   "quelle": "https://www.openstreetmap.org/way/133317964",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "eltville-kurfuerstliche-burg-und-rheinufer": {
   "oh": "Apr 01-Oct 15: 09:30-19:00; Oct 16-Mar 31: 10:00-17:00",
@@ -140,17 +140,17 @@
  "burgruine-koenigstein": {
   "oh": "Apr-Oct: PH,Mo-Su 10:00-19:00; Nov-Mar: Sa,Su 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/node/66804770",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "roemerkastell-saalburg": {
   "oh": "Mar-Oct Mo-Su 09:00-18:00; Nov-Feb Tu-Su 09:00-16:00",
   "quelle": "https://www.openstreetmap.org/way/8655395",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "freilichtmuseum-hessenpark": {
   "oh": "Mar-Nov 09:00-18:00; Nov-Mar 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/160193276",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "burg-muenzenberg": {
   "oh": "Mar Tu-Su 10:00-16:00; Apr Tu-Sa 10:00-16:00; Apr Su 10:00-17:00; May-Sep Tu-Su 10:00-18:00; Oct Tu-Sa 10:00-16:00; Oct Su 10:00-17:00; Nov Sa,Su 11:00-16:00; Dec-Feb off",
@@ -160,16 +160,16 @@
  "keltenwelt-am-glauberg": {
   "oh": "Mar-Oct Tu-Su 10:00-18:00; Nov-Feb Tu-Su 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/126033154",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "burg-frankenstein": {
   "oh": "sunrise-sunset",
   "quelle": "https://www.openstreetmap.org/way/24606901",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  },
  "auerbacher-schloss": {
   "oh": "Mo-Su,PH 11:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/137089592",
-  "stand": "2026-10-06"
+  "stand": "2026-10-10"
  }
 }
