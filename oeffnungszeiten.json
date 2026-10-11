@@ -134,12 +134,12 @@
   "hinweis": "Museum Künstlerkolonie; Gelände frei zugänglich",
   "hinweis_en": "Artists' colony museum; grounds freely accessible"
  },
- "jagdschloss-kranichstein": {
-  "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
-  "quelle": "https://www.darmstadt-tourismus.de/en/visit/detailsen/poidetail/bioversum-jagdschloss-kranichstein.html",
+ "burg-eppstein-und-kaisertempel": {
+  "oh": "Apr-Oct Tu-Th,Sa,Su 10:00-17:00; Apr-Oct Fr 10:00-18:00; Nov-Mar Sa,Su 12:00-15:00",
+  "quelle": "https://www.eppstein.de/de/leben-in-eppstein/ueber-eppstein/burg/",
   "stand": "2026-10-06",
-  "hinweis": "Naturmuseum bioversum",
-  "hinweis_en": "bioversum nature museum"
+  "hinweis": "Burg; Kaisertempel frei zugänglich",
+  "hinweis_en": "Castle; Kaisertempel freely accessible"
  },
  "hofgut-oberfeld": {
   "oh": "Mo-Fr 09:00-19:00; Sa 09:00-16:00",
@@ -147,6 +147,13 @@
   "stand": "2026-10-06",
   "hinweis": "Hofladen; Hofcafé täglich ab 9 Uhr",
   "hinweis_en": "Farm shop; farm café daily from 9 am"
+ },
+ "jagdschloss-kranichstein": {
+  "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
+  "quelle": "https://www.darmstadt-tourismus.de/en/visit/detailsen/poidetail/bioversum-jagdschloss-kranichstein.html",
+  "stand": "2026-10-06",
+  "hinweis": "Naturmuseum bioversum",
+  "hinweis_en": "bioversum nature museum"
  },
  "kloster-lorsch": {
   "oh": "Tu-Su 10:00-17:00; Dec 24-26,Dec 31,Jan 01 off",
@@ -185,13 +192,6 @@
   "stand": "2026-10-06",
   "hinweis": "Schloss; Park Schöntal frei zugänglich",
   "hinweis_en": "Palace; Schöntal park freely accessible"
- },
- "burg-eppstein-und-kaisertempel": {
-  "oh": "Apr-Oct Tu-Th,Sa,Su 10:00-17:00; Apr-Oct Fr 10:00-18:00; Nov-Mar Sa,Su 12:00-15:00",
-  "quelle": "https://www.eppstein.de/de/leben-in-eppstein/ueber-eppstein/burg/",
-  "stand": "2026-10-06",
-  "hinweis": "Burg; Kaisertempel frei zugänglich",
-  "hinweis_en": "Castle; Kaisertempel freely accessible"
  },
  "meisterturm-hofheim": {
   "oh": "24/7",
