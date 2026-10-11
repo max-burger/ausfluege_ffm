@@ -745,7 +745,7 @@ const MUSTER = [
   [/^Aussteigen: (.+?)(?:, dann (\d+) min zu Fuß)?\.$/, m => `Get off at ${m[1]}${m[2] ? `, then ${m[2]} min walk` : ''}.`],
   [/^Gute Verbindungen nur etwa alle (\d+) min – Abfahrt vorher prüfen\.$/, m => `Good connections only about every ${m[1]} min – check departures first.`],
   [/^\s*([\d,]+) km · gemütlich ca\. (\d+) min · zügig ca\. (\d+) min$/, m => ` ${m[1].replace(',', '.')} km · relaxed approx. ${m[2]} min · brisk approx. ${m[3]} min`],
-  [/^Termin (.+)$/, m => `Event ${m[1]}`], [/^Foto: (.*)$/, m => `Photo: ${m[1]}`], [/^Foto von (.+)$/, m => `Photo by ${m[1]}`],
+  [/^Termin bis (.+)$/, m => `Event until ${m[1]}`], [/^Termin (.+)$/, m => `Event ${m[1]}`], [/^Foto: (.*)$/, m => `Photo: ${m[1]}`], [/^Foto von (.+)$/, m => `Photo by ${m[1]}`],
   [/^Du warst hier: (.+)$/, m => `You were here: ${m[1]}`], [/^Ø (.+) aus (\d+) Bewertung(?:en)?$/, m => `Ø ${m[1].replace(',', '.')} from ${m[2]} rating${m[2] === '1' ? '' : 's'}`],
   [/^Eingetragen von (.+?)(?: am (.+))?\.$/, m => `Added by ${m[1]}${m[2] ? ' on ' + m[2] : ''}.`],
   [/^Idee von (.+)$/, m => `Idea by ${m[1]}`], [/^Vorschlag von (.+), noch nicht freigegeben$/, m => `Suggested by ${m[1]}, not yet approved`],
@@ -1307,7 +1307,9 @@ function statusTags(o, m) {
   if ((m.besucht || []).length) s += '<span class="tag done">✓ besucht</span>';
   if (S.ohBereit && ohInfo(o).s === 'zu') s += `<span class="tag zu">${esc(ohInfo(o).tag)}</span>`;
   if (o.ganztag) s += '<span class="tag ganztag">Ganztagesausflug</span>';
-  const nt = termineAm(o.id, 14)[0]; if (nt) s += `<span class="tag hat-termin">Termin ${esc(fmtKurz(nt.beginn))}</span>`;
+  // läuft schon (mehrtägig, vor heute begonnen): Enddatum statt des vergangenen Startdatums
+  const nt = termineAm(o.id, 14)[0];
+  if (nt) s += `<span class="tag hat-termin">${tagKey(nt.beginn) < tagKey(new Date()) && nt.ende ? `Termin bis ${esc(fmtKurz(nt.ende))}` : `Termin ${esc(fmtKurz(nt.beginn))}`}</span>`;
   return s;
 }
 function thumbOf(o) {
