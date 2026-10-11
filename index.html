@@ -26,7 +26,7 @@
   --blaze: #FFFFFF;
   --t1: #1D6B57; --t2: #4C8A3A; --t3: #A9781C; --t4: #A0522D; --t0: #858C87;
   --k-wald: #2E6B46; --k-wasser: #2B6FA3; --k-aussicht: #C8402E; --k-park: #6A962C;
-  --k-burg: #3F3D56; --k-altstadt: #96662B; --k-kultur: #7B4E9A; --k-tiere: #D07A1F;
+  --k-burg: #3F3D56; --k-altstadt: #96662B; --k-kultur: #7B4E9A; --k-museum: #4A5BC4; --k-tiere: #D07A1F;
   --k-hof: #B83A6B; --k-spiel: #178A86; --k-idee: #5B675F;
   --shadow: 0 1px 2px rgb(20 32 26 / .10), 0 6px 18px rgb(20 32 26 / .12);
   --f-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
@@ -316,6 +316,17 @@ textarea { min-height: 70px; resize: vertical; }
 .banner button { border: 0; background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 12px; font-weight: 600; }
 .pin { width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--signal);
   border: 3px solid #fff; box-shadow: var(--shadow); }
+.pos-dot { width: 18px; height: 18px; border-radius: 50%; background: #2B7DE9; border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgb(43 125 233 / .22), 0 1px 4px rgb(0 0 0 / .35); }
+.pill[data-act="standort"][aria-pressed="true"] svg { color: #2B7DE9; }
+.dist { color: var(--muted); font-variant-numeric: tabular-nums; }
+.vonhier { margin-top: 14px; padding: 12px; border-radius: 12px; background: var(--surface-2); display: grid; gap: 8px; }
+.vonhier h4 { margin: 0; font: 700 13px/1.2 var(--f-ui); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.vonhier .rad { margin-top: 0; }
+.vonhier .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.vonhier .row a { color: var(--accent); font-weight: 600; font-size: 14px; }
+.vh-zeit { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; }
+.vh-zeit span:first-child { font-weight: 700; }
 .start-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--ink); border: 3px solid var(--blaze);
   box-shadow: 0 0 0 2px var(--ink); }
 
@@ -422,6 +433,7 @@ textarea { min-height: 70px; resize: vertical; }
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-9.2-9.3C1.6 7.4 3.8 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.4 0 5.6 3.4 4.4 6.7C19.5 15.4 12 20 12 20z" fill="currentColor"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/></g><circle cx="12" cy="12" r="2.6" fill="currentColor"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></g></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
@@ -442,6 +454,7 @@ textarea { min-height: 70px; resize: vertical; }
         <button class="pill" data-act="dice" type="button"><svg><use href="#i-dice"/></svg>Würfeln</button>
         <button class="pill" data-act="idea" type="button" data-needs-write><svg><use href="#i-plus"/></svg>Ort vorschlagen</button>
         <button class="pill" data-act="fit" type="button"><svg><use href="#i-fit"/></svg>Alle zeigen</button>
+        <button class="pill" data-act="standort" type="button" aria-pressed="false"><svg><use href="#i-locate"/></svg>Mein Standort</button>
         <button class="pill" data-act="anmelden" type="button" data-nur-gast hidden>Anmelden</button>
         <button class="pill" data-act="feedback" type="button" data-needs-write>Feedback</button>
       </div>
@@ -467,6 +480,7 @@ textarea { min-height: 70px; resize: vertical; }
     <div class="actions">
       <button class="pill" data-act="list" type="button"><svg><use href="#i-list"/></svg>Liste</button>
       <button class="pill" data-act="kalender" type="button" aria-label="Kalender"><svg><use href="#i-cal"/></svg></button>
+      <button class="pill" data-act="standort" type="button" aria-label="Mein Standort" aria-pressed="false"><svg><use href="#i-locate"/></svg></button>
       <span class="count" data-count></span>
       <span class="grow"></span>
       <button class="pill" data-act="idea" type="button" aria-label="Ort vorschlagen" data-needs-write><svg><use href="#i-plus"/></svg></button>
@@ -638,6 +652,16 @@ const EN = {
     'Browsing works without signing in. Favourites, “I was here”, stars, notes, photos, ideas and events are available after signing in.',
   'Ohne Anmeldung weiter ansehen': 'Continue without signing in',
   'Zum Merken, für Notizen, Fotos, Ideen und Termine bitte kurz die Frage beantworten.': 'To save favourites or add notes, photos, ideas and events, please answer the question.',
+  'Mein Standort': 'My location', 'Dein Standort': 'Your location', 'Sortierung': 'Sort order', 'Reisezeit ab Rödelheim': 'Travel time from Rödelheim',
+  'Nächste zuerst (Standort)': 'Nearest first (location)', 'Von deinem Standort': 'From your location', 'Wird berechnet …': 'Calculating …',
+  'Jetzt von hier berechnen': 'Calculate from here now', 'Neu berechnen': 'Recalculate', 'Route von hier in Google Maps': 'Route from here in Google Maps',
+  'Zu Fuß:': 'On foot:', 'Keine Verbindung mit Bus und Bahn gefunden.': 'No bus or train connection found.',
+  'Der Fahrplandienst ist gerade nicht erreichbar.': 'The timetable service is not reachable right now.',
+  'Live gerechnet mit Transitous (nur Nahverkehr) und Valhalla (OpenStreetMap). Dein Standort geht dafür an diese Dienste und wird nirgends gespeichert.':
+    'Calculated live with Transitous (local transport only) and Valhalla (OpenStreetMap). Your location is sent to these services for this and is not stored anywhere.',
+  'Dieses Gerät gibt keinen Standort heraus.': 'This device does not provide a location.',
+  'Standort nicht freigegeben – bitte im Browser erlauben.': 'Location not allowed – please allow it in the browser.',
+  'Standort gerade nicht verfügbar.': 'Location not available right now.', 'Museum': 'Museum',
   'Darstellung': 'Appearance', 'Hell': 'Light', 'Dunkel': 'Dark', 'Wie das Gerät': 'Same as device',
   'Angemeldet als': 'Signed in as', 'Familie': 'Family', 'Name ändern': 'Change name', 'Abmelden': 'Sign out', 'Sprache': 'Language',
   'Filter zurücksetzen': 'Reset filters', 'Keine Orte – trotzdem schließen': 'No places – close anyway',
@@ -722,6 +746,8 @@ const MUSTER = [
   [/^Idee von (.+)$/, m => `Idea by ${m[1]}`], [/^Vorschlag von (.+), noch nicht freigegeben$/, m => `Suggested by ${m[1]}, not yet approved`],
   [/^Vorschlag von (.+), die Familie prüft ihn$/, m => `Suggested by ${m[1]}, the family will review it`],
   [/^ab (\d+) J\.$/, m => `from age ${m[1]}`], [/^ab (\d{1,2}:\d{2}) Uhr$/, m => `from ${m[1]}`], [/^(\d{1,2}:\d{2})–(\d{1,2}:\d{2}) Uhr$/, m => `${m[1]}–${m[2]}`],
+  [/^(.+) km Luftlinie von dir$/, m => `${m[1]} km from you as the crow flies`], [/^Los um (.+)$/, m => `Leave at ${m[1]}`], [/^Ankunft (.+)$/, m => `Arrive ${m[1]}`],
+  [/^\s*([\d,]+) km · ca\. (\d+) min$/, m => ` ${m[1].replace(',', '.')} km · approx. ${m[2]} min`],
   [/^bis (.+), (\d{1,2}:\d{2})–(\d{1,2}:\d{2}) Uhr$/, m => `until ${m[1]}, ${m[2]}–${m[3]}`],
   [/^ganztägig, bis (.+)$/, m => `all day, until ${m[1]}`], [/^Jetzt schön \((.+)\)$/, m => `In season now (${MONAT_EN[m[1]] || m[1]})`],
   [/^Infos Stand (.+)\. Öffnungszeiten und Preise vor dem Ausflug prüfen\.$/, m => `Information as of ${m[1]}. Check opening hours and prices before you go.`],
@@ -778,7 +804,7 @@ const BBOX = [7.75, 49.45, 9.65, 50.65];
 const START = { lon: 8.607124, lat: 50.124424, name: 'S-Bf Rödelheim' };
 const KATS = [
   ['wald', 'Wald & Natur'], ['wasser', 'Wasser'], ['aussicht', 'Aussicht'], ['park', 'Park & Garten'],
-  ['burg', 'Burg & Schloss'], ['altstadt', 'Altstadt'], ['kultur', 'Geschichte'], ['tiere', 'Wildpark'],
+  ['burg', 'Burg & Schloss'], ['altstadt', 'Altstadt'], ['kultur', 'Geschichte'], ['museum', 'Museum'], ['tiere', 'Wildpark'],
   ['hof', 'Hof & Obst'], ['spiel', 'Spielort'],
 ];
 const KAT = Object.fromEntries(KATS);
@@ -801,6 +827,7 @@ const BLAZE = {
   burg: { fill: 'M4.5 21V5h3v3h2.5V5h4v3h2.5V5h3v16Z' },
   altstadt: { stroke: 'M4 4h16v16H4ZM4 4l16 16M20 4L4 20', w: 2.4 },
   kultur: { fill: 'M12 2.5l8.5 9.5-8.5 9.5-8.5-9.5Z' },
+  museum: { fill: 'M12 2.5l9.5 5.5H2.5ZM4.5 9.5h3v8.5h-3ZM10.5 9.5h3v8.5h-3ZM16.5 9.5h3v8.5h-3ZM2.5 19.5h19V22h-19Z' },
   tiere: { fill: 'M12 12.5c3.4 0 6 3.3 6 5.6 0 2-1.8 2.9-3.4 2.9-1 0-1.6-.5-2.6-.5s-1.6.5-2.6.5C7.8 21 6 20.1 6 18.1c0-2.3 2.6-5.6 6-5.6Z' + circ(5.5, 10.5, 2) + circ(9.3, 6.5, 2.1) + circ(14.7, 6.5, 2.1) + circ(18.5, 10.5, 2) },
   hof: { fill: 'M12 8.2C9.5 6.6 4.5 6.8 4.5 12.6c0 4.4 3 8.4 5.2 8.4 1 0 1.5-.5 2.3-.5s1.3.5 2.3.5c2.2 0 5.2-4 5.2-8.4 0-5.8-5-6-7.5-4.4ZM12.3 7.6c.2-2.6 1.8-4.4 4.4-4.6-.2 2.6-1.8 4.3-4.4 4.6Z' },
   spiel: { stroke: circ(12, 12, 7), w: 3.4, fill2: circ(12, 12, 2.2) },
@@ -1031,13 +1058,14 @@ function initMap(getData, onClick) {
 /* ===== Zustand ===== */
 const FKEY = 'ausflug.filter.v1', NKEY = 'ausflug.name.v1';
 const TABELLEN = ['orte', 'merk', 'entscheidungen', 'notizen', 'fotos', 'feedback', 'termine'];
-const F0 = () => ({ kats: [], zeit: 0, umstieg: -1, offen: false, ganztag: false, kiwa: false, ruhig: false, einkehr: false, spiel: false, wc: false, frei: false, regen: false, saison: false, status: 'alle', zeichen: 'kat' });
+const F0 = () => ({ kats: [], zeit: 0, umstieg: -1, offen: false, ganztag: false, kiwa: false, ruhig: false, einkehr: false, spiel: false, wc: false, frei: false, regen: false, saison: false, status: 'alle', zeichen: 'kat', sort: 'zeit' });
 const S = {
   orte: new Map(), merkAlle: [], ent: new Map(), notizen: [], fotos: [], feedback: [], oh: {},
   termine: [], termineClaude: [], termineStand: '', kf: 'alle', hlTermin: null,
   f: F0(), view: [], sel: null, open: null, mode: 'loading',
   name: '', familie: false, angemeldet: false, gast: false, gestartet: false,
   idea: null, ideaMarker: null, galIdx: 0, noteDraft: '', fbDraft: '',
+  pos: null, vonHier: {},
 };
 let B = null; // Datendienst: Supabase oder lokaler Testspeicher
 const START_HASH = location.hash || ''; // geteilter Link #ort-<id>; vor dem Verlaufsabgleich gemerkt
@@ -1067,6 +1095,13 @@ const meinMerk = id => S.merkAlle.find(m => m.ort === id && m.person === S.name)
 const merkVon = id => S.merkAlle.filter(m => m.ort === id);
 const mm = id => ({ ...meinMerk(id), entscheidung: S.ent.get(id) || null });
 const hatEinkehr = o => { const e = o.einkehr_de ?? o.einkehr; return !!e && !/^(keine|nein|unbekannt)/i.test(e); };
+// Luftlinie in km (Haversine); Anzeige mit Komma bzw. Punkt je nach Sprache
+const kmLuft = (a, b) => {
+  const r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+};
+const fmtKm = km => km.toLocaleString(LOC, { maximumFractionDigits: km < 10 ? 1 : 0 });
 const umstiegText = n => (n === 0 ? 'direkt' : n === 1 ? '1× umsteigen' : `${n}× umsteigen`);
 const canWrite = () => S.angemeldet && !!S.name;
 const darfLoeschen = x => S.familie || (x.mine && x.person === S.name);
@@ -1281,7 +1316,7 @@ function cardHTML(o) {
     + (t ? `<img class="ph" src="${esc(t)}" alt="" loading="lazy">`
       : `<span class="ph ph-blaze">${blazeSVG(o.status === 'idee' ? 'idee' : o.kategorie, o.status !== 'aktiv' ? 'dashed' : '')}</span>`)
     + `<span class="txt"><span class="nm">${esc(o.name)}</span><span class="sub">${esc(sub)}</span>`
-    + `<span class="meta">${minsHTML(o)}${o.reise ? `<span>${umstiegText(o.reise.umstiege)}</span>` : ''}${statusTags(o, m)}</span></span></button>`;
+    + `<span class="meta">${minsHTML(o)}${o.reise ? `<span>${umstiegText(o.reise.umstiege)}</span>` : ''}${S.pos ? `<span class="dist">${fmtKm(kmLuft(S.pos, o))} km</span>` : ''}${statusTags(o, m)}</span></span></button>`;
 }
 function emptyHTML() {
   if (S.mode === 'none') return '<div class="empty"><b>Die Ortsliste ist gerade nicht erreichbar.</b> Bitte später noch einmal versuchen.</div>';
@@ -1298,8 +1333,9 @@ function chipsHTML() {
 }
 
 function renderAll() {
+  const naehe = S.f.sort === 'naehe' && S.pos;
   S.view = [...S.orte.values()].filter(sichtbar)
-    .sort((a, b) => (a.reise?.min ?? 999) - (b.reise?.min ?? 999) || a.name.localeCompare(b.name, 'de'));
+    .sort((a, b) => (naehe ? kmLuft(S.pos, a) - kmLuft(S.pos, b) : (a.reise?.min ?? 999) - (b.reise?.min ?? 999)) || a.name.localeCompare(b.name, 'de'));
   updateMap();
   const total = S.orte.size, n = S.view.length;
   const txt = !total ? '' : n === total ? `${n} Orte` : `${n} von ${total} Orten`;
@@ -1334,6 +1370,7 @@ function renderFilters() {
     <div class="fsec"><h3>Sonstiges</h3>${sw('offen', 'Heute (noch) geöffnet oder frei zugänglich')}${sw('ganztag', 'Nur Ganztagesausflüge (über 100 min)')}${sw('frei', 'Eintritt frei')}${sw('regen', 'Geht auch bei Regen')}${sw('saison', `Jetzt schön (${mon})`)}</div>
     <div class="fsec"><h3>Anzeigen</h3>${seg('status', S.gast ? [['alle', 'Alle'], ['vorschlag', 'Vorschläge']] : [['alle', 'Alle'], ['merk', 'Von mir gemerkt'], ['offen', 'Noch nicht besucht'], ['besucht', 'Schon besucht'], ['vorschlag', 'Vorschläge'], ['idee', 'Ideen']])}</div>
     <div class="fsec"><h3>Zeichen auf der Karte</h3>${seg('zeichen', [['kat', 'Art des Ortes'], ['min', 'Reisezeit in Minuten']])}</div>
+    <div class="fsec"><h3>Sortierung</h3>${seg('sort', [['zeit', 'Reisezeit ab Rödelheim'], ['naehe', 'Nächste zuerst (Standort)']])}</div>
     <div class="fsec"><h3>Language / Sprache</h3><div class="seg"><button class="chip plain" type="button" data-lang="de" aria-pressed="${LANG === 'de'}">Deutsch</button><button class="chip plain" type="button" data-lang="en" aria-pressed="${LANG === 'en'}">English</button></div></div>
     <div class="fsec"><h3>Darstellung</h3><div class="seg">${[['hell', 'Hell'], ['dunkel', 'Dunkel'], ['auto', 'Wie das Gerät']].map(([v, l]) => `<button class="chip plain" type="button" data-thema="${v}" aria-pressed="${THEMA === v}">${l}</button>`).join('')}</div></div>
     ${S.gast ? `<div class="fsec"><h3>Mitmachen</h3><p class="hint">${GAST_TEXT}</p><div class="row"><button class="btn primary" type="button" data-act="anmelden">Zum Mitmachen anmelden</button></div></div>` : ''}
@@ -1594,14 +1631,17 @@ function bilderOf(o) {
   const own = fotosFor(o.id).map(f => ({ src: B.fotoUrl(f.pfad), cap: `Foto von ${esc(f.person)} · ${esc(fmtDate(f.at))}`, foto: f }));
   return [...off, ...own];
 }
-function reiseHTML(o) {
-  const r = o.reise;
-  const gm = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Frankfurt (Main) Rödelheim Bahnhof')}&destination=${o.lat},${o.lon}&travelmode=transit`;
-  if (!r) return `<div class="block"><h3>Anfahrt</h3><p class="hint">Die Verbindung ist noch nicht berechnet.</p>${radHTML(o)}<div class="links"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
-  const legs = (r.legs || []).map(l => {
+function legsHTML(legs) {
+  return (legs || []).map(l => {
     const t = (l.mode === 'Bus' || l.mode === 'Tram') && l.linie ? `${l.mode} ${l.linie}` : (l.linie || l.mode);
     return `<span class="line ${esc(l.mode)}" title="${esc(`${l.von} → ${l.nach}${l.richtung ? ` (Richtung ${l.richtung})` : ''}`)}">${esc(t)}</span>`;
   }).join('<span class="leg-arrow">›</span>');
+}
+function reiseHTML(o) {
+  const r = o.reise;
+  const gm = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Frankfurt (Main) Rödelheim Bahnhof')}&destination=${o.lat},${o.lon}&travelmode=transit`;
+  if (!r) return `<div class="block"><h3>Anfahrt</h3><p class="hint">Die Verbindung ist noch nicht berechnet.</p>${radHTML(o)}${vonHierHTML(o)}<div class="links"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
+  const legs = legsHTML(r.legs);
   const takt = r.takt_min ? (r.takt_min >= 20 ? `Gute Verbindungen nur etwa alle ${r.takt_min} min – Abfahrt vorher prüfen.` : 'Gute Verbindungen mehrmals pro Stunde.') : '';
   return `<div class="block"><h3>Anfahrt</h3>
     <div class="sign"><span class="big">${r.min}<small>min</small></span><span class="to">${esc(o.name)}</span>
@@ -1610,6 +1650,7 @@ function reiseHTML(o) {
     <div class="reach-notes" style="margin-top:6px">${r.ziel_haltestelle ? `<span>Aussteigen: ${esc(r.ziel_haltestelle)}${r.fussweg_ziel ? `, dann ${r.fussweg_ziel} min zu Fuß` : ''}.</span>` : ''}${takt ? `<span>${takt}</span>` : ''}
       <span>Gerechnet ab Rödelheim, nur Nahverkehr.</span></div>
     ${radHTML(o)}
+    ${vonHierHTML(o)}
     <div class="links" style="margin-top:10px"><a href="${gm}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-map"/></svg>Route in Google Maps</a></div></div>`;
 }
 const GAST_TEXT = 'Ansehen geht ohne Anmeldung. Merken, „Ich war hier“, Sterne, Notizen, Fotos, Ideen und Termine gibt es nach der Anmeldung.';
@@ -1871,6 +1912,84 @@ function setzeName(ev) {
   $('#whoami').hidden = true; renderAll(); if (S.open) renderDetail();
 }
 
+/* ===== Eigener Standort ===== */
+// Die Position bleibt im Browser (nicht gespeichert). An Transitous/Valhalla geht sie nur beim Knopf „Jetzt von hier“.
+let posMarker = null, posWatch = null, posGezeichnet = null;
+function standortAn(flieg) {
+  if (!navigator.geolocation) { toast('Dieses Gerät gibt keinen Standort heraus.'); return Promise.resolve(null); }
+  return new Promise(ok => {
+    navigator.geolocation.getCurrentPosition(p => {
+      setzePos(p);
+      if (flieg) map.flyTo({ center: [S.pos.lon, S.pos.lat], zoom: Math.max(map.getZoom(), 12) });
+      if (posWatch == null) posWatch = navigator.geolocation.watchPosition(setzePos, () => {}, { enableHighAccuracy: true, maximumAge: 30000 });
+      ok(S.pos);
+    }, e => {
+      toast(e.code === 1 ? 'Standort nicht freigegeben – bitte im Browser erlauben.' : 'Standort gerade nicht verfügbar.'); ok(null);
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+  });
+}
+function setzePos(p) {
+  S.pos = { lat: p.coords.latitude, lon: p.coords.longitude };
+  if (!posMarker) {
+    const el = document.createElement('div'); el.className = 'pos-dot'; el.title = 'Dein Standort';
+    posMarker = new maplibregl.Marker({ element: el }).setLngLat([S.pos.lon, S.pos.lat]).addTo(map);
+  } else posMarker.setLngLat([S.pos.lon, S.pos.lat]);
+  $$('[data-act=standort]').forEach(b => b.setAttribute('aria-pressed', 'true'));
+  // Liste und Ortsansicht nur neu zeichnen, wenn man sich merklich bewegt hat (> 100 m)
+  if (posGezeichnet && kmLuft(posGezeichnet, S.pos) < 0.1) return;
+  posGezeichnet = { ...S.pos }; renderAll(); if (S.open) renderDetail();
+}
+const NAHVERKEHR = 'TRAM,SUBWAY,FERRY,BUS,REGIONAL_FAST_RAIL,REGIONAL_RAIL,SUBURBAN,FUNICULAR,AERIAL_LIFT';
+const MODE_KURZ = { SUBURBAN: 'S', METRO: 'S', SUBWAY: 'U', TRAM: 'Tram', BUS: 'Bus', REGIONAL_RAIL: 'RB', REGIONAL_FAST_RAIL: 'RE', FERRY: 'Fähre', FUNICULAR: 'Bahn', AERIAL_LIFT: 'Seilbahn' };
+// Bus & Bahn ab jetzt (wie tools/reisezeiten.py, nur Nahverkehr); gewählt wird die Verbindung mit der frühesten Ankunft
+async function oepnvVonHier(von, o) {
+  const q = new URLSearchParams({ fromPlace: `${von.lat},${von.lon}`, toPlace: `${o.lat},${o.lon}`, time: new Date().toISOString(),
+    searchWindow: 3600, numItineraries: 6, transitModes: NAHVERKEHR, maxPreTransitTime: 1200, maxPostTransitTime: 2700, pedestrianProfile: 'FOOT' });
+  const r = await fetch('https://api.transitous.org/api/v1/plan?' + q).then(x => { if (!x.ok) throw new Error('Transitous ' + x.status); return x.json(); });
+  const its = (r.itineraries || []).filter(i => i.legs.some(l => l.mode !== 'WALK'));
+  if (!its.length) { const d = (r.direct || [])[0]; return d ? { nurFuss: true, min: Math.round(d.duration / 60) } : null; }
+  const best = its.reduce((a, b) => (new Date(b.endTime) < new Date(a.endTime) ? b : a));
+  const legs = best.legs.filter(l => l.mode !== 'WALK').map(l => {
+    const linie = (l.routeShortName || l.displayName || '').replace(/\s*\(.*?\)/g, '').trim();
+    return { mode: /^(RB|RE)/.test(linie) ? linie.slice(0, 2) : (MODE_KURZ[l.mode] || l.mode), linie, von: l.from.name, nach: l.to.name, richtung: l.headsign || '' };
+  });
+  return { ab: best.startTime, an: best.endTime, min: Math.round((new Date(best.endTime) - new Date(best.startTime)) / 6e4), umstiege: best.transfers, legs };
+}
+// Rad (12 km/h, wie tools/fahrrad.py) bzw. zu Fuß über Valhalla; JSON ohne Leerzeichen (sonst 400)
+async function valhalla(von, o, costing, opts) {
+  const q = { locations: [{ lat: von.lat, lon: von.lon }, { lat: o.lat, lon: o.lon }], costing, units: 'kilometers' };
+  if (opts) q.costing_options = { [costing]: opts };
+  const r = await fetch('https://valhalla1.openstreetmap.de/route?json=' + encodeURIComponent(JSON.stringify(q))).then(x => (x.ok ? x.json() : null));
+  const t = r?.trip?.summary; return t ? { km: t.length, min: Math.round(t.time / 60) } : null;
+}
+async function vonHier(o) {
+  const pos = S.pos || await standortAn(false); if (!pos) return;
+  S.vonHier[o.id] = { status: 'laden' }; if (S.open === o.id) renderDetail();
+  const [oe, rad, fuss] = await Promise.allSettled([oepnvVonHier(pos, o), valhalla(pos, o, 'bicycle', { bicycle_type: 'Hybrid', cycling_speed: 12 }),
+    kmLuft(pos, o) < 3 ? valhalla(pos, o, 'pedestrian') : Promise.resolve(null)]);
+  S.vonHier[o.id] = { status: 'ok', oepnv: oe.value ?? null, oepnvFehler: oe.status === 'rejected', rad: rad.value ?? null, fuss: fuss.value ?? null };
+  if (S.open === o.id) renderDetail();
+}
+function vonHierHTML(o) {
+  const v = S.vonHier[o.id], kmStr = km => String(Math.round(km * 10) / 10).replace('.', ',');
+  let inhalt = '';
+  if (v?.status === 'laden') inhalt = '<p class="hint">Wird berechnet …</p>';
+  else if (v?.status === 'ok') {
+    const p = v.oepnv;
+    inhalt = (p ? (p.nurFuss ? '' : `<div class="legs">${legsHTML(p.legs)}</div>
+        <p class="vh-zeit"><span>Los um ${fmtUhr(p.ab)}</span><span>Ankunft ${fmtUhr(p.an)}</span><span>${p.min} min</span><span>${umstiegText(p.umstiege)}</span></p>`)
+      : `<p class="hint">${v.oepnvFehler ? 'Der Fahrplandienst ist gerade nicht erreichbar.' : 'Keine Verbindung mit Bus und Bahn gefunden.'}</p>`)
+      + (v.rad ? `<div class="rad"><svg width="18" height="18"><use href="#i-rad"/></svg><span><b>Mit dem Rad:</b> ${kmStr(v.rad.km)} km · gemütlich ca. ${v.rad.min} min · zügig ca. ${Math.round(v.rad.min * 12 / 18)} min</span></div>` : '')
+      + (v.fuss ? `<div class="rad"><svg width="18" height="18"><use href="#i-walk"/></svg><span><b>Zu Fuß:</b> ${kmStr(v.fuss.km)} km · ca. ${v.fuss.min} min</span></div>` : '');
+  }
+  const gm = S.pos ? `https://www.google.com/maps/dir/?api=1&origin=${S.pos.lat},${S.pos.lon}&destination=${o.lat},${o.lon}&travelmode=transit` : '';
+  return `<div class="vonhier"><h4>Von deinem Standort</h4>
+    ${S.pos ? `<p class="hint">${fmtKm(kmLuft(S.pos, o))} km Luftlinie von dir</p>` : ''}${inhalt}
+    <div class="row"><button class="btn" type="button" data-act="vonhier" ${v?.status === 'laden' ? 'disabled' : ''}><svg><use href="#i-locate"/></svg>${v?.status === 'ok' ? 'Neu berechnen' : 'Jetzt von hier berechnen'}</button>
+      ${gm ? `<a href="${gm}" target="_blank" rel="noopener">Route von hier in Google Maps</a>` : ''}</div>
+    ${v?.status === 'ok' ? '<p class="hint">Live gerechnet mit Transitous (nur Nahverkehr) und Valhalla (OpenStreetMap). Dein Standort geht dafür an diese Dienste und wird nirgends gespeichert.</p>' : ''}</div>`;
+}
+
 /* ===== Zurück-Taste ===== */
 // Jede geöffnete Ebene (Ort, Liste, Filter, Kalender, Formulare, Bildansicht, Anmeldung als Gast) liegt auf einem
 // Stapel mit eigenem Verlaufseintrag {ebenen: n}. Zurück schließt die oberste Ebene, statt die Seite zu verlassen.
@@ -1970,7 +2089,11 @@ function wire() {
       const k = t.dataset.kat; S.f.kats = !k ? [] : S.f.kats.includes(k) ? S.f.kats.filter(x => x !== k) : [...S.f.kats, k];
       saveF(); renderAll(); return;
     }
-    if (t.dataset.f) { const v = t.dataset.v; S.f[t.dataset.f] = /^-?\d+$/.test(v) ? +v : v; saveF(); renderAll(); renderFilters(); return; }
+    if (t.dataset.f) {
+      const v = t.dataset.v; S.f[t.dataset.f] = /^-?\d+$/.test(v) ? +v : v; saveF(); renderAll(); renderFilters();
+      if (t.dataset.f === 'sort' && v === 'naehe' && !S.pos) standortAn(false);
+      return;
+    }
     if (t.dataset.star) { const v = +t.dataset.star, m = meinMerk(S.open); writeMerk(S.open, { bewertung: m.bewertung === v ? 0 : v }); return; }
     if (t.dataset.lb) { openLightbox(+t.dataset.lb); return; }
     if (t.dataset.delnote) { try { await B.delNote(t.dataset.delnote); aenderung('notizen'); } catch (err) { toast(errText(err)); } return; }
@@ -1996,6 +2119,8 @@ function wire() {
       case 'showmap': closeDetail(); break;
       case 'reset': S.f = F0(); saveF(); renderAll(); renderFilters(); break;
       case 'dice': dice(); break;
+      case 'standort': if (S.pos) map.flyTo({ center: [S.pos.lon, S.pos.lat], zoom: Math.max(map.getZoom(), 12) }); else standortAn(true); break;
+      case 'vonhier': { const o = S.orte.get(S.open); if (o) vonHier(o); break; }
       case 'anmelden': zeigeGate(); break;
       case 'gate-zu': $('#gate').hidden = true; break;
       case 'teilen': { const o = S.orte.get(S.open); if (o) teilen(o); break; }
