@@ -199,6 +199,23 @@
   "hinweis": "Kaiserpfalz; Altstadt frei zugänglich",
   "hinweis_en": "Imperial palace; old town freely accessible"
  },
+ "seligenstadt-altstadt-klostergarten-und-mainfaehre": {
+  "oh": "Mar-Oct: Tu-Su 10:00-17:00; Nov 01-Dec 14: Tu-Su 10:00-16:00; Feb: Tu-Su 10:00-16:00; Dec 15-Jan 31 off",
+  "quelle": "https://www.kreis-offenbach.de/Freizeit/Naherholung-Tourismus/G%C3%A4rten-Parks/Klostergarten-Seligenstadt/",
+  "stand": "2026-10-06",
+  "hinweis": "Klostermuseum; Altstadt und Klostergarten (bis Dämmerung) frei zugänglich",
+  "hinweis_en": "Abbey museum; old town and abbey garden (until dusk) freely accessible"
+ },
+ "freilichtmuseum-hessenpark": {
+  "oh": "Mar-Oct 09:00-18:00; Nov-Feb Sa,Su,PH 10:00-17:00; Dec 24,Dec 31 off",
+  "quelle": "https://www.hessenpark.de/besuch/besucherinformationen/",
+  "stand": "2026-10-11"
+ },
+ "bahnwelt-darmstadt-kranichstein": {
+  "oh": "Su,PH 10:00-16:00; Apr-Oct We 10:00-16:00",
+  "quelle": "https://bahnwelt.de/",
+  "stand": "2026-10-11"
+ },
  "jagdschloss-kranichstein": {
   "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
   "quelle": "https://www.darmstadt-tourismus.de/en/visit/detailsen/poidetail/bioversum-jagdschloss-kranichstein.html",
@@ -217,13 +234,6 @@
   "oh": "Mar-Aug 09:00-18:00; Sep-Oct Mo,Tu,Th-Su 09:00-18:00; Sep-Oct We 10:00-18:00; Nov-Feb Mo,Tu,Th-Su 09:00-16:00; Nov-Feb We 10:00-16:00; Dec 24,Dec 31 09:00-13:00",
   "quelle": "https://www.hessen-forst.de/freizeit/wildpark-alte-fasanerie-hanau",
   "stand": "2026-10-06"
- },
- "seligenstadt-altstadt-klostergarten-und-mainfaehre": {
-  "oh": "Mar-Oct: Tu-Su 10:00-17:00; Nov 01-Dec 14: Tu-Su 10:00-16:00; Feb: Tu-Su 10:00-16:00; Dec 15-Jan 31 off",
-  "quelle": "https://www.kreis-offenbach.de/Freizeit/Naherholung-Tourismus/G%C3%A4rten-Parks/Klostergarten-Seligenstadt/",
-  "stand": "2026-10-06",
-  "hinweis": "Klostermuseum; Altstadt und Klostergarten (bis Dämmerung) frei zugänglich",
-  "hinweis_en": "Abbey museum; old town and abbey garden (until dusk) freely accessible"
  },
  "schloss-steinau-und-brueder-grimm-stadt": {
   "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00",
@@ -246,11 +256,6 @@
   "hinweis": "Burghof und Rosengarten (Eintritt frei); Rheinufer frei zugänglich, Burgturm-Museum mit eigenen Zeiten",
   "hinweis_en": "Castle courtyard and rose garden (free entry); Rhine bank freely accessible, castle tower museum has its own hours"
  },
- "freilichtmuseum-hessenpark": {
-  "oh": "Mar-Nov 09:00-18:00; Nov-Mar 10:00-17:00",
-  "quelle": "https://www.openstreetmap.org/way/160193276",
-  "stand": "2026-10-11"
- },
  "burg-muenzenberg": {
   "oh": "Mar Tu-Su 10:00-16:00; Apr Tu-Sa 10:00-16:00; Apr Su 10:00-17:00; May-Sep Tu-Su 10:00-18:00; Oct Tu-Sa 10:00-16:00; Oct Su 10:00-17:00; Nov Sa,Su 11:00-16:00; Dec-Feb off",
   "quelle": "https://www.schloesser-hessen.de/de/burgruine-muenzenberg/besucherinformation",
@@ -269,11 +274,6 @@
  "auerbacher-schloss": {
   "oh": "Mo-Su,PH 11:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/137089592",
-  "stand": "2026-10-11"
- },
- "bahnwelt-darmstadt-kranichstein": {
-  "oh": "Su,PH 10:00-16:00; Apr-Sep We,Su,PH 10:00-16:00",
-  "quelle": "https://www.openstreetmap.org/node/9449001978",
   "stand": "2026-10-11"
  },
  "technoseum": {
