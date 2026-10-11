@@ -261,26 +261,29 @@
   "hinweis": "Umweltbildungszentrum Schatzinsel Kühkopf; Naturschutzgebiet frei zugänglich",
   "hinweis_en": "Schatzinsel Kühkopf environmental education centre; nature reserve freely accessible"
  },
- "schloss-steinau-und-brueder-grimm-stadt": {
-  "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00",
-  "quelle": "https://www.schloesser-hessen.de/de/schloss-steinau/besucherinformation",
-  "stand": "2026-10-06",
-  "hinweis": "Schloss; Außengelände ganzjährig frei",
-  "hinweis_en": "Palace; grounds free all year"
- },
  "keltenwelt-am-glauberg": {
   "oh": "Mar-Oct Tu-Su 10:00-18:00; Nov-Feb Tu-Su 10:00-17:00",
-  "quelle": "https://www.openstreetmap.org/way/126033154",
-  "stand": "2026-10-11"
+  "quelle": "https://www.keltenwelt-glauberg.de/besuch/zeiten-info-preise/",
+  "stand": "2026-10-11",
+  "hinweis": "Museum; archäologischer Park bei Tageslicht frei zugänglich",
+  "hinweis_en": "Museum; archaeological park freely accessible in daylight"
  },
- "burg-frankenstein": {
-  "oh": "sunrise-sunset",
-  "quelle": "https://www.openstreetmap.org/way/24606901",
-  "stand": "2026-10-11"
+ "schloss-steinau-und-brueder-grimm-stadt": {
+  "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00; Dec 21-Feb 28 off",
+  "quelle": "https://www.schloesser-hessen.de/de/schloss-steinau/besucherinformation",
+  "stand": "2026-10-11",
+  "hinweis": "Schloss; Außenanlage frei zugänglich",
+  "hinweis_en": "Palace; grounds freely accessible"
  },
  "auerbacher-schloss": {
-  "oh": "Mo-Su,PH 11:00-17:00",
-  "quelle": "https://www.openstreetmap.org/way/137089592",
+  "oh": "11:00-17:00",
+  "quelle": "https://www.schloesser-hessen.de/de/schloss-auerbach/besucherinformation",
+  "stand": "2026-10-11",
+  "hinweis": "Außenanlage"
+ },
+ "burg-frankenstein": {
+  "oh": "08:00-sunset",
+  "quelle": "https://www.schloesser-hessen.de/de/burg-frankenstein/besucherinformation",
   "stand": "2026-10-11"
  },
  "technoseum": {
