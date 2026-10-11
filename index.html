@@ -80,7 +80,7 @@ a { color: var(--accent); }
 .maplibregl-marker { left: 0; position: absolute; top: 0; will-change: transform; }
 
 /* ---------- Grundgerüst ---------- */
-#app { position: relative; height: 100%; display: grid; grid-template-columns: 1fr; }
+#app { position: relative; height: 100%; display: grid; grid-template-columns: 1fr; overflow: hidden; }
 #map { position: absolute; inset: 0; background: var(--paper); }
 .side { display: none; }
 
@@ -318,7 +318,9 @@ textarea { min-height: 70px; resize: vertical; }
   border: 3px solid #fff; box-shadow: var(--shadow); }
 .pos-dot { width: 18px; height: 18px; border-radius: 50%; background: #2B7DE9; border: 3px solid #fff;
   box-shadow: 0 0 0 6px rgb(43 125 233 / .22), 0 1px 4px rgb(0 0 0 / .35); }
-.pill[data-act="standort"][aria-pressed="true"] svg { color: #2B7DE9; }
+[data-act="standort"][aria-pressed="true"] svg { color: #2B7DE9; }
+/* Standort-Knopf am Handy: rund, rechts über der unteren Leiste (wie in Karten-Apps) */
+.locate-fab { justify-self: end; margin-right: 12px; width: 46px; height: 46px; border-radius: 50%; }
 .dist { color: var(--muted); font-variant-numeric: tabular-nums; }
 .vonhier { margin-top: 14px; padding: 12px; border-radius: 12px; background: var(--surface-2); display: grid; gap: 8px; }
 .vonhier h4 { margin: 0; font: 700 13px/1.2 var(--f-ui); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
@@ -409,6 +411,9 @@ textarea { min-height: 70px; resize: vertical; }
 @media (max-width: 899.98px) {
   .mapwrap { position: absolute; inset: 0; }
 }
+@media (max-width: 380px) {
+  .actions .pill { padding: 0 11px; }
+}
 @media (max-width: 440px) {
   .actions .count { display: none; }
   .detail .ov-head { gap: 4px; }
@@ -477,10 +482,10 @@ textarea { min-height: 70px; resize: vertical; }
   </div>
 
   <div class="bottom">
+    <button class="iconbtn locate-fab" data-act="standort" type="button" aria-label="Mein Standort" aria-pressed="false"><svg><use href="#i-locate"/></svg></button>
     <div class="actions">
       <button class="pill" data-act="list" type="button"><svg><use href="#i-list"/></svg>Liste</button>
       <button class="pill" data-act="kalender" type="button" aria-label="Kalender"><svg><use href="#i-cal"/></svg></button>
-      <button class="pill" data-act="standort" type="button" aria-label="Mein Standort" aria-pressed="false"><svg><use href="#i-locate"/></svg></button>
       <span class="count" data-count></span>
       <span class="grow"></span>
       <button class="pill" data-act="idea" type="button" aria-label="Ort vorschlagen" data-needs-write><svg><use href="#i-plus"/></svg></button>
