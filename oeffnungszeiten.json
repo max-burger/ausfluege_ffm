@@ -62,6 +62,25 @@
   "quelle": "https://junges-museum-frankfurt.de/kontakt",
   "stand": "2026-10-11"
  },
+ "bethmannpark-mit-chinesischem-garten": {
+  "oh": "Mo-Fr 07:00-dusk; Sa,Su,PH 10:00-dusk",
+  "quelle": "https://www.visitfrankfurt.travel/en/poi/garden-of-heavenly-peace-in-bethmannpark",
+  "stand": "2026-10-11"
+ },
+ "cafe-im-liebieghaus": {
+  "oh": "Tu-Su 10:00-18:00",
+  "quelle": "https://liebieghaus.de/de/node/4",
+  "stand": "2026-10-11",
+  "hinweis": "Café; Museum ab 12.10.2026 wegen Renovierung geschlossen",
+  "hinweis_en": "Café; museum closed for renovation from 12 Oct 2026"
+ },
+ "kurpark-und-schloss-bad-homburg": {
+  "oh": "Tu-Su 10:00-17:00; Dec 24-26,Dec 31,Jan 01 off",
+  "quelle": "https://www.schloesser-hessen.de/de/schloss-bad-homburg/besucherinformation",
+  "stand": "2026-10-11",
+  "hinweis": "Schloss; Kurpark und Schlosspark frei zugänglich",
+  "hinweis_en": "Palace; spa park and palace park freely accessible"
+ },
  "mathildenhoehe": {
   "oh": "Tu-Su 11:00-18:00",
   "quelle": "https://neu.mathildenhoehe.de/en/visit/general-informationen",
@@ -94,11 +113,6 @@
   "stand": "2026-10-06",
   "hinweis": "Museumszentrum; Klostergelände draußen frei zugänglich",
   "hinweis_en": "Museum centre; abbey grounds outside freely accessible"
- },
- "bethmannpark-mit-chinesischem-garten": {
-  "oh": "Mo-Fr 07:00-dusk; Sa,Su,PH 10:00-dusk",
-  "quelle": "https://www.openstreetmap.org/way/4723745",
-  "stand": "2026-10-11"
  },
  "wildpark-alte-fasanerie": {
   "oh": "Mar-Aug 09:00-18:00; Sep-Oct Mo,Tu,Th-Su 09:00-18:00; Sep-Oct We 10:00-18:00; Nov-Feb Mo,Tu,Th-Su 09:00-16:00; Nov-Feb We 10:00-16:00; Dec 24,Dec 31 09:00-13:00",
