@@ -2,12 +2,12 @@
  "goetheturm": {
   "oh": "Apr-Oct: Mo-Su,PH 08:00-dusk; Apr-Oct: 20:00+ closed",
   "quelle": "https://www.openstreetmap.org/way/43837374",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "palmengarten": {
   "oh": "Nov-Feb 09:00-16:00; Mar-Oct 09:00-19:00",
   "quelle": "https://www.openstreetmap.org/way/4793541",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "lohrberg": {
   "oh": "Apr-Oct: Tu-Su 11:00-18:00; Nov-Mar: Tu,We,Fr-Su 11:00-16:00; Nov-Mar: Th 11:00-17:00",
@@ -33,7 +33,7 @@
  "burgruine-falkenstein": {
   "oh": "Apr-Oct: Mo-Su 10:00-19:00; Nov-Mar: Mo-Su Off",
   "quelle": "https://www.openstreetmap.org/way/61454688",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "schloss-philippsruhe-und-schlosspark": {
   "oh": "Tu-Fr 10:00-17:00; Sa,Su 11:00-18:00",
@@ -41,6 +41,26 @@
   "stand": "2026-10-06",
   "hinweis": "Museum; Schlosspark frei zugänglich",
   "hinweis_en": "Museum; palace park freely accessible"
+ },
+ "experiminta-sciencecenter": {
+  "oh": "Mo-Fr 09:30-14:00; Sa,Su,PH 10:30-17:30; Dec 23-25,Dec 30,Dec 31,Jan 01 off",
+  "quelle": "https://www.experiminta.de/besuch/oeffnungszeiten/",
+  "stand": "2026-10-11"
+ },
+ "senckenberg-naturmuseum": {
+  "oh": "Mo,Tu,Th,Fr 09:00-17:00; We 09:00-20:00; Sa,Su,PH 09:00-18:00; Dec 24,Dec 31,Jan 01 off",
+  "quelle": "https://museumfrankfurt.senckenberg.de/en/your-visit/",
+  "stand": "2026-10-11"
+ },
+ "struwwelpeter-museum": {
+  "oh": "Tu-Su 11:00-18:00; Dec 26,Jan 01 14:00-18:00; Dec 24,Dec 25,Dec 31 off",
+  "quelle": "https://www.struwwelpeter-museum.de/oeffnungszeiten-und-eintrittspreise/",
+  "stand": "2026-10-11"
+ },
+ "junges-museum-frankfurt": {
+  "oh": "Tu-Su 11:00-18:00",
+  "quelle": "https://junges-museum-frankfurt.de/kontakt",
+  "stand": "2026-10-11"
  },
  "mathildenhoehe": {
   "oh": "Tu-Su 11:00-18:00",
@@ -52,7 +72,7 @@
  "prinz-georg-garten": {
   "oh": "Mar-Oct: 07:00-19:00; Nov-Feb: 08:00-16:00",
   "quelle": "https://www.openstreetmap.org/way/150032819",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "jagdschloss-kranichstein": {
   "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
@@ -78,7 +98,7 @@
  "bethmannpark-mit-chinesischem-garten": {
   "oh": "Mo-Fr 07:00-dusk; Sa,Su,PH 10:00-dusk",
   "quelle": "https://www.openstreetmap.org/way/4723745",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "wildpark-alte-fasanerie": {
   "oh": "Mar-Aug 09:00-18:00; Sep-Oct Mo,Tu,Th-Su 09:00-18:00; Sep-Oct We 10:00-18:00; Nov-Feb Mo,Tu,Th-Su 09:00-16:00; Nov-Feb We 10:00-16:00; Dec 24,Dec 31 09:00-13:00",
@@ -95,7 +115,7 @@
  "kaiserpfalz-und-altstadt-gelnhausen": {
   "oh": "Mar-Oct Tu-Su 10:00-17:00; Nov 01-Dec 23 Tu-Su 10:00-16:00; Jan-Feb \"Nach Absprache\"",
   "quelle": "https://www.openstreetmap.org/node/3353860594",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "schloss-steinau-und-brueder-grimm-stadt": {
   "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00",
@@ -121,7 +141,7 @@
  "meisterturm-hofheim": {
   "oh": "24/7",
   "quelle": "https://www.openstreetmap.org/way/133317964",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "eltville-kurfuerstliche-burg-und-rheinufer": {
   "oh": "Apr 01-Oct 15: 09:30-19:00; Oct 16-Mar 31: 10:00-17:00",
@@ -140,17 +160,17 @@
  "burgruine-koenigstein": {
   "oh": "Apr-Oct: PH,Mo-Su 10:00-19:00; Nov-Mar: Sa,Su 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/node/66804770",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "roemerkastell-saalburg": {
   "oh": "Mar-Oct Mo-Su 09:00-18:00; Nov-Feb Tu-Su 09:00-16:00",
   "quelle": "https://www.openstreetmap.org/way/8655395",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "freilichtmuseum-hessenpark": {
   "oh": "Mar-Nov 09:00-18:00; Nov-Mar 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/160193276",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "burg-muenzenberg": {
   "oh": "Mar Tu-Su 10:00-16:00; Apr Tu-Sa 10:00-16:00; Apr Su 10:00-17:00; May-Sep Tu-Su 10:00-18:00; Oct Tu-Sa 10:00-16:00; Oct Su 10:00-17:00; Nov Sa,Su 11:00-16:00; Dec-Feb off",
@@ -160,16 +180,66 @@
  "keltenwelt-am-glauberg": {
   "oh": "Mar-Oct Tu-Su 10:00-18:00; Nov-Feb Tu-Su 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/126033154",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "burg-frankenstein": {
   "oh": "sunrise-sunset",
   "quelle": "https://www.openstreetmap.org/way/24606901",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
  },
  "auerbacher-schloss": {
   "oh": "Mo-Su,PH 11:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/137089592",
-  "stand": "2026-10-10"
+  "stand": "2026-10-11"
+ },
+ "verkehrsmuseum-frankfurt-strassenbahnmuseum": {
+  "oh": "off",
+  "quelle": "https://www.openstreetmap.org/way/258215323",
+  "stand": "2026-10-11"
+ },
+ "museum-fuer-kommunikation-frankfurt": {
+  "oh": "Tu,Th-Su,PH 10:00-18:00; We 10:00-20:00",
+  "quelle": "https://www.openstreetmap.org/node/4292738515",
+  "stand": "2026-10-11"
+ },
+ "hessisches-puppenmuseum": {
+  "oh": "Tu-Sa 14:00-17:00; PH,Su 10:00-17:00",
+  "quelle": "https://www.openstreetmap.org/node/366294723",
+  "stand": "2026-10-11"
+ },
+ "hessisches-landesmuseum-darmstadt": {
+  "oh": "Tu,Th,Fr,Sa,Su,PH 11:00-18:00, We 11:00-20:00",
+  "quelle": "https://www.openstreetmap.org/relation/2198921",
+  "stand": "2026-10-11"
+ },
+ "bahnwelt-darmstadt-kranichstein": {
+  "oh": "Su,PH 10:00-16:00; Apr-Sep We,Su,PH 10:00-16:00",
+  "quelle": "https://www.openstreetmap.org/node/9449001978",
+  "stand": "2026-10-11"
+ },
+ "naturhistorisches-museum-mainz": {
+  "oh": "Mo-We, Fr-Su 09:00-18:00; Th 09:00-20:00",
+  "quelle": "https://www.openstreetmap.org/way/24317979",
+  "stand": "2026-10-11"
+ },
+ "museum-wiesbaden": {
+  "oh": "Mo off; Tu,Th 10:00-20:00; We,Fr-Su 10:00-17:00",
+  "quelle": "https://www.openstreetmap.org/way/28045788",
+  "stand": "2026-10-11"
+ },
+ "mathematikum": {
+  "oh": "Mo-Fr 10:00-18:00; Sa,Su 10:00-18:00",
+  "quelle": "https://www.openstreetmap.org/way/151076308",
+  "stand": "2026-10-11"
+ },
+ "technoseum": {
+  "oh": "Mo-Su 09:00-17:00",
+  "quelle": "https://www.openstreetmap.org/way/35148702",
+  "stand": "2026-10-11"
+ },
+ "deutsches-ledermuseum": {
+  "oh": "Tu-Fr 10:00-17:00, Sa,Su,PH 11:00-18:00",
+  "quelle": "https://www.openstreetmap.org/way/41723485",
+  "stand": "2026-10-11"
  }
 }
