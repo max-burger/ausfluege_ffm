@@ -242,24 +242,31 @@
   "quelle": "https://www.hessen-forst.de/freizeit/wildpark-alte-fasanerie-hanau",
   "stand": "2026-10-06"
  },
+ "burg-muenzenberg": {
+  "oh": "Mar Tu-Su 10:00-16:00; Apr Tu-Sa 10:00-16:00; Apr Su 10:00-17:00; May-Sep Tu-Su 10:00-18:00; Oct Tu-Sa 10:00-16:00; Oct Su 10:00-17:00; Nov Sa,Su 11:00-16:00; Dec-Feb off",
+  "quelle": "https://www.schloesser-hessen.de/de/burgruine-muenzenberg/besucherinformation",
+  "stand": "2026-10-11"
+ },
+ "eltville-kurfuerstliche-burg-und-rheinufer": {
+  "oh": "Apr-Oct 09:30-19:00; Nov-Mar 10:00-17:00; Dec 31 off",
+  "quelle": "https://www.romantischer-rhein.de/en/a-rosengarten-der-kurfuerstlichen-burg-eltville-am-rhein",
+  "stand": "2026-10-11",
+  "hinweis": "Burghof und Rosengarten (Zeiten 2025); Rheinufer frei zugänglich",
+  "hinweis_en": "Castle courtyard and rose garden (2025 hours); Rhine bank freely accessible"
+ },
+ "kuehkopf-knoblochsaue": {
+  "oh": "Tu-Fr 14:00-18:00; Sa,Su,PH 10:00-18:00; Dec 24,Dec 31 off",
+  "quelle": "https://schatzinsel-kuehkopf.hessen.de/sites/schatzinsel-kuehkopf.hessen.de/files/2025-07/pm2512.pdf",
+  "stand": "2026-10-11",
+  "hinweis": "Umweltbildungszentrum Schatzinsel Kühkopf; Naturschutzgebiet frei zugänglich",
+  "hinweis_en": "Schatzinsel Kühkopf environmental education centre; nature reserve freely accessible"
+ },
  "schloss-steinau-und-brueder-grimm-stadt": {
   "oh": "Mar 01-Dec 20 Tu-Su 10:00-17:00",
   "quelle": "https://www.schloesser-hessen.de/de/schloss-steinau/besucherinformation",
   "stand": "2026-10-06",
   "hinweis": "Schloss; Außengelände ganzjährig frei",
   "hinweis_en": "Palace; grounds free all year"
- },
- "eltville-kurfuerstliche-burg-und-rheinufer": {
-  "oh": "Apr 01-Oct 15: 09:30-19:00; Oct 16-Mar 31: 10:00-17:00",
-  "quelle": "https://www.rheingau.com/en/infosystem/rosengarten-der-kurfuerstlichen-burg/poi.html",
-  "stand": "2026-10-06",
-  "hinweis": "Burghof und Rosengarten (Eintritt frei); Rheinufer frei zugänglich, Burgturm-Museum mit eigenen Zeiten",
-  "hinweis_en": "Castle courtyard and rose garden (free entry); Rhine bank freely accessible, castle tower museum has its own hours"
- },
- "burg-muenzenberg": {
-  "oh": "Mar Tu-Su 10:00-16:00; Apr Tu-Sa 10:00-16:00; Apr Su 10:00-17:00; May-Sep Tu-Su 10:00-18:00; Oct Tu-Sa 10:00-16:00; Oct Su 10:00-17:00; Nov Sa,Su 11:00-16:00; Dec-Feb off",
-  "quelle": "https://www.schloesser-hessen.de/de/burgruine-muenzenberg/besucherinformation",
-  "stand": "2026-10-06"
  },
  "keltenwelt-am-glauberg": {
   "oh": "Mar-Oct Tu-Su 10:00-18:00; Nov-Feb Tu-Su 10:00-17:00",
