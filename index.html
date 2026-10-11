@@ -1572,10 +1572,15 @@ function renderKalender() {
   if (!liste.length) html += '<div class="empty">Keine Termine für diese Auswahl.</div>';
   html += `<p class="hint">${S.termineStand ? `Termine zuletzt von Claude geprüft am ${esc(fmtDate(S.termineStand))}. ` : ''}Angaben ohne Gewähr, vorher auf der verlinkten Seite prüfen.</p>`;
   $('#kalenderBody').innerHTML = html;
-  if (S.hlTermin) { const el = document.getElementById('termin-' + S.hlTermin); if (el) el.scrollIntoView({ block: 'center' }); }
+  if (S.hlScroll) { // nur beim Öffnen hinspringen, nicht bei jedem Neuzeichnen
+    S.hlScroll = false; const el = document.getElementById('termin-' + S.hlTermin);
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ block: 'center' }));
+  }
 }
 function oeffneKalender(hl = null) {
-  closeOverlays('kalender'); S.hlTermin = hl; renderKalender(); $('#kalender').hidden = false;
+  // erst sichtbar machen, dann zeichnen: scrollIntoView wirkt in einem versteckten Fenster nicht
+  closeOverlays('kalender'); S.hlTermin = hl; S.hlScroll = !!hl; if (hl) S.kf = 'alle';
+  $('#kalender').hidden = false; renderKalender();
 }
 function demnaechstHTML(o) {
   const liste = termineAm(o.id, 60).slice(0, 4);
