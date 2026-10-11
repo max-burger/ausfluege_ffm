@@ -458,5 +458,95 @@
   "km": 13.1,
   "gemuetlich": 71,
   "zuegig": 47
+ },
+ "papageno-musiktheater-am-palmengarten": {
+  "km": 4.6,
+  "gemuetlich": 24,
+  "zuegig": 16
+ },
+ "experiminta-sciencecenter": {
+  "km": 4.4,
+  "gemuetlich": 24,
+  "zuegig": 16
+ },
+ "senckenberg-naturmuseum": {
+  "km": 4.5,
+  "gemuetlich": 24,
+  "zuegig": 16
+ },
+ "junges-museum-frankfurt": {
+  "km": 7.5,
+  "gemuetlich": 40,
+  "zuegig": 27
+ },
+ "verkehrsmuseum-frankfurt-strassenbahnmuseum": {
+  "km": 8.2,
+  "gemuetlich": 43,
+  "zuegig": 29
+ },
+ "frankfurter-feldbahnmuseum": {
+  "km": 3.1,
+  "gemuetlich": 16,
+  "zuegig": 11
+ },
+ "struwwelpeter-museum": {
+  "km": 6.8,
+  "gemuetlich": 36,
+  "zuegig": 24
+ },
+ "museum-fuer-kommunikation-frankfurt": {
+  "km": 6.3,
+  "gemuetlich": 34,
+  "zuegig": 23
+ },
+ "hessisches-puppenmuseum": {
+  "km": 24.8,
+  "gemuetlich": 134,
+  "zuegig": 89
+ },
+ "hessisches-landesmuseum-darmstadt": {
+  "km": 34.2,
+  "gemuetlich": 179,
+  "zuegig": 119
+ },
+ "bahnwelt-darmstadt-kranichstein": {
+  "km": 31.7,
+  "gemuetlich": 166,
+  "zuegig": 111
+ },
+ "naturhistorisches-museum-mainz": {
+  "km": 33.2,
+  "gemuetlich": 176,
+  "zuegig": 117
+ },
+ "museum-fuer-antike-schiffahrt": {
+  "km": 35.1,
+  "gemuetlich": 184,
+  "zuegig": 123
+ },
+ "museum-wiesbaden": {
+  "km": 34.8,
+  "gemuetlich": 183,
+  "zuegig": 122
+ },
+ "mathematikum": {
+  "km": 66.7,
+  "gemuetlich": 349,
+  "zuegig": 233
+ },
+ "technoseum": {
+  "km": 94.9,
+  "gemuetlich": 500,
+  "zuegig": 333
+ },
+ "deutsches-ledermuseum": {
+  "km": 13.2,
+  "gemuetlich": 70,
+  "zuegig": 47
+ },
+ "cafe-im-liebieghaus": {
+  "km": 6.4,
+  "gemuetlich": 35,
+  "zuegig": 23
  }
 }
