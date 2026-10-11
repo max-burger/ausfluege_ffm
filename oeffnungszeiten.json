@@ -103,6 +103,18 @@
   "hinweis": "Adolfsturm; Burg und Altstadt frei zugänglich",
   "hinweis_en": "Adolfsturm; castle and old town freely accessible"
  },
+ "roemerkastell-saalburg": {
+  "oh": "Mar-Oct Tu-Su 10:00-18:00; Nov-Feb Tu-Su 10:00-16:00",
+  "quelle": "https://www.saalburgmuseum.de/besuch/zeiten-info-preise/",
+  "stand": "2026-10-11"
+ },
+ "burgruine-koenigstein": {
+  "oh": "Apr-Oct 10:00-19:00; Nov-Mar Sa,Su 10:00-17:00",
+  "quelle": "https://www.hessenschau.de/freizeit/diese-burgen-in-hessen-lohnen-einen-besuch-fuenf-ausflugstipps-v1,burgen-in-hessen-100.html",
+  "stand": "2026-10-11",
+  "hinweis": "Burgruine; Altstadt frei zugänglich",
+  "hinweis_en": "Castle ruin; old town freely accessible"
+ },
  "mathildenhoehe": {
   "oh": "Tu-Su 11:00-18:00",
   "quelle": "https://neu.mathildenhoehe.de/en/visit/general-informationen",
@@ -192,16 +204,6 @@
   "stand": "2026-10-06",
   "hinweis": "Museum in der Festung; Park frei zugänglich",
   "hinweis_en": "Museum in the fortress; park freely accessible"
- },
- "burgruine-koenigstein": {
-  "oh": "Apr-Oct: PH,Mo-Su 10:00-19:00; Nov-Mar: Sa,Su 10:00-17:00",
-  "quelle": "https://www.openstreetmap.org/node/66804770",
-  "stand": "2026-10-11"
- },
- "roemerkastell-saalburg": {
-  "oh": "Mar-Oct Mo-Su 09:00-18:00; Nov-Feb Tu-Su 09:00-16:00",
-  "quelle": "https://www.openstreetmap.org/way/8655395",
-  "stand": "2026-10-11"
  },
  "freilichtmuseum-hessenpark": {
   "oh": "Mar-Nov 09:00-18:00; Nov-Mar 10:00-17:00",
