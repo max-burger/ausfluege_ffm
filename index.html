@@ -54,10 +54,12 @@
 }
 
 [hidden] { display: none !important; }
-html { height: 100%; box-sizing: border-box; }
+html { height: 100%; box-sizing: border-box; overflow: hidden; overscroll-behavior: none; }
 *, *::before, *::after { box-sizing: inherit; }
 body { height: 100%; margin: 0; background: var(--paper); color: var(--ink);
-  font: 15px/1.45 var(--f-ui); overflow: hidden; -webkit-font-smoothing: antialiased; }
+  font: 15px/1.45 var(--f-ui); overflow: hidden; overscroll-behavior: none; -webkit-font-smoothing: antialiased; }
+/* Höhe = sichtbarer Bildschirm, auch wenn der Handy-Browser seine Leisten aus- oder einblendet (sonst grauer Streifen) */
+@supports (height: 100dvh) { html, body { height: 100dvh; } }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
@@ -1589,11 +1591,20 @@ function renderKalender() {
   $('#kalenderBody').innerHTML = html;
   if (S.hlScroll) { // nur beim Öffnen hinspringen, nicht bei jedem Neuzeichnen
     S.hlScroll = false; const el = document.getElementById('termin-' + S.hlTermin);
-    if (el) requestAnimationFrame(() => el.scrollIntoView({ block: 'center' }));
+    if (el) requestAnimationFrame(() => scrollImFenster(el));
   }
 }
+// Element mittig in seinem eigenen Scroll-Bereich zeigen. scrollIntoView würde auch die ganze Seite verschieben;
+// am Handy blendet der Browser dann seine Leisten aus und unten bleibt ein grauer Streifen.
+function scrollImFenster(el) {
+  let c = el.parentElement;
+  while (c && !(c.scrollHeight > c.clientHeight && /(auto|scroll)/.test(getComputedStyle(c).overflowY))) c = c.parentElement;
+  if (!c || c === document.documentElement || c === document.body) return;
+  const r = el.getBoundingClientRect(), cr = c.getBoundingClientRect();
+  c.scrollTop += r.top - cr.top - (c.clientHeight - r.height) / 2;
+}
 function oeffneKalender(hl = null) {
-  // erst sichtbar machen, dann zeichnen: scrollIntoView wirkt in einem versteckten Fenster nicht
+  // erst sichtbar machen, dann zeichnen: in einem versteckten Fenster lässt sich nicht hinspringen
   closeOverlays('kalender'); S.hlTermin = hl; S.hlScroll = !!hl; if (hl) S.kf = 'alle';
   $('#kalender').hidden = false; renderKalender();
 }
@@ -1778,7 +1789,10 @@ function select(id, { fly = true, scrollCard = true } = {}) {
     map.flyTo({ center: [o.lon, o.lat], zoom, duration: reduceMotion() ? 0 : 900,
       padding: isDesktop() ? { left: 0, top: 0, right: 0, bottom: 0 } : { bottom: 170, top: 90, left: 0, right: 0 } });
   }
-  if (scrollCard) { const c = $(`#carousel .card[data-open="${CSS.escape(id)}"]`); if (c) c.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', inline: 'start', block: 'nearest' }); }
+  if (scrollCard) { // nur das Karussell waagerecht scrollen, nicht die Seite
+    const car = $('#carousel'), c = $(`#carousel .card[data-open="${CSS.escape(id)}"]`);
+    if (c) car.scrollBy({ left: c.getBoundingClientRect().left - car.getBoundingClientRect().left - 12, behavior: reduceMotion() ? 'auto' : 'smooth' });
+  }
 }
 function openDetail(id) {
   if (!S.orte.has(id)) return;
@@ -2143,6 +2157,8 @@ function dice() {
   openDetail(o.id); toast(`Wie wär's mit: ${o.name}?` + (aktiveFilter() ? ` · aus ${n} gefilterten Orten` : ''));
 }
 function wire() {
+  // Die Seite selbst scrollt nie (nur ihre Fenster); falls doch etwas verrutscht, sofort zurück
+  addEventListener('scroll', () => { if (scrollX || scrollY) scrollTo(0, 0); }, { passive: true });
   document.addEventListener('click', async e => {
     const t = e.target.closest('button, [data-open]'); if (!t) return;
     const a = t.dataset.act;
