@@ -148,6 +148,28 @@
   "hinweis": "Hofladen; Hofcafé täglich ab 9 Uhr",
   "hinweis_en": "Farm shop; farm café daily from 9 am"
  },
+ "museum-fuer-antike-schiffahrt": {
+  "oh": "off",
+  "quelle": "https://www.wochenblatt-reporter.de/rheinhessen/c-ausgehen-geniessen/wiedereroeffnung-in-mainz-schifffahrtsmuseum-nennt-termin_a879497",
+  "stand": "2026-10-11"
+ },
+ "festung-und-mainufer-ruesselsheim": {
+  "oh": "Tu-Fr 09:00-13:00,14:00-17:00; Sa,Su 10:00-17:00",
+  "quelle": "https://www.museum-ruesselsheim.de/",
+  "stand": "2026-10-06",
+  "hinweis": "Museum in der Festung; Park frei zugänglich",
+  "hinweis_en": "Museum in the fortress; park freely accessible"
+ },
+ "hessisches-landesmuseum-darmstadt": {
+  "oh": "Tu,Th,Fr 11:00-18:00; We 11:00-20:00; Sa,Su,PH 11:00-18:00; Dec 24,Dec 31 off",
+  "quelle": "https://www.hlmd.de/api/download/x/d08f1d330a/pm_offnungszeiten-hlmd-uber-die-feiertage_2025_2026.pdf",
+  "stand": "2026-10-11"
+ },
+ "mathematikum": {
+  "oh": "Mo-Fr 09:00-17:00; Sa,Su,PH 10:00-18:00; Dec 24,Dec 25,Dec 31 off",
+  "quelle": "https://www.mathematikum.de/besucherinfos/oeffnungszeiten",
+  "stand": "2026-10-11"
+ },
  "jagdschloss-kranichstein": {
   "oh": "Apr-Sep Tu-Fr 11:00-17:00; Apr-Sep Sa,Su,PH 10:00-18:00; Oct-Mar Tu-Fr 11:00-17:00; Oct-Mar Sa,Su,PH 10:00-17:00; Dec 24,Dec 25,Dec 31,Jan 01 off",
   "quelle": "https://www.darmstadt-tourismus.de/en/visit/detailsen/poidetail/bioversum-jagdschloss-kranichstein.html",
@@ -205,13 +227,6 @@
   "hinweis": "Burghof und Rosengarten (Eintritt frei); Rheinufer frei zugänglich, Burgturm-Museum mit eigenen Zeiten",
   "hinweis_en": "Castle courtyard and rose garden (free entry); Rhine bank freely accessible, castle tower museum has its own hours"
  },
- "festung-und-mainufer-ruesselsheim": {
-  "oh": "Tu-Fr 09:00-13:00,14:00-17:00; Sa,Su 10:00-17:00",
-  "quelle": "https://www.museum-ruesselsheim.de/",
-  "stand": "2026-10-06",
-  "hinweis": "Museum in der Festung; Park frei zugänglich",
-  "hinweis_en": "Museum in the fortress; park freely accessible"
- },
  "freilichtmuseum-hessenpark": {
   "oh": "Mar-Nov 09:00-18:00; Nov-Mar 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/160193276",
@@ -237,11 +252,6 @@
   "quelle": "https://www.openstreetmap.org/way/137089592",
   "stand": "2026-10-11"
  },
- "hessisches-landesmuseum-darmstadt": {
-  "oh": "Tu,Th,Fr,Sa,Su,PH 11:00-18:00, We 11:00-20:00",
-  "quelle": "https://www.openstreetmap.org/relation/2198921",
-  "stand": "2026-10-11"
- },
  "bahnwelt-darmstadt-kranichstein": {
   "oh": "Su,PH 10:00-16:00; Apr-Sep We,Su,PH 10:00-16:00",
   "quelle": "https://www.openstreetmap.org/node/9449001978",
@@ -255,11 +265,6 @@
  "museum-wiesbaden": {
   "oh": "Mo off; Tu,Th 10:00-20:00; We,Fr-Su 10:00-17:00",
   "quelle": "https://www.openstreetmap.org/way/28045788",
-  "stand": "2026-10-11"
- },
- "mathematikum": {
-  "oh": "Mo-Fr 10:00-18:00; Sa,Su 10:00-18:00",
-  "quelle": "https://www.openstreetmap.org/way/151076308",
   "stand": "2026-10-11"
  },
  "technoseum": {
