@@ -251,8 +251,9 @@ a { color: var(--accent); }
 .tip.warn { border-left-color: var(--t3); }
 .tip p { margin: 0; font: 400 15px/1.55 var(--f-text); }
 .links { display: flex; flex-wrap: wrap; gap: 8px; }
-.links a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px;
+.links a, .links button { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px;
   border: 1px solid var(--line); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 14px; }
+.links button { background: none; font-family: inherit; cursor: pointer; }
 
 .family { display: grid; gap: 12px; padding: 14px; border-radius: var(--r); border: 1px solid var(--line); }
 .family h3 { margin: 0; }
@@ -313,6 +314,14 @@ textarea { min-height: 70px; resize: vertical; }
   display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r);
   background: var(--ink); color: var(--surface); box-shadow: var(--shadow); font-size: 14.5px; }
 .banner span { flex: 1; }
+#kartenblick span { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#kartenblick button { white-space: nowrap; }
+/* Ring um das Ziel von „Auf Karte“ (Animation am inneren Element, MapLibre setzt transform am äußeren) */
+.ziel-ring { display: block; width: 38px; height: 38px; border-radius: 50%; border: 3px solid var(--signal);
+  box-shadow: 0 0 0 3px rgb(255 255 255 / .85); animation: ziel 1.4s ease-out infinite; pointer-events: none; }
+@keyframes ziel { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.35); opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .ziel-ring { animation: none; } }
+
 .banner button { border: 0; background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 12px; font-weight: 600; }
 .pin { width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--signal);
   border: 3px solid #fff; box-shadow: var(--shadow); }
@@ -494,6 +503,10 @@ textarea { min-height: 70px; resize: vertical; }
     <div class="carousel" id="carousel" aria-label="Orte, nach Reisezeit sortiert"></div>
   </div>
 
+  <div class="banner" id="kartenblick" hidden>
+    <svg width="18" height="18"><use href="#i-map"/></svg><span id="kbText"></span>
+    <button type="button" data-act="kb-zurueck" id="kbZurueck">Zurück</button>
+  </div>
   <div class="banner" id="ideaBanner" hidden>
     <span>Tippe auf die Karte, wo der Ort liegt.</span>
     <button type="button" data-act="idea-cancel">Abbrechen</button>
@@ -667,6 +680,7 @@ const EN = {
   'Dieses Gerät gibt keinen Standort heraus.': 'This device does not provide a location.',
   'Standort nicht freigegeben – bitte im Browser erlauben.': 'Location not allowed – please allow it in the browser.',
   'Standort gerade nicht verfügbar.': 'Location not available right now.', 'Museum': 'Museum',
+  'Auf Karte': 'On map', 'Auf Karte zeigen': 'Show on map', 'Zurück zum Kalender': 'Back to calendar', 'Zurück zum Ort': 'Back to place', 'Schließen': 'Close',
   'Darstellung': 'Appearance', 'Hell': 'Light', 'Dunkel': 'Dark', 'Wie das Gerät': 'Same as device',
   'Angemeldet als': 'Signed in as', 'Familie': 'Family', 'Name ändern': 'Change name', 'Abmelden': 'Sign out', 'Sprache': 'Language',
   'Filter zurücksetzen': 'Reset filters', 'Keine Orte – trotzdem schließen': 'No places – close anyway',
@@ -1548,6 +1562,7 @@ function terminHTML(t, mitOrt = true) {
       ${t.status === 'vorschlag' ? `<span class="hint">Vorschlag von ${esc(t.person)}${S.familie ? ', noch nicht freigegeben' : ', die Familie prüft ihn'}</span>` : ''}
       <div class="t-links">${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener">Mehr Infos</a>` : ''}
         <a href="${icsLink(t)}" download="termin.ics">In meinen Kalender</a>
+        ${terminZiel(t) ? `<button type="button" data-karte="${esc(t.id)}">Auf Karte</button>` : ''}
         ${t.art !== 'claude' && S.familie && t.status === 'vorschlag' ? `<button type="button" data-tok="${esc(t.id)}">Freigeben</button>` : ''}
         ${t.art !== 'claude' && darf ? `<button type="button" data-tdel="${esc(t.id)}">Löschen</button>` : ''}</div>
     </div></div>`;
@@ -1708,6 +1723,7 @@ function renderDetail() {
        <span class="gal-count" id="galCount"></span>`
     : `<div class="gal-ph">${blazeSVG(o.status === 'idee' ? 'idee' : o.kategorie, o.status !== 'aktiv' ? 'dashed' : '')}<span>${o.status === 'aktiv' ? 'Noch keine Bilder' : 'Noch nicht ausgearbeitet'}</span></div>`;
   const links = [
+    `<button type="button" data-act="aufkarte"><svg width="16" height="16"><use href="#i-map"/></svg>Auf Karte zeigen</button>`,
     o.links?.website && `<a href="${esc(o.links.website)}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-ext"/></svg>Website</a>`,
     o.links?.wikipedia && `<a href="${esc(o.links.wikipedia)}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-ext"/></svg>Wikipedia</a>`,
     `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(`${o.name} ${o.ort || ''}`)}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-ext"/></svg>Videos suchen</a>`,
@@ -1771,10 +1787,10 @@ function openDetail(id) {
   select(id, { fly: true, scrollCard: !isDesktop() });
 }
 function closeDetail() {
-  S.open = null; $('#detail').hidden = true;
+  if (S.open) S.zuletztOffen = S.open; S.open = null; $('#detail').hidden = true;
 }
 function closeOverlays(except) {
-  for (const id of ['listov', 'filters', 'feedback', 'kalender', 'terminForm', 'detail']) if (id !== except) { $('#' + id).hidden = true; if (id === 'detail') S.open = null; }
+  for (const id of ['listov', 'filters', 'feedback', 'kalender', 'terminForm', 'detail']) if (id !== except) { $('#' + id).hidden = true; if (id === 'detail' && S.open) { S.zuletztOffen = S.open; S.open = null; } }
 }
 function openFromHash() {
   if (openFromHash.done) return; openFromHash.done = true;
@@ -2002,13 +2018,44 @@ function vonHierHTML(o) {
     ${v?.status === 'ok' ? '<p class="hint">Live gerechnet mit Transitous (nur Nahverkehr) und Valhalla (OpenStreetMap). Dein Standort geht dafür an diese Dienste und wird nirgends gespeichert.</p>' : ''}</div>`;
 }
 
+/* ===== Auf Karte zeigen ===== */
+// Aus Kalender oder Ortsansicht: Fenster schließen, Karte zum Ziel, ein Ring markiert die Stelle. Das Band oben führt
+// zurück (wie die Zurück-Taste); Kalender/Ort liegen solange verdeckt im Verlaufsstapel. Am Rechner bleibt die
+// Ortsansicht neben der Karte offen.
+let zielMarker = null;
+function terminZiel(t) {
+  const o = t.ort_id && S.orte.get(t.ort_id);
+  if (o) return { lat: o.lat, lon: o.lon, name: t.titel, ortId: o.id };
+  return t.lat != null && t.lon != null ? { lat: t.lat, lon: t.lon, name: t.titel } : null;
+}
+function fliegeZu(z) {
+  if (z.ortId) select(z.ortId, { fly: false });
+  if (!zielMarker) {
+    const el = document.createElement('div'); el.innerHTML = '<span class="ziel-ring"></span>';
+    zielMarker = new maplibregl.Marker({ element: el });
+  }
+  zielMarker.setLngLat([z.lon, z.lat]).addTo(map);
+  map.flyTo({ center: [z.lon, z.lat], zoom: Math.max(map.getZoom(), 14), duration: reduceMotion() ? 0 : 900,
+    padding: isDesktop() ? { left: 0, top: 0, right: 0, bottom: 0 } : { bottom: 170, top: 150, left: 0, right: 0 } });
+}
+function zeigeAufKarte(z) {
+  if (isDesktop() && !$('#detail').hidden && z.ortId === S.open) { fliegeZu(z); return; }
+  const von = !$('#kalender').hidden ? 'kalender' : S.open ? 'ort' : '';
+  $('#kbText').textContent = z.name;
+  $('#kbZurueck').textContent = von === 'kalender' ? 'Zurück zum Kalender' : von === 'ort' ? 'Zurück zum Ort' : 'Schließen';
+  closeOverlays(); $('#kartenblick').hidden = false;
+  fliegeZu(z);
+}
+function schliesseKartenblick() { $('#kartenblick').hidden = true; zielMarker?.remove(); }
+
 /* ===== Zurück-Taste ===== */
 // Jede geöffnete Ebene (Ort, Liste, Filter, Kalender, Formulare, Bildansicht, Anmeldung als Gast) liegt auf einem
 // Stapel mit eigenem Verlaufseintrag {ebenen: n}. Zurück schließt die oberste Ebene, statt die Seite zu verlassen.
 // Wird aus Liste oder Kalender ein Ort geöffnet, bleibt die Liste/der Kalender verdeckt darunter und kommt mit
 // Zurück wieder. Schließen per Knopf (X, „Karte“) nimmt die Einträge selbst weg. Abgleich über das hidden-Attribut.
-const EBENEN = ['detail', 'listov', 'filters', 'kalender', 'feedback', 'terminForm', 'ideaForm', 'ideaBanner', 'lightbox', 'gate'];
-const DARUNTER = ['listov', 'kalender']; // bleiben unter einem daraus geöffneten Ort liegen
+const EBENEN = ['detail', 'listov', 'filters', 'kalender', 'feedback', 'terminForm', 'ideaForm', 'ideaBanner', 'lightbox', 'gate', 'kartenblick'];
+// Ebenen, die verdeckt liegen bleiben, wenn daraus ein Ort bzw. „Auf Karte“ geöffnet wird
+const DARUNTER = { detail: ['listov', 'kalender'], kartenblick: ['listov', 'kalender', 'detail'] };
 const stapel = []; // [{id, unter}]
 let selbstZurueck = false;
 const sichtbarEbene = id => !$('#' + id).hidden && (id !== 'gate' || S.gast);
@@ -2022,7 +2069,7 @@ function verlaufAbgleichen() {
   const zu = stapel.filter(e => !e.unter && !sichtbarEbene(e.id));
   let weg = 0;
   for (const e of zu) {
-    if (neu.length && neu.includes('detail') && DARUNTER.includes(e.id)) { e.unter = true; continue; } // Ort aus Liste/Kalender
+    if (neu.some(n => (DARUNTER[n] || []).includes(e.id))) { e.unter = true; if (e.id === 'detail') e.ort = S.zuletztOffen; continue; }
     if (neu.length) { e.id = neu.shift(); continue; } // eine Ebene ersetzt eine andere: gleicher Verlaufseintrag
     let i = stapel.indexOf(e), k = i; // geschlossen: samt verdeckter Ebenen direkt darunter entfernen
     while (k > 0 && stapel[k - 1].unter) k--;
@@ -2037,6 +2084,7 @@ function verlaufAbgleichen() {
 function schliesseEbene(id) {
   if (id === 'detail') closeDetail();
   else if (id === 'ideaForm' || id === 'ideaBanner') stopIdea();
+  else if (id === 'kartenblick') schliesseKartenblick();
   else $('#' + id).hidden = true;
 }
 function verlaufStarten() {
@@ -2046,7 +2094,12 @@ function verlaufStarten() {
     const t = history.state?.ebenen || 0;
     while (stapel.length > t) { const e = stapel.pop(); if (sichtbarEbene(e.id)) schliesseEbene(e.id); }
     const top = stapel[stapel.length - 1];
-    if (top?.unter) { top.unter = false; if (top.id === 'kalender') oeffneKalender(); else { renderAll(); $('#' + top.id).hidden = false; } }
+    if (top?.unter) {
+      top.unter = false;
+      if (top.id === 'kalender') oeffneKalender();
+      else if (top.id === 'detail') { if (top.ort && S.orte.has(top.ort)) openDetail(top.ort); else stapel.pop(); }
+      else { renderAll(); $('#' + top.id).hidden = false; }
+    }
     verlaufUrl();
   });
   new MutationObserver(verlaufAbgleichen).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['hidden'] });
@@ -2108,6 +2161,7 @@ function wire() {
     }
     if (t.dataset.star) { const v = +t.dataset.star, m = meinMerk(S.open); writeMerk(S.open, { bewertung: m.bewertung === v ? 0 : v }); return; }
     if (t.dataset.lb) { openLightbox(+t.dataset.lb); return; }
+    if (t.dataset.karte) { const tt = alleTermine().find(x => String(x.id) === t.dataset.karte), z = tt && terminZiel(tt); if (z) zeigeAufKarte(z); return; }
     if (t.dataset.delnote) { try { await B.delNote(t.dataset.delnote); aenderung('notizen'); } catch (err) { toast(errText(err)); } return; }
     if (t.dataset.fbdone) { const f = S.feedback.find(x => x.id === t.dataset.fbdone); try { await B.setFeedback(f.id, !f.erledigt); aenderung('feedback'); } catch (err) { toast(errText(err)); } return; }
     if (t.dataset.kf) { S.kf = t.dataset.kf; renderKalender(); return; }
@@ -2128,7 +2182,8 @@ function wire() {
       case 'termin-zu': $('#terminForm').hidden = true; $('#kalender').hidden = false; break;
       case 'list': closeOverlays('listov'); $('#listov').hidden = false; break;
       case 'close': if (!$('#detail').hidden && t.closest('#detail')) closeDetail(); else closeOverlays(); break;
-      case 'showmap': closeDetail(); break;
+      case 'showmap': case 'aufkarte': { const o = S.orte.get(S.open); if (o) zeigeAufKarte({ lat: o.lat, lon: o.lon, name: o.name, ortId: o.id }); break; }
+      case 'kb-zurueck': history.back(); break;
       case 'reset': S.f = F0(); saveF(); renderAll(); renderFilters(); break;
       case 'dice': dice(); break;
       case 'standort': if (S.pos) map.flyTo({ center: [S.pos.lon, S.pos.lat], zoom: Math.max(map.getZoom(), 12) }); else standortAn(true); break;
