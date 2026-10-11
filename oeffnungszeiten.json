@@ -96,6 +96,13 @@
   "quelle": "https://www.ledermuseum.de/media/pages/start/9b0ce2f511-1783524998/qp_3_2026.pdf",
   "stand": "2026-10-11"
  },
+ "burg-und-altstadt-friedberg": {
+  "oh": "Apr-Oct Sa,Su,PH 14:00-18:00",
+  "quelle": "https://barrierefrei.friedberg-hessen.de/showstatattachment.php?unid=4179",
+  "stand": "2026-10-11",
+  "hinweis": "Adolfsturm; Burg und Altstadt frei zugänglich",
+  "hinweis_en": "Adolfsturm; castle and old town freely accessible"
+ },
  "mathildenhoehe": {
   "oh": "Tu-Su 11:00-18:00",
   "quelle": "https://neu.mathildenhoehe.de/en/visit/general-informationen",
