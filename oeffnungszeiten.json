@@ -2,12 +2,12 @@
  "goetheturm": {
   "oh": "Apr-Oct: Mo-Su,PH 08:00-dusk; Apr-Oct: 20:00+ closed",
   "quelle": "https://www.openstreetmap.org/way/43837374",
-  "stand": "2026-10-11"
+  "stand": "2026-11-25"
  },
  "palmengarten": {
   "oh": "Nov-Feb 09:00-16:00; Mar-Oct 09:00-19:00",
   "quelle": "https://www.openstreetmap.org/way/4793541",
-  "stand": "2026-10-11"
+  "stand": "2026-11-25"
  },
  "lohrberg": {
   "oh": "Apr-Oct: Tu-Su 11:00-18:00; Nov-Mar: Tu,We,Fr-Su 11:00-16:00; Nov-Mar: Th 11:00-17:00",
@@ -33,7 +33,7 @@
  "burgruine-falkenstein": {
   "oh": "Apr-Oct: Mo-Su 10:00-19:00; Nov-Mar: Mo-Su Off",
   "quelle": "https://www.openstreetmap.org/way/61454688",
-  "stand": "2026-10-11"
+  "stand": "2026-11-25"
  },
  "schloss-philippsruhe-und-schlosspark": {
   "oh": "Tu-Fr 10:00-17:00; Sa,Su 11:00-18:00",
@@ -190,7 +190,7 @@
  "meisterturm-hofheim": {
   "oh": "24/7",
   "quelle": "https://www.openstreetmap.org/way/133317964",
-  "stand": "2026-10-11"
+  "stand": "2026-11-25"
  },
  "kaiserpfalz-und-altstadt-gelnhausen": {
   "oh": "Mar-Oct Tu-Su,PH 10:00-17:00; Nov 01-Dec 15 Tu-Su 10:00-16:00; Dec 16-Feb 28 off",
